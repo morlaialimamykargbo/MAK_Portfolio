@@ -121,7 +121,32 @@
 
         /* ===== SECTIONS ===== */
         .section { padding: 6rem 0; position: relative; }
-        .section-title { font-size: 2.8rem; font-weight: 800; text-align: center; margin-bottom: 3rem; letter-spacing: -0.5px; }
+        
+        /* UPDATED: Added flex layout and icon styling for section titles */
+        .section-title { 
+            font-size: 2.8rem; 
+            font-weight: 800; 
+            text-align: center; 
+            margin-bottom: 3rem; 
+            letter-spacing: -0.5px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .section-icon {
+            width: 42px;
+            height: 42px;
+            color: var(--accent-primary);
+            flex-shrink: 0;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .section-title:hover .section-icon {
+            transform: scale(1.1) rotate(-5deg);
+            color: var(--accent-secondary);
+        }
+        
         .section-title .highlight { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         /* ===== ABOUT SECTION ===== */
@@ -216,7 +241,7 @@
         .form-group textarea { resize: vertical; min-height: 120px; }
         .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); background: rgba(255, 255, 255, 0.05); }
         
-        /* UPDATED: Label is visible by default, but hides smoothly on focus/typing */
+        /* Label is visible by default, but hides smoothly on focus/typing */
         .form-group label { 
             position: absolute; 
             left: 1.2rem; 
@@ -351,7 +376,6 @@
             <div class="hero-image">
                 <div class="image-wrapper">
                     <div class="image-glow"></div>
-                    <!-- Profile image optimized for clear display -->
                     <img src="Mak.png" alt="Morlai Alimamy Kargbo" class="profile-img" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face'">
                     <div class="floating-badge badge-code">&lt;/&gt;</div>
                     <div class="floating-badge badge-data">📊</div>
@@ -365,7 +389,10 @@
     <!-- About Section -->
     <section id="about" class="section about">
         <div class="container">
-            <h2 class="section-title">About <span class="highlight">Me</span></h2>
+            <h2 class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                About <span class="highlight">Me</span>
+            </h2>
             <div class="about-container fade-in">
                 <div class="about-image-box">
                     <img src="Mak.png" alt="Morlai Alimamy Kargbo" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=700&fit=crop&crop=face'">
@@ -387,7 +414,10 @@
     <!-- Skills Section -->
     <section id="skills" class="section skills">
         <div class="container">
-            <h2 class="section-title">My <span class="highlight">Skills</span></h2>
+            <h2 class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                My <span class="highlight">Skills</span>
+            </h2>
             <div class="skills-grid">
                 <div class="skill-category">
                     <h3 class="category-title">Frontend & UI</h3>
@@ -431,7 +461,10 @@
     <!-- Projects Section -->
     <section id="projects" class="section projects">
         <div class="container">
-            <h2 class="section-title">My <span class="highlight">Projects</span></h2>
+            <h2 class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                My <span class="highlight">Projects</span>
+            </h2>
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-image"><div class="project-overlay"><a href="#" class="project-link">View Project</a></div></div>
@@ -494,7 +527,10 @@
     <!-- Experience Section -->
     <section id="experience" class="section experience">
         <div class="container">
-            <h2 class="section-title">Work <span class="highlight">Experience</span></h2>
+            <h2 class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                Work <span class="highlight">Experience</span>
+            </h2>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
@@ -548,7 +584,10 @@
     <!-- Education Section -->
     <section id="education" class="section education">
         <div class="container">
-            <h2 class="section-title">Education</h2>
+            <h2 class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path></svg>
+                Education
+            </h2>
             <div class="education-grid">
                 <div class="education-card">
                     <div class="edu-icon">🎓</div>
@@ -600,7 +639,6 @@
                             <label for="email">Email</label>
                         </div>
                         <div class="form-group">
-                            <!-- International phone number support -->
                             <input type="tel" name="phone" id="phone" pattern="^\+?[0-9\s\-\(\)]{7,20}$" title="Please enter a valid international phone number including country code (e.g., +1 234 567 8900)" placeholder=" ">
                             <label for="phone">Phone (with country code)</label>
                         </div>

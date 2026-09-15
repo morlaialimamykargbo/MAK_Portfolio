@@ -46,6 +46,62 @@
         .orb-3 { width: 400px; height: 400px; background: var(--accent-tertiary); bottom: -10%; left: 30%; animation-delay: -14s; }
         @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -50px) scale(1.1); } 66% { transform: translate(-30px, 30px) scale(0.9); } }
 
+        /* ===== FLOATING BUBBLES (About Me to Contact Me) ===== */
+        .bubbles-container {
+            position: fixed;
+            top: 100vh;
+            left: 0;
+            width: 100%;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: bubble-rise linear infinite;
+        }
+        .bubble-1 { width: 20px; height: 20px; left: 5%; background: var(--accent-primary); animation-duration: 18s; animation-delay: 0s; }
+        .bubble-2 { width: 35px; height: 35px; left: 12%; background: var(--accent-secondary); animation-duration: 22s; animation-delay: 2s; }
+        .bubble-3 { width: 15px; height: 15px; left: 20%; background: var(--accent-tertiary); animation-duration: 15s; animation-delay: 4s; }
+        .bubble-4 { width: 25px; height: 25px; left: 28%; background: var(--accent-primary); animation-duration: 20s; animation-delay: 1s; }
+        .bubble-5 { width: 40px; height: 40px; left: 35%; background: var(--accent-secondary); animation-duration: 25s; animation-delay: 3s; }
+        .bubble-6 { width: 18px; height: 18px; left: 42%; background: var(--accent-tertiary); animation-duration: 17s; animation-delay: 5s; }
+        .bubble-7 { width: 30px; height: 30px; left: 50%; background: var(--accent-primary); animation-duration: 21s; animation-delay: 2.5s; }
+        .bubble-8 { width: 22px; height: 22px; left: 58%; background: var(--accent-secondary); animation-duration: 19s; animation-delay: 6s; }
+        .bubble-9 { width: 12px; height: 12px; left: 65%; background: var(--accent-tertiary); animation-duration: 14s; animation-delay: 1.5s; }
+        .bubble-10 { width: 28px; height: 28px; left: 72%; background: var(--accent-primary); animation-duration: 23s; animation-delay: 4.5s; }
+        .bubble-11 { width: 16px; height: 16px; left: 80%; background: var(--accent-secondary); animation-duration: 16s; animation-delay: 3.5s; }
+        .bubble-12 { width: 32px; height: 32px; left: 88%; background: var(--accent-tertiary); animation-duration: 24s; animation-delay: 7s; }
+        .bubble-13 { width: 14px; height: 14px; left: 95%; background: var(--accent-primary); animation-duration: 18s; animation-delay: 2s; }
+        .bubble-14 { width: 26px; height: 26px; left: 8%; background: var(--accent-secondary); animation-duration: 20s; animation-delay: 8s; }
+        .bubble-15 { width: 20px; height: 20px; left: 45%; background: var(--accent-tertiary); animation-duration: 19s; animation-delay: 6.5s; }
+        .bubble-16 { width: 38px; height: 38px; left: 75%; background: var(--accent-primary); animation-duration: 26s; animation-delay: 1s; }
+        
+        @keyframes bubble-rise {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-50vh) translateX(30px) scale(1);
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-110vh) translateX(-20px) scale(0.8);
+                opacity: 0;
+            }
+        }
+
         /* ===== NAVIGATION ===== */
         .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1.5rem 0; transition: all 0.3s ease; backdrop-filter: blur(12px); background: rgba(11, 17, 32, 0.85); border-bottom: 1px solid var(--glass-border); }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
@@ -96,22 +152,10 @@
             width: 200%;
             height: 100%;
         }
-        .wave-1 {
-            animation: wave-flow 12s linear infinite;
-            opacity: 0.4;
-        }
-        .wave-2 {
-            animation: wave-flow 18s linear infinite;
-            opacity: 0.3;
-        }
-        .wave-3 {
-            animation: wave-flow 24s linear infinite;
-            opacity: 0.2;
-        }
-        .wave-4 {
-            animation: wave-flow 30s linear infinite;
-            opacity: 0.15;
-        }
+        .wave-1 { animation: wave-flow 12s linear infinite; opacity: 0.4; }
+        .wave-2 { animation: wave-flow 18s linear infinite; opacity: 0.3; }
+        .wave-3 { animation: wave-flow 24s linear infinite; opacity: 0.2; }
+        .wave-4 { animation: wave-flow 30s linear infinite; opacity: 0.15; }
         @keyframes wave-flow {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -144,7 +188,7 @@
         @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
 
         /* ===== SECTIONS ===== */
-        .section { padding: 6rem 0; position: relative; }
+        .section { padding: 6rem 0; position: relative; z-index: 1; }
         .section-title { 
             font-size: 2.8rem; font-weight: 800; text-align: center; margin-bottom: 3rem; letter-spacing: -0.5px; 
             display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;
@@ -182,12 +226,62 @@
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
         .project-card { background: var(--bg-card); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; transition: all 0.4s ease; }
         .project-card:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: var(--shadow-glow); }
-        .project-image { height: 200px; background: var(--bg-secondary); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .project-image { 
+            height: 200px; 
+            background: var(--bg-secondary); 
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
         .project-image::before { content: ''; position: absolute; inset: 0; background: var(--gradient-primary); opacity: 0.1; }
-        .project-overlay { position: absolute; inset: 0; background: rgba(11, 17, 32, 0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+        
+        /* Visible icon on load */
+        .project-default-icon {
+            position: relative;
+            z-index: 2;
+            width: 60px;
+            height: 60px;
+            color: var(--accent-primary);
+            transition: all 0.4s ease;
+            opacity: 1;
+            transform: scale(1);
+        }
+        .project-card:hover .project-default-icon {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        
+        /* Hover overlay with View Project */
+        .project-overlay { 
+            position: absolute; 
+            inset: 0; 
+            background: rgba(11, 17, 32, 0.9); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            opacity: 0; 
+            transition: opacity 0.4s ease;
+            z-index: 3;
+        }
         .project-card:hover .project-overlay { opacity: 1; }
-        .project-link { padding: 0.8rem 1.5rem; background: var(--gradient-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transform: translateY(20px); transition: transform 0.3s ease; }
+        .project-link { 
+            padding: 0.8rem 1.5rem; 
+            background: var(--gradient-primary); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            transform: translateY(20px); 
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
         .project-card:hover .project-link { transform: translateY(0); }
+        .project-link svg { width: 18px; height: 18px; }
+        
         .project-content { padding: 1.5rem; }
         .project-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--text-primary); }
         .project-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.2rem; line-height: 1.6; }
@@ -321,7 +415,7 @@
         }
 
         /* ===== FOOTER ===== */
-        .footer { padding: 2rem 0; text-align: center; border-top: 1px solid var(--glass-border); margin-top: 4rem; }
+        .footer { padding: 2rem 0; text-align: center; border-top: 1px solid var(--glass-border); margin-top: 4rem; position: relative; z-index: 1; }
         .footer p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem; }
         .footer-tagline { font-size: 0.85rem; opacity: 0.7; }
 
@@ -390,6 +484,26 @@
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
         <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Floating Bubbles (About Me to Contact Me) -->
+    <div class="bubbles-container" aria-hidden="true">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
+        <div class="bubble bubble-5"></div>
+        <div class="bubble bubble-6"></div>
+        <div class="bubble bubble-7"></div>
+        <div class="bubble bubble-8"></div>
+        <div class="bubble bubble-9"></div>
+        <div class="bubble bubble-10"></div>
+        <div class="bubble bubble-11"></div>
+        <div class="bubble bubble-12"></div>
+        <div class="bubble bubble-13"></div>
+        <div class="bubble bubble-14"></div>
+        <div class="bubble bubble-15"></div>
+        <div class="bubble bubble-16"></div>
     </div>
 
     <!-- Navigation -->
@@ -537,7 +651,15 @@
             </h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-image"><div class="project-overlay"><a href="#" class="project-link">View Project</a></div></div>
+                    <div class="project-image">
+                        <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">Predictive Media Analytics Dashboard</h3>
                         <p class="project-desc">Built an interactive dashboard analyzing user engagement patterns across multimedia platforms using Python and R.</p>
@@ -546,7 +668,15 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image"><div class="project-overlay"><a href="#" class="project-link">View Project</a></div></div>
+                    <div class="project-image">
+                        <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 10h.01"></path><path d="M12 10h.01"></path><path d="M16 10h.01"></path></svg>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">Sentiment Analysis on Social Media</h3>
                         <p class="project-desc">Developed an NLP model to analyze sentiment trends in multimedia content, achieving 87% accuracy.</p>
@@ -555,7 +685,15 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image"><div class="project-overlay"><a href="#" class="project-link">View Project</a></div></div>
+                    <div class="project-image">
+                        <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">Interactive Data Visualization Platform</h3>
                         <p class="project-desc">Created a real-time data visualization tool with 3D interactive charts for multimedia analytics.</p>
@@ -564,7 +702,15 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image"><div class="project-overlay"><a href="#" class="project-link">View Project</a></div></div>
+                    <div class="project-image">
+                        <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">Multimedia Recommendation Engine</h3>
                         <p class="project-desc">Designed a collaborative filtering algorithm to suggest personalized video and audio content to users.</p>
@@ -573,7 +719,15 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image"><div class="project-overlay"><a href="#" class="project-link">View Project</a></div></div>
+                    <div class="project-image">
+                        <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">Real-time Video Analytics System</h3>
                         <p class="project-desc">Implemented computer vision models to track user interactions and analyze video playback behavior in real-time.</p>
@@ -582,7 +736,15 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image"><div class="project-overlay"><a href="#" class="project-link">View Project</a></div></div>
+                    <div class="project-image">
+                        <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                View Project
+                            </a>
+                        </div>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">Audio Sentiment & Speech Recognition</h3>
                         <p class="project-desc">Built an app that transcribes audio files and analyzes the emotional tone of the speaker using deep learning.</p>

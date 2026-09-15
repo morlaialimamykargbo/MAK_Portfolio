@@ -215,13 +215,24 @@
         }
         .form-group textarea { resize: vertical; min-height: 120px; }
         .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); background: rgba(255, 255, 255, 0.05); }
+        
+        /* UPDATED: Label is visible by default, but hides smoothly on focus/typing */
         .form-group label { 
-            position: absolute; left: 1.2rem; top: 1rem; color: var(--text-secondary); pointer-events: none; 
-            transition: all 0.3s ease; background: transparent; padding: 0 0.5rem; 
+            position: absolute; 
+            left: 1.2rem; 
+            top: 1rem; 
+            color: var(--text-secondary); 
+            pointer-events: none; 
+            transition: opacity 0.3s ease, transform 0.3s ease; 
+            opacity: 1;
+            transform: translateY(0);
         }
-        .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label, 
-        .form-group textarea:focus + label, .form-group textarea:not(:placeholder-shown) + label { 
-            top: -0.6rem; font-size: 0.85rem; color: var(--accent-primary); background: var(--bg-primary); 
+        .form-group input:focus + label, 
+        .form-group input:not(:placeholder-shown) + label, 
+        .form-group textarea:focus + label, 
+        .form-group textarea:not(:placeholder-shown) + label { 
+            opacity: 0;
+            transform: translateY(-10px);
         }
         
         /* Map Styling */
@@ -589,7 +600,7 @@
                             <label for="email">Email</label>
                         </div>
                         <div class="form-group">
-                            <!-- UPDATED: International phone number support -->
+                            <!-- International phone number support -->
                             <input type="tel" name="phone" id="phone" pattern="^\+?[0-9\s\-\(\)]{7,20}$" title="Please enter a valid international phone number including country code (e.g., +1 234 567 8900)" placeholder=" ">
                             <label for="phone">Phone (with country code)</label>
                         </div>

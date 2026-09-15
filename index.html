@@ -171,26 +171,38 @@
         /* ===== CONTACT SECTION ===== */
         .contact-subtitle { text-align: center; color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 3rem; margin-top: -2rem; }
         .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto; }
-        .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+        
+        /* UPDATED: Added glassmorphic background to the contact form */
+        .contact-form { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1.5rem; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-glow);
+        }
         
         .name-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 
         .form-group { position: relative; }
         .form-group input, .form-group textarea { 
-            width: 100%; padding: 1rem 1.2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); 
+            width: 100%; padding: 1rem 1.2rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); 
             border-radius: 10px; color: var(--text-primary); font-family: var(--font-primary); font-size: 1rem; 
             transition: all 0.3s ease; outline: none; 
         }
         .form-group textarea { resize: vertical; min-height: 120px; }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); background: rgba(255, 255, 255, 0.05); }
         .form-group label { 
             position: absolute; left: 1.2rem; top: 1rem; color: var(--text-secondary); pointer-events: none; 
-            transition: all 0.3s ease; background: var(--bg-primary); padding: 0 0.5rem; 
+            transition: all 0.3s ease; background: transparent; padding: 0 0.5rem; 
         }
         .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label, 
         .form-group textarea:focus + label, .form-group textarea:not(:placeholder-shown) + label { 
-            top: -0.6rem; font-size: 0.85rem; color: var(--accent-primary); 
+            top: -0.6rem; font-size: 0.85rem; color: var(--accent-primary); background: var(--bg-primary); /* Added bg to label to hide border line */
         }
         
         /* Map Styling */
@@ -251,6 +263,7 @@
             .timeline-item { padding-left: 60px; }
             .timeline-dot { left: 12px; }
             .name-grid, .contact-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .contact-form { padding: 1.5rem; } /* Slightly less padding on mobile */
         }
         @media (max-width: 480px) {
             .hero-buttons { flex-direction: column; }
@@ -677,9 +690,8 @@
         const submitBtn = document.getElementById('submitBtn');
 
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default page reload
+            e.preventDefault(); 
             
-            // Change button text to show loading
             const originalBtnText = submitBtn.textContent;
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
@@ -689,9 +701,7 @@
             fetch(contactForm.action, {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             })
             .then(response => {
                 if (response.ok) {
@@ -705,7 +715,6 @@
                 alert("Oops! There was a problem sending your message. Please check your internet connection.");
             })
             .finally(() => {
-                // Reset button state
                 submitBtn.textContent = originalBtnText;
                 submitBtn.disabled = false;
             });

@@ -173,7 +173,31 @@
         .timeline-list li { padding-left: 1.5rem; position: relative; margin-bottom: 0.5rem; line-height: 1.6; }
         .timeline-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent-primary); }
 
-        /* ===== KEY ACHIEVEMENTS SECTION (NEW) ===== */
+        /* ===== KEY ACHIEVEMENTS (Inside Experience Section) ===== */
+        .achievements-subtitle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .achievements-subtitle .sub-icon {
+            width: 28px;
+            height: 28px;
+            color: var(--accent-primary);
+        }
+        .achievements-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            margin: 0 auto 2rem;
+        }
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -366,7 +390,7 @@
                     <div class="image-glow"></div>
                     <img src="Mak.png" alt="Morlai Alimamy Kargbo" class="profile-img" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face'">
                     <div class="floating-badge badge-code">&lt;/&gt;</div>
-                    <div class="floating-badge badge-data"></div>
+                    <div class="floating-badge badge-data">📊</div>
                     <div class="floating-badge badge-media">🎨</div>
                 </div>
             </div>
@@ -512,7 +536,7 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- Experience Section (WITH KEY ACHIEVEMENTS MERGED INSIDE) -->
     <section id="experience" class="section experience">
         <div class="container">
             <h2 class="section-title">
@@ -609,16 +633,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Key Achievements Section (NEW) -->
-    <section class="section achievements">
-        <div class="container">
-            <h2 class="section-title">
-                <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
-                Key <span class="highlight">Achievements</span>
-            </h2>
+            <!-- Key Achievements (Continuation of Experience) -->
+            <div class="achievements-subtitle">
+                <svg class="sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+                Key Achievements
+            </div>
+            <div class="achievements-divider"></div>
             <div class="achievements-grid">
                 <div class="achievement-card">
                     <svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -657,7 +678,7 @@
             </h2>
             <div class="education-grid">
                 <div class="education-card">
-                    <div class="edu-icon"></div>
+                    <div class="edu-icon">🎓</div>
                     <h3 class="edu-degree">BSc in Software Engineering with Multimedia</h3>
                     <p class="edu-school">Limkokwing University of Creative Technology</p>
                     <p class="edu-year">2016 – 2020</p>

@@ -211,15 +211,20 @@
         }
 
         .hero-name {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            line-height: 1.1;
             margin-bottom: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid var(--accent-primary);
+            animation: blink 0.75s step-end infinite;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeInUp 0.8s ease 0.2s backwards;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
         }
 
         .hero-title {
@@ -227,12 +232,18 @@
             font-weight: 600;
             color: var(--text-secondary);
             margin-bottom: 1.5rem;
-            animation: fadeInUp 0.8s ease 0.4s backwards;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid var(--accent-tertiary);
+            animation: blink 0.75s step-end infinite;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
         }
 
-        .hero-title .ampersand {
-            color: var(--accent-tertiary);
-            font-style: italic;
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--accent-primary); }
         }
 
         .hero-tagline {
@@ -325,8 +336,8 @@
 
         .image-wrapper {
             position: relative;
-            width: 380px;
-            height: 380px;
+            width: 400px;
+            height: 400px;
         }
 
         .profile-img {
@@ -336,7 +347,8 @@
             border-radius: 50%;
             position: relative;
             z-index: 2;
-            border: 4px solid rgba(255, 255, 255, 0.1);
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 60px rgba(99, 102, 241, 0.4);
         }
 
         .image-glow {
@@ -448,22 +460,42 @@
             background-clip: text;
         }
 
-        /* ===== ABOUT SECTION - NEW CARD LAYOUT ===== */
-        .about-card {
+        /* ===== ABOUT SECTION - NEW DESIGN ===== */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-image-box {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+            transform: rotate(-3deg);
+            transition: transform 0.3s ease;
+        }
+
+        .about-image-box:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .about-image-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-text-box {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 3rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+            border-radius: 20px;
+            padding: 2.5rem;
             box-shadow: var(--shadow-glow);
-        }
-
-        .about-text-content {
-            text-align: left;
         }
 
         .about-lead {
@@ -471,56 +503,14 @@
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 1.5rem;
+            line-height: 1.4;
         }
 
-        .about-text-content p {
+        .about-text-box p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
             line-height: 1.8;
-        }
-
-        .about-image-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .about-image-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 400px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
-        }
-
-        .about-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .about-image-wrapper:hover img {
-            transform: scale(1.05);
-        }
-
-        .about-image-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            background: var(--gradient-primary);
-            filter: blur(60px);
-            opacity: 0.4;
-            z-index: -1;
-            animation: pulse 3s infinite ease-in-out;
         }
 
         .about-stats {
@@ -1049,7 +1039,19 @@
             }
 
             .hero-name {
-                font-size: 3rem;
+                font-size: 2.5rem;
+                white-space: normal;
+                border-right: none;
+                animation: none;
+                min-height: auto;
+            }
+
+            .hero-title {
+                font-size: 1.3rem;
+                white-space: normal;
+                border-right: none;
+                animation: none;
+                min-height: auto;
             }
 
             .hero-tagline {
@@ -1069,13 +1071,12 @@
                 height: 300px;
             }
 
-            .about-card {
+            .about-container {
                 grid-template-columns: 1fr;
             }
 
-            .about-image-wrapper {
-                max-width: 300px;
-                height: 300px;
+            .about-image-box {
+                max-width: 400px;
                 margin: 0 auto;
             }
 
@@ -1126,14 +1127,6 @@
                 transform: rotate(-45deg) translate(7px, -6px);
             }
 
-            .hero-name {
-                font-size: 2.5rem;
-            }
-
-            .hero-title {
-                font-size: 1.3rem;
-            }
-
             .section-title {
                 font-size: 2.2rem;
             }
@@ -1166,8 +1159,8 @@
                 height: 250px;
             }
 
-            .about-card {
-                padding: 2rem 1.5rem;
+            .hero-name {
+                font-size: 2rem;
             }
         }
     </style>
@@ -1205,8 +1198,8 @@
         <div class="hero-container">
             <div class="hero-content">
                 <p class="hero-greeting">Hello, I'm</p>
-                <h1 class="hero-name">Morlai Alimamy Kargbo</h1>
-                <h2 class="hero-title">Software Engineer <span class="ampersand">&</span> Multimedia Creator</h2>
+                <h1 class="hero-name" id="typing-name"></h1>
+                <h2 class="hero-title" id="typing-title"></h2>
                 <p class="hero-tagline">Bridging the gap between robust code and immersive digital experiences.</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">View My Work</a>
@@ -1227,7 +1220,7 @@
             <div class="hero-image">
                 <div class="image-wrapper">
                     <div class="image-glow"></div>
-                    <img src="Mak.png" alt="Morlai Alimamy Kargbo" class="profile-img">
+                    <img src="Mak.png" alt="Morlai Alimamy Kargbo" class="profile-img" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face'">
                     <div class="floating-badge badge-code">&lt;/&gt;</div>
                     <div class="floating-badge badge-data">📊</div>
                     <div class="floating-badge badge-media">🎨</div>
@@ -1244,8 +1237,11 @@
     <section id="about" class="section about">
         <div class="container">
             <h2 class="section-title">About <span class="highlight">Me</span></h2>
-            <div class="about-card fade-in">
-                <div class="about-text-content">
+            <div class="about-container fade-in">
+                <div class="about-image-box">
+                    <img src="Mak.png" alt="Morlai Alimamy Kargbo" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=700&fit=crop&crop=face'">
+                </div>
+                <div class="about-text-box">
                     <p class="about-lead">Hi, I'm Morlai. I don't just write code; I build digital experiences.</p>
                     <p>As a Software Engineer with a deep passion for Multimedia, I specialize in bridging the gap between complex backend logic and stunning frontend visuals. Whether I'm architecting scalable databases, building responsive React interfaces, or integrating rich media elements into web applications, my goal is always the same: to create technology that is as beautiful to look at as it is powerful under the hood.</p>
                     <p>I believe the best software doesn't just work flawlessly—it captivates the user.</p>
@@ -1262,12 +1258,6 @@
                             <span class="stat-number">100%</span>
                             <span class="stat-label">Client Satisfaction</span>
                         </div>
-                    </div>
-                </div>
-                <div class="about-image-content">
-                    <div class="about-image-wrapper">
-                        <div class="about-image-glow"></div>
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face" alt="About Morlai">
                     </div>
                 </div>
             </div>
@@ -1448,7 +1438,7 @@
             <h2 class="section-title">Education</h2>
             <div class="education-grid">
                 <div class="education-card">
-                    <div class="edu-icon">🎓</div>
+                    <div class="edu-icon"></div>
                     <h3 class="edu-degree">BSc in Computer Science</h3>
                     <p class="edu-school">University of Sierra Leone</p>
                     <p class="edu-year">2018 – 2022</p>
@@ -1526,6 +1516,84 @@
     </footer>
 
     <script>
+        // Typing Animation with Loop
+        const nameElement = document.getElementById('typing-name');
+        const titleElement = document.getElementById('typing-title');
+        const nameText = "Morlai Alimamy Kargbo";
+        const titleText = "Software Engineer & Multimedia Creator";
+        
+        let nameIndex = 0;
+        let titleIndex = 0;
+        let isDeletingName = false;
+        let isDeletingTitle = false;
+        let showingTitle = false;
+        
+        function typeText() {
+            const currentName = nameText;
+            const currentTitle = titleText;
+            
+            if (!showingTitle) {
+                // Typing name
+                if (!isDeletingName) {
+                    // Type name
+                    if (nameIndex < currentName.length) {
+                        nameElement.textContent = currentName.substring(0, nameIndex + 1);
+                        nameIndex++;
+                        setTimeout(typeText, 100);
+                    } else {
+                        // Name typed, wait then start deleting
+                        setTimeout(() => {
+                            isDeletingName = true;
+                            setTimeout(typeText, 1000);
+                        }, 2000);
+                    }
+                } else {
+                    // Delete name
+                    if (nameIndex > 0) {
+                        nameElement.textContent = currentName.substring(0, nameIndex - 1);
+                        nameIndex--;
+                        setTimeout(typeText, 50);
+                    } else {
+                        // Name deleted, start showing title
+                        isDeletingName = false;
+                        showingTitle = true;
+                        setTimeout(typeText, 500);
+                    }
+                }
+            } else {
+                // Typing title
+                if (!isDeletingTitle) {
+                    // Type title
+                    if (titleIndex < currentTitle.length) {
+                        titleElement.textContent = currentTitle.substring(0, titleIndex + 1);
+                        titleIndex++;
+                        setTimeout(typeText, 100);
+                    } else {
+                        // Title typed, wait then start deleting
+                        setTimeout(() => {
+                            isDeletingTitle = true;
+                            setTimeout(typeText, 1000);
+                        }, 2000);
+                    }
+                } else {
+                    // Delete title
+                    if (titleIndex > 0) {
+                        titleElement.textContent = currentTitle.substring(0, titleIndex - 1);
+                        titleIndex--;
+                        setTimeout(typeText, 50);
+                    } else {
+                        // Title deleted, start over with name
+                        isDeletingTitle = false;
+                        showingTitle = false;
+                        setTimeout(typeText, 500);
+                    }
+                }
+            }
+        }
+        
+        // Start typing animation
+        setTimeout(typeText, 1000);
+
         // Mobile Menu Toggle
         const hamburger = document.querySelector('.hamburger');
         const navMenu = document.querySelector('.nav-menu');
@@ -1581,7 +1649,7 @@
         }, observerOptions);
 
         // Observe all sections and skill categories
-        document.querySelectorAll('.section, .skill-category, .about-card').forEach(el => {
+        document.querySelectorAll('.section, .skill-category, .about-container').forEach(el => {
             el.classList.add('fade-in');
             observer.observe(el);
         });

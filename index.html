@@ -10,18 +10,18 @@
     <style>
         /* ===== PROFESSIONAL COLOR PALETTE ===== */
         :root {
-            --bg-primary: #0B1120;       /* Deep Midnight Navy (Premium, easy on eyes) */
-            --bg-secondary: #151E32;     /* Rich Slate Blue for contrast */
+            --bg-primary: #0B1120;
+            --bg-secondary: #151E32;
             --bg-card: rgba(21, 30, 50, 0.6);
-            --text-primary: #F1F5F9;     /* Crisp off-white for maximum readability */
-            --text-secondary: #94A3B8;   /* Soft slate gray for secondary text */
-            --accent-primary: #3B82F6;   /* Professional Royal Blue (Trust, Tech) */
-            --accent-secondary: #10B981; /* Emerald Green (Data, Success, Growth) */
-            --accent-tertiary: #06B6D4;  /* Cyan (Multimedia, Creative flair) */
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --accent-primary: #3B82F6;
+            --accent-secondary: #10B981;
+            --accent-tertiary: #06B6D4;
             --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15); /* Subtle, elegant glow */
+            --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
             --font-primary: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
@@ -78,34 +78,20 @@
         .social-link:hover { background: var(--accent-primary); color: white; transform: translateY(-3px); border-color: var(--accent-primary); }
         .social-link svg { width: 20px; height: 20px; }
 
-        /* Hero Image - OPTIMIZED FOR CLARITY */
+        /* Hero Image */
         .hero-image { display: flex; justify-content: center; animation: fadeIn 1s ease 0.5s backwards; }
         .image-wrapper { position: relative; width: 400px; height: 400px; }
         .profile-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: center top; /* Ensures face is perfectly centered and not cropped */
-            border-radius: 20px; 
-            position: relative; 
-            z-index: 10; /* Guaranteed to be above the glow effect */
-            border: 3px solid rgba(255, 255, 255, 0.15); /* Clean, subtle border for definition */
+            width: 100%; height: 100%; object-fit: cover; object-position: center top;
+            border-radius: 20px; position: relative; z-index: 10;
+            border: 3px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); 
-            background-color: var(--bg-secondary); /* Prevents transparency issues while loading */
+            background-color: var(--bg-secondary);
         }
         .image-glow { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            width: 100%; 
-            height: 100%; 
-            border-radius: 20px; 
-            background: var(--gradient-primary); 
-            filter: blur(50px); 
-            opacity: 0.3; 
-            animation: pulse 4s infinite ease-in-out; 
-            z-index: 1; 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            width: 100%; height: 100%; border-radius: 20px; background: var(--gradient-primary); 
+            filter: blur(50px); opacity: 0.3; animation: pulse 4s infinite ease-in-out; z-index: 1; 
         }
         @keyframes pulse { 0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.05); } }
         .floating-badge { position: absolute; width: 55px; height: 55px; border-radius: 12px; background: var(--bg-secondary); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; z-index: 11; animation: floatBadge 4s infinite ease-in-out; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
@@ -114,39 +100,18 @@
         .badge-media { bottom: 5%; right: 10%; animation-delay: -3s; }
         @keyframes floatBadge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* Scroll Indicator */
         .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; animation: bounce 2s infinite; }
         .scroll-line { width: 2px; height: 30px; background: var(--gradient-primary); border-radius: 2px; }
         @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
 
         /* ===== SECTIONS ===== */
         .section { padding: 6rem 0; position: relative; }
-        
-        /* UPDATED: Added flex layout and icon styling for section titles */
         .section-title { 
-            font-size: 2.8rem; 
-            font-weight: 800; 
-            text-align: center; 
-            margin-bottom: 3rem; 
-            letter-spacing: -0.5px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+            font-size: 2.8rem; font-weight: 800; text-align: center; margin-bottom: 3rem; letter-spacing: -0.5px; 
+            display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;
         }
-        .section-icon {
-            width: 42px;
-            height: 42px;
-            color: var(--accent-primary);
-            flex-shrink: 0;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-        .section-title:hover .section-icon {
-            transform: scale(1.1) rotate(-5deg);
-            color: var(--accent-secondary);
-        }
-        
+        .section-icon { width: 42px; height: 42px; color: var(--accent-primary); flex-shrink: 0; transition: transform 0.3s ease, color 0.3s ease; }
+        .section-title:hover .section-icon { transform: scale(1.1) rotate(-5deg); color: var(--accent-secondary); }
         .section-title .highlight { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         /* ===== ABOUT SECTION ===== */
@@ -221,17 +186,14 @@
         /* ===== CONTACT SECTION ===== */
         .contact-subtitle { text-align: center; color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 3rem; margin-top: -2rem; }
         .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto; }
-        
         .contact-form { 
             display: flex; flex-direction: column; gap: 1.5rem; 
             background: var(--bg-card); backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border); border-radius: 16px;
             padding: 2.5rem; box-shadow: var(--shadow-glow);
         }
-        
         .name-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-
         .form-group { position: relative; }
         .form-group input, .form-group textarea { 
             width: 100%; padding: 1rem 1.2rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); 
@@ -240,27 +202,15 @@
         }
         .form-group textarea { resize: vertical; min-height: 120px; }
         .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); background: rgba(255, 255, 255, 0.05); }
-        
-        /* Label is visible by default, but hides smoothly on focus/typing */
         .form-group label { 
-            position: absolute; 
-            left: 1.2rem; 
-            top: 1rem; 
-            color: var(--text-secondary); 
-            pointer-events: none; 
-            transition: opacity 0.3s ease, transform 0.3s ease; 
-            opacity: 1;
-            transform: translateY(0);
+            position: absolute; left: 1.2rem; top: 1rem; color: var(--text-secondary); pointer-events: none; 
+            transition: opacity 0.3s ease, transform 0.3s ease; opacity: 1; transform: translateY(0);
         }
-        .form-group input:focus + label, 
-        .form-group input:not(:placeholder-shown) + label, 
-        .form-group textarea:focus + label, 
-        .form-group textarea:not(:placeholder-shown) + label { 
-            opacity: 0;
-            transform: translateY(-10px);
+        .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label, 
+        .form-group textarea:focus + label, .form-group textarea:not(:placeholder-shown) + label { 
+            opacity: 0; transform: translateY(-10px);
         }
         
-        /* Map Styling */
         .map-container {
             width: 100%; height: 100%; min-height: 400px; border-radius: 16px; overflow: hidden;
             border: 1px solid var(--glass-border); box-shadow: var(--shadow-glow); background: var(--bg-card);
@@ -524,7 +474,7 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- Experience Section (UPDATED WITH REAL DATA) -->
     <section id="experience" class="section experience">
         <div class="container">
             <h2 class="section-title">
@@ -536,14 +486,15 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-header">
-                            <h3 class="timeline-title">Full Stack Software Engineer</h3>
-                            <span class="timeline-company">Tech Innovators Inc.</span>
-                            <span class="timeline-date">2023 – Present</span>
+                            <h3 class="timeline-title">DevOps Engineer & DVR Specialist</h3>
+                            <span class="timeline-company">Informatics Consultancy Firm (ICF) - Sierra Leone</span>
+                            <span class="timeline-date">Dec 2024 – Present</span>
                         </div>
                         <ul class="timeline-list">
-                            <li>Architected responsive web applications using React and Node.js, improving user retention by 30%.</li>
-                            <li>Integrated rich multimedia features including video streaming and interactive 3D elements.</li>
-                            <li>Designed PostgreSQL and MongoDB databases, optimizing queries to reduce API response times by 40%.</li>
+                            <li>Created interactive dashboards using Streamlit and automated reporting workflows with user-tailored visualizations for health programme stakeholders.</li>
+                            <li>Managed Docker containerization, Kubernetes orchestration, and AWS cloud infrastructure for application deployment and scaling.</li>
+                            <li>Integrated multiple data sources (APIs, databases, spreadsheets) into dynamic dashboards for real-time analysis and reporting.</li>
+                            <li>Built lightweight Python-based web apps for custom visualizations and ad-hoc reporting tools, collaborating with stakeholders to drive actionable decisions.</li>
                         </ul>
                     </div>
                 </div>
@@ -551,14 +502,14 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-header">
-                            <h3 class="timeline-title">Data Scientist</h3>
-                            <span class="timeline-company">DataVision Analytics</span>
-                            <span class="timeline-date">2021 – 2023</span>
+                            <h3 class="timeline-title">ICT4D Consultant – ITN Mass Campaign</h3>
+                            <span class="timeline-company">Catholic Relief Services (CRS) - Sierra Leone</span>
+                            <span class="timeline-date">2023 – 2024</span>
                         </div>
                         <ul class="timeline-list">
-                            <li>Developed predictive models using Python and R, increasing forecasting accuracy by 25%.</li>
-                            <li>Built interactive data visualization dashboards for non-technical stakeholders.</li>
-                            <li>Automated data reporting workflows, saving 15+ hours of manual work per week.</li>
+                            <li>Designed ICT-based solutions aligned with CRS development goals for the ITN Mass Campaign 2023, including device configuration and troubleshooting for over 8,000 devices.</li>
+                            <li>Developed data collection tools and conducted training sessions for DHMT staff, Chiefdom Supervisors, CHOs, and CHWs at district level.</li>
+                            <li>Monitored systems and generated live badges for login credentials to execute household registration, providing field supervision across locations.</li>
                         </ul>
                     </div>
                 </div>
@@ -566,14 +517,56 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-header">
-                            <h3 class="timeline-title">Freelance Web Developer</h3>
-                            <span class="timeline-company">Self-Employed</span>
-                            <span class="timeline-date">2019 – 2021</span>
+                            <h3 class="timeline-title">Videographer</h3>
+                            <span class="timeline-company">Priority Solutions - Sierra Leone</span>
+                            <span class="timeline-date">2021 – 2022</span>
                         </div>
                         <ul class="timeline-list">
-                            <li>Designed and deployed custom websites for 20+ diverse clients using modern web technologies.</li>
-                            <li>Optimized multimedia assets for web delivery, ensuring fast load times and cross-browser compatibility.</li>
-                            <li>Improved site accessibility and SEO rankings through code refactoring.</li>
+                            <li>Recorded and edited video and sound projects, managing program format selection for final output, media capture, and import.</li>
+                            <li>Created static and motion graphics, titling, voice-over integration, and sound effects for multimedia productions.</li>
+                            <li>Managed media archiving and organization of raw assets for efficient project workflows.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Data Entry Staff</h3>
+                            <span class="timeline-company">West Africa Examination Council (WAEC) - Sierra Leone</span>
+                            <span class="timeline-date">2019</span>
+                        </div>
+                        <ul class="timeline-list">
+                            <li>Captured candidates' marks into the examination system with accuracy and efficiency.</li>
+                            <li>Directed examiners on claim form completion and script allocation procedures.</li>
+                            <li>Tracked and recorded script returns from examiners and reported discrepancies to Officers-in-Charge.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Presiding Officer</h3>
+                            <span class="timeline-company">National Electoral Commission (NEC) - Sierra Leone</span>
+                            <span class="timeline-date">2018</span>
+                        </div>
+                        <ul class="timeline-list">
+                            <li>Managed assigned polling station operations, supervising staff to ensure integrity and procedural accuracy of the polling process.</li>
+                            <li>Oversaw ballot counting procedures and reported results in compliance with electoral guidelines.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">National Data Entry Officer</h3>
+                            <span class="timeline-company">NCTVA - Sierra Leone</span>
+                            <span class="timeline-date">2017</span>
+                        </div>
+                        <ul class="timeline-list">
+                            <li>Collected and captured data from all TVET institutions across the country using KoboToolbox, ensuring comprehensive national coverage of technical education data.</li>
                         </ul>
                     </div>
                 </div>

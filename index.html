@@ -460,7 +460,7 @@
             background-clip: text;
         }
 
-        /* ===== ABOUT SECTION - NEW DESIGN ===== */
+        /* ===== ABOUT SECTION ===== */
         .about-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1003,6 +1003,73 @@
             opacity: 0.7;
         }
 
+        /* ===== FLOATING BUTTONS (WhatsApp & Scroll Top) ===== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.6);
+        }
+
+        .scroll-top-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
         /* ===== ANIMATIONS ===== */
         @keyframes fadeInUp {
             from {
@@ -1161,6 +1228,23 @@
 
             .hero-name {
                 font-size: 2rem;
+            }
+
+            .whatsapp-float {
+                bottom: 20px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+            }
+            .whatsapp-float svg {
+                width: 26px;
+                height: 26px;
+            }
+            .scroll-top-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
             }
         }
     </style>
@@ -1438,7 +1522,7 @@
             <h2 class="section-title">Education</h2>
             <div class="education-grid">
                 <div class="education-card">
-                    <div class="edu-icon"></div>
+                    <div class="edu-icon">🎓</div>
                     <h3 class="edu-degree">BSc in Computer Science</h3>
                     <p class="edu-school">University of Sierra Leone</p>
                     <p class="edu-year">2018 – 2022</p>
@@ -1515,6 +1599,18 @@
         </div>
     </footer>
 
+    <!-- ===== FLOATING BUTTONS ===== -->
+    <!-- WhatsApp Button (Bottom Left) -->
+    <!-- IMPORTANT: Replace '1234567890' with your actual WhatsApp number including country code (e.g., 23276000000) -->
+    <a href="https://wa.me/1234567890?text=Hello%20Morlai,%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </a>
+
+    <!-- Scroll to Top Button (Bottom Right) -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
     <script>
         // Typing Animation with Loop
         const nameElement = document.getElementById('typing-name');
@@ -1533,56 +1629,46 @@
             const currentTitle = titleText;
             
             if (!showingTitle) {
-                // Typing name
                 if (!isDeletingName) {
-                    // Type name
                     if (nameIndex < currentName.length) {
                         nameElement.textContent = currentName.substring(0, nameIndex + 1);
                         nameIndex++;
                         setTimeout(typeText, 100);
                     } else {
-                        // Name typed, wait then start deleting
                         setTimeout(() => {
                             isDeletingName = true;
                             setTimeout(typeText, 1000);
                         }, 2000);
                     }
                 } else {
-                    // Delete name
                     if (nameIndex > 0) {
                         nameElement.textContent = currentName.substring(0, nameIndex - 1);
                         nameIndex--;
                         setTimeout(typeText, 50);
                     } else {
-                        // Name deleted, start showing title
                         isDeletingName = false;
                         showingTitle = true;
                         setTimeout(typeText, 500);
                     }
                 }
             } else {
-                // Typing title
                 if (!isDeletingTitle) {
-                    // Type title
                     if (titleIndex < currentTitle.length) {
                         titleElement.textContent = currentTitle.substring(0, titleIndex + 1);
                         titleIndex++;
                         setTimeout(typeText, 100);
                     } else {
-                        // Title typed, wait then start deleting
                         setTimeout(() => {
                             isDeletingTitle = true;
                             setTimeout(typeText, 1000);
                         }, 2000);
                     }
                 } else {
-                    // Delete title
                     if (titleIndex > 0) {
                         titleElement.textContent = currentTitle.substring(0, titleIndex - 1);
                         titleIndex--;
                         setTimeout(typeText, 50);
                     } else {
-                        // Title deleted, start over with name
                         isDeletingTitle = false;
                         showingTitle = false;
                         setTimeout(typeText, 500);
@@ -1590,8 +1676,6 @@
                 }
             }
         }
-        
-        // Start typing animation
         setTimeout(typeText, 1000);
 
         // Mobile Menu Toggle
@@ -1603,7 +1687,6 @@
             navMenu.classList.toggle('active');
         });
 
-        // Close menu when clicking a link
         document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
@@ -1611,9 +1694,12 @@
             });
         });
 
-        // Navbar background on scroll
+        // Navbar background & Scroll to Top Button Visibility on scroll
         const navbar = document.querySelector('.navbar');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
         window.addEventListener('scroll', () => {
+            // Navbar effect
             if (window.scrollY > 50) {
                 navbar.style.background = 'rgba(10, 10, 15, 0.95)';
                 navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
@@ -1621,6 +1707,21 @@
                 navbar.style.background = 'rgba(10, 10, 15, 0.8)';
                 navbar.style.boxShadow = 'none';
             }
+
+            // Scroll to top button visibility
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Scroll to Top Action
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
 
         // Scroll animations with Intersection Observer
@@ -1633,8 +1734,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    
-                    // Animate skill bars when visible
                     if (entry.target.classList.contains('skill-category')) {
                         const skillFills = entry.target.querySelectorAll('.skill-fill');
                         skillFills.forEach(fill => {
@@ -1648,7 +1747,6 @@
             });
         }, observerOptions);
 
-        // Observe all sections and skill categories
         document.querySelectorAll('.section, .skill-category, .about-container').forEach(el => {
             el.classList.add('fade-in');
             observer.observe(el);
@@ -1661,10 +1759,7 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     const offsetTop = target.offsetTop - 80;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
                 }
             });
         });
@@ -1673,24 +1768,16 @@
         const contactForm = document.getElementById('contactForm');
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            // Get form values
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
-            
-            // Here you would typically send the data to a server
             console.log('Form submitted:', { name, email, subject, message });
-            
-            // Show success message
             alert('Thank you for your message! I will get back to you soon.');
-            
-            // Reset form
             contactForm.reset();
         });
 
-        // Add parallax effect to hero image
+        // Parallax effect to hero image
         const heroImage = document.querySelector('.image-wrapper');
         window.addEventListener('scroll', () => {
             if (heroImage && window.innerWidth > 968) {

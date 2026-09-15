@@ -448,11 +448,22 @@
             background-clip: text;
         }
 
-        /* ===== ABOUT SECTION ===== */
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
+        /* ===== ABOUT SECTION - NEW CARD LAYOUT ===== */
+        .about-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .about-text-content {
+            text-align: left;
         }
 
         .about-lead {
@@ -462,27 +473,71 @@
             margin-bottom: 1.5rem;
         }
 
-        .about-text p {
+        .about-text-content p {
             color: var(--text-secondary);
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
             line-height: 1.8;
         }
 
+        .about-image-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        }
+
+        .about-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-image-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background: var(--gradient-primary);
+            filter: blur(60px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
         .about-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .stat {
-            padding: 2rem;
-            background: var(--glass-bg);
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 15px;
             transition: all 0.3s ease;
+            text-align: center;
         }
 
         .stat:hover {
@@ -493,7 +548,7 @@
 
         .stat-number {
             display: block;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -504,7 +559,7 @@
 
         .stat-label {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         /* ===== SKILLS SECTION ===== */
@@ -1014,6 +1069,16 @@
                 height: 300px;
             }
 
+            .about-card {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image-wrapper {
+                max-width: 300px;
+                height: 300px;
+                margin: 0 auto;
+            }
+
             .skills-grid {
                 grid-template-columns: 1fr;
             }
@@ -1100,6 +1165,10 @@
                 width: 250px;
                 height: 250px;
             }
+
+            .about-card {
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
@@ -1158,7 +1227,7 @@
             <div class="hero-image">
                 <div class="image-wrapper">
                     <div class="image-glow"></div>
-                    <img src="Mak.png?w=500&h=500&fit=crop&crop=face" alt="Morlai Alimamy Kargbo" class="profile-img">
+                    <img src="Mak.png" alt="Morlai Alimamy Kargbo" class="profile-img">
                     <div class="floating-badge badge-code">&lt;/&gt;</div>
                     <div class="floating-badge badge-data">📊</div>
                     <div class="floating-badge badge-media">🎨</div>
@@ -1175,8 +1244,8 @@
     <section id="about" class="section about">
         <div class="container">
             <h2 class="section-title">About <span class="highlight">Me</span></h2>
-            <div class="about-content">
-                <div class="about-text">
+            <div class="about-card fade-in">
+                <div class="about-text-content">
                     <p class="about-lead">Hi, I'm Morlai. I don't just write code; I build digital experiences.</p>
                     <p>As a Software Engineer with a deep passion for Multimedia, I specialize in bridging the gap between complex backend logic and stunning frontend visuals. Whether I'm architecting scalable databases, building responsive React interfaces, or integrating rich media elements into web applications, my goal is always the same: to create technology that is as beautiful to look at as it is powerful under the hood.</p>
                     <p>I believe the best software doesn't just work flawlessly—it captivates the user.</p>
@@ -1193,6 +1262,12 @@
                             <span class="stat-number">100%</span>
                             <span class="stat-label">Client Satisfaction</span>
                         </div>
+                    </div>
+                </div>
+                <div class="about-image-content">
+                    <div class="about-image-wrapper">
+                        <div class="about-image-glow"></div>
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face" alt="About Morlai">
                     </div>
                 </div>
             </div>
@@ -1373,7 +1448,7 @@
             <h2 class="section-title">Education</h2>
             <div class="education-grid">
                 <div class="education-card">
-                    <div class="edu-icon"></div>
+                    <div class="edu-icon">🎓</div>
                     <h3 class="edu-degree">BSc in Computer Science</h3>
                     <p class="edu-school">University of Sierra Leone</p>
                     <p class="edu-year">2018 – 2022</p>
@@ -1417,7 +1492,7 @@
                 </form>
                 <div class="contact-info">
                     <div class="info-item">
-                        <div class="info-icon"></div>
+                        <div class="info-icon">📧</div>
                         <div>
                             <h4>Email</h4>
                             <p>morlai.kargbo@example.com</p>
@@ -1506,7 +1581,7 @@
         }, observerOptions);
 
         // Observe all sections and skill categories
-        document.querySelectorAll('.section, .skill-category').forEach(el => {
+        document.querySelectorAll('.section, .skill-category, .about-card').forEach(el => {
             el.classList.add('fade-in');
             observer.observe(el);
         });
@@ -1555,25 +1630,6 @@
                 heroImage.style.transform = `translateY(${scrolled * 0.3}px)`;
             }
         });
-
-        // Typing effect for hero title
-        const heroTitle = document.querySelector('.hero-title');
-        if (heroTitle) {
-            const text = heroTitle.innerHTML;
-            heroTitle.innerHTML = '';
-            let i = 0;
-            
-            function typeWriter() {
-                if (i < text.length) {
-                    heroTitle.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 50);
-                }
-            }
-            
-            // Start typing after a short delay
-            setTimeout(typeWriter, 1000);
-        }
     </script>
 </body>
 </html>

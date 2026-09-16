@@ -285,10 +285,34 @@
         .project-link svg { width: 20px; height: 20px; }
         
         .project-content { padding: 2rem; }
-        .project-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--text-primary); }
+        .project-title { 
+            font-size: 1.15rem; 
+            font-weight: 700; 
+            margin-bottom: 0.8rem; 
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .project-desc { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1.2rem; line-height: 1.7; }
-        .project-tech { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.2rem; }
-        .tech-tag { padding: 0.4rem 1rem; background: rgba(59, 130, 246, 0.1); color: var(--accent-primary); border: 2px solid rgba(59, 130, 246, 0.2); border-radius: 6px; font-size: 0.9rem; font-weight: 500; }
+        .project-tech { 
+            display: flex; 
+            flex-wrap: nowrap; 
+            gap: 0.5rem; 
+            margin-bottom: 1.2rem;
+            overflow-x: auto;
+        }
+        .tech-tag { 
+            padding: 0.3rem 0.8rem; 
+            background: rgba(59, 130, 246, 0.1); 
+            color: var(--accent-primary); 
+            border: 2px solid rgba(59, 130, 246, 0.2); 
+            border-radius: 6px; 
+            font-size: 0.8rem; 
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
         .project-links { display: flex; gap: 1rem; }
         .link-btn { color: var(--accent-tertiary); text-decoration: none; font-weight: 600; font-size: 1rem; transition: color 0.3s ease; }
         .link-btn:hover { color: var(--accent-primary); }
@@ -374,8 +398,24 @@
         .education-card { background: var(--bg-card); backdrop-filter: blur(12px); border: 2px solid var(--glass-border); border-radius: 16px; padding: 2.5rem; text-align: center; transition: all 0.3s ease; }
         .education-card:hover { transform: translateY(-5px); border-color: var(--accent-primary); box-shadow: var(--shadow-glow); }
         .edu-icon { font-size: 3rem; margin-bottom: 1rem; }
-        .edu-degree { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
-        .edu-school { color: var(--accent-tertiary); font-weight: 600; margin-bottom: 0.3rem; font-size: 1.1rem; }
+        .edu-degree { 
+            font-size: 1.15rem; 
+            font-weight: 700; 
+            margin-bottom: 0.5rem; 
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .edu-school { 
+            color: var(--accent-tertiary); 
+            font-weight: 600; 
+            margin-bottom: 0.3rem; 
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .edu-year { color: var(--text-secondary); font-size: 1rem; font-family: var(--font-mono); margin-bottom: 1rem; }
         .edu-desc { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; }
 
@@ -495,14 +535,14 @@
             .about-text-box p { font-size: 1.05rem; }
             .category-title { font-size: 1.3rem; }
             .skill-name { font-size: 1.05rem; }
-            .project-title { font-size: 1.3rem; }
+            .project-title { font-size: 1.1rem; }
             .project-desc { font-size: 1rem; }
             .timeline-title { font-size: 1.3rem; }
             .timeline-company { font-size: 1.05rem; }
             .timeline-list li { font-size: 1rem; }
             .achievement-text { font-size: 1.05rem; }
-            .edu-degree { font-size: 1.3rem; }
-            .edu-school { font-size: 1.05rem; }
+            .edu-degree { font-size: 1.1rem; }
+            .edu-school { font-size: 0.95rem; }
             .edu-desc { font-size: 1rem; }
             .contact-subtitle { font-size: 1.2rem; }
             .form-group input, .form-group textarea { font-size: 1.05rem; padding: 1.1rem 1.3rem; }
@@ -931,7 +971,7 @@
             </h2>
             <div class="education-grid">
                 <div class="education-card">
-                    <div class="edu-icon">🎓</div>
+                    <div class="edu-icon"></div>
                     <h3 class="edu-degree">BSc in Software Engineering with Multimedia</h3>
                     <p class="edu-school">Limkokwing University of Creative Technology</p>
                     <p class="edu-year">2016 – 2020</p>

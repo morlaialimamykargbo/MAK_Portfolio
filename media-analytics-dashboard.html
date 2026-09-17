@@ -168,7 +168,7 @@
       .kpi-grid { grid-template-columns: 1fr 1fr; }
       .kpi-value { font-size: 24px; }
       .live-bar { gap: 8px; }
-      .last-updated { display: none; } /* Save space on mobile */
+      .last-updated { display: none; }
     }
     @media (max-width: 480px) {
       .kpi-grid { grid-template-columns: 1fr; }
@@ -461,7 +461,7 @@
 
   <script>
     Chart.defaults.color = '#9ca3af';
-    Chart.defaults.font.family = 'Inter', sans-serif';
+    Chart.defaults.font.family = 'Inter, sans-serif';
     Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
 
     // ============ MOBILE MENU ============
@@ -626,7 +626,6 @@
           if (view === 'content' && !window.contentLibraryInitialized) { initContentLibrary(); window.contentLibraryInitialized = true; }
           if (view === 'settings') updateSettingsUI();
         }
-        // Close mobile sidebar after selection
         if (window.innerWidth <= 768) toggleSidebar();
       });
     });

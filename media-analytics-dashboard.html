@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Predictive Media Analytics Dashboard</title>
   
-  <!-- External Fonts & Chart.js -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
@@ -40,7 +39,6 @@
       overflow-x: hidden;
     }
 
-    /* Sidebar */
     .sidebar {
       width: 250px;
       background: var(--bg-2);
@@ -97,7 +95,6 @@
     .user-name { font-size: 13px; font-weight: 600; }
     .user-role { font-size: 11px; color: var(--muted); }
 
-    /* Main */
     .main {
       flex: 1;
       padding: 28px 36px;
@@ -151,7 +148,6 @@
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.4); }
     .btn-primary.exporting { opacity: 0.7; pointer-events: none; }
 
-    /* KPI */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -180,7 +176,6 @@
     .kpi-change.down { color: var(--red); }
     .kpi-change span { color: var(--muted); font-weight: 400; margin-left: 4px; }
 
-    /* Grids */
     .grid-2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin-bottom: 24px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 24px; }
 
@@ -203,7 +198,6 @@
     .dot.fb { background: var(--fb); }
     .dot.threads { background: var(--threads); }
 
-    /* Prediction card */
     .prediction-card { background: linear-gradient(135deg, #1a2136 0%, #151b2b 100%); }
     .badge {
       background: rgba(16,185,129,0.15); color: var(--green);
@@ -230,7 +224,6 @@
     .insight-title b { color: var(--blue); }
     .insight-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-    /* Table */
     .table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .table th {
       text-align: left; padding: 10px 8px;
@@ -277,7 +270,6 @@
       border-top: 1px solid var(--border);
     }
 
-    /* Toast notification */
     .toast {
       position: fixed; bottom: 30px; right: 30px;
       background: var(--card); border: 1px solid var(--green);
@@ -289,7 +281,6 @@
     }
     .toast.show { transform: translateY(0); opacity: 1; }
 
-    /* Responsive */
     @media (max-width: 1100px) {
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
     }
@@ -301,7 +292,6 @@
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="logo">
       <div class="logo-icon">📊</div>
@@ -326,9 +316,7 @@
     </div>
   </aside>
 
-  <!-- Main -->
   <main class="main">
-    <!-- Header -->
     <header class="header">
       <div>
         <h1 class="page-title">Predictive Media Analytics</h1>
@@ -350,43 +338,41 @@
       </div>
     </header>
 
-    <!-- KPI Cards -->
     <section class="kpi-grid" id="kpiGrid">
-      <div class="kpi-card" data-search="total users">
+      <div class="kpi-card" id="kpi-users" data-search="total users">
         <div class="kpi-head">
           <span class="kpi-label">Total Users</span>
           <span class="kpi-icon blue">👥</span>
         </div>
-        <div class="kpi-value" data-target="2847563">0</div>
-        <div class="kpi-change up">▲ 12.4% <span>vs last period</span></div>
+        <div class="kpi-value" id="kpiUsersVal">0</div>
+        <div class="kpi-change up" id="kpiUsersChange">▲ 12.4% <span>vs last period</span></div>
       </div>
-      <div class="kpi-card" data-search="engagement rate">
+      <div class="kpi-card" id="kpi-engagement" data-search="engagement rate">
         <div class="kpi-head">
           <span class="kpi-label">Engagement Rate</span>
           <span class="kpi-icon green">⚡</span>
         </div>
-        <div class="kpi-value" data-target="68.7" data-suffix="%">0</div>
-        <div class="kpi-change up">▲ 3.2% <span>vs last period</span></div>
+        <div class="kpi-value" id="kpiEngagementVal">0</div>
+        <div class="kpi-change up" id="kpiEngagementChange">▲ 3.2% <span>vs last period</span></div>
       </div>
-      <div class="kpi-card" data-search="avg watch time">
+      <div class="kpi-card" id="kpi-watch" data-search="avg watch time">
         <div class="kpi-head">
           <span class="kpi-label">Avg. Watch Time</span>
           <span class="kpi-icon purple">⏱️</span>
         </div>
-        <div class="kpi-value" data-target="14.3" data-suffix=" min">0</div>
-        <div class="kpi-change up">▲ 1.8 min <span>vs last period</span></div>
+        <div class="kpi-value" id="kpiWatchVal">0</div>
+        <div class="kpi-change up" id="kpiWatchChange">▲ 1.8 min <span>vs last period</span></div>
       </div>
-      <div class="kpi-card" data-search="retention rate">
+      <div class="kpi-card" id="kpi-retention" data-search="retention rate">
         <div class="kpi-head">
           <span class="kpi-label">Retention Rate</span>
           <span class="kpi-icon orange">🎯</span>
         </div>
-        <div class="kpi-value" data-target="74.2" data-suffix="%">0</div>
-        <div class="kpi-change down">▼ 0.9% <span>vs last period</span></div>
+        <div class="kpi-value" id="kpiRetentionVal">0</div>
+        <div class="kpi-change down" id="kpiRetentionChange">▼ 0.9% <span>vs last period</span></div>
       </div>
     </section>
 
-    <!-- Charts Row 1 -->
     <section class="grid-2">
       <div class="card">
         <div class="card-head">
@@ -416,7 +402,6 @@
       </div>
     </section>
 
-    <!-- Charts Row 2 -->
     <section class="grid-3">
       <div class="card">
         <div class="card-head">
@@ -449,7 +434,6 @@
       </div>
     </section>
 
-    <!-- Predictive + Table -->
     <section class="grid-2">
       <div class="card prediction-card">
         <div class="card-head">
@@ -581,11 +565,9 @@
     </footer>
   </main>
 
-  <!-- Toast -->
   <div class="toast" id="toast">✅ Report exported successfully!</div>
 
   <script>
-    // Chart.js global defaults
     Chart.defaults.color = '#9ca3af';
     Chart.defaults.font.family = 'Inter, sans-serif';
     Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
@@ -603,27 +585,101 @@
       youtube: 26, tiktok: 24, instagram: 19, facebook: 18, threads: 8, twitter: 5
     };
 
+    // ============ KPI DATA BY PERIOD (aggregate) ============
+    const KPI_BY_PERIOD = {
+      7:   { users: { val: 684210,  suffix: '',   change: '▲ 14.8%', dir: 'up' },
+             engagement: { val: 71.2, suffix: '%', change: '▲ 4.1%', dir: 'up' },
+             watch: { val: 15.1, suffix: ' min', change: '▲ 2.3 min', dir: 'up' },
+             retention: { val: 75.8, suffix: '%', change: '▲ 1.2%', dir: 'up' } },
+      30:  { users: { val: 2847563, suffix: '',   change: '▲ 12.4%', dir: 'up' },
+             engagement: { val: 68.7, suffix: '%', change: '▲ 3.2%', dir: 'up' },
+             watch: { val: 14.3, suffix: ' min', change: '▲ 1.8 min', dir: 'up' },
+             retention: { val: 74.2, suffix: '%', change: '▼ 0.9%', dir: 'down' } },
+      90:  { users: { val: 8241890, suffix: '',   change: '▲ 9.7%', dir: 'up' },
+             engagement: { val: 66.4, suffix: '%', change: '▲ 2.1%', dir: 'up' },
+             watch: { val: 13.8, suffix: ' min', change: '▲ 0.9 min', dir: 'up' },
+             retention: { val: 73.1, suffix: '%', change: '▼ 1.4%', dir: 'down' } },
+      365: { users: { val: 32418750, suffix: '',  change: '▲ 18.2%', dir: 'up' },
+             engagement: { val: 64.9, suffix: '%', change: '▲ 5.8%', dir: 'up' },
+             watch: { val: 13.2, suffix: ' min', change: '▲ 2.4 min', dir: 'up' },
+             retention: { val: 71.5, suffix: '%', change: '▼ 2.1%', dir: 'down' } }
+    };
+
+    // ============ KPI DATA BY PLATFORM (when searching) ============
+    const KPI_BY_PLATFORM = {
+      youtube:   { users: { val: 1124680, suffix: '',   change: '▲ 10.2%', dir: 'up' },
+                   engagement: { val: 72.3, suffix: '%', change: '▲ 2.8%', dir: 'up' },
+                   watch: { val: 18.4, suffix: ' min', change: '▲ 2.1 min', dir: 'up' },
+                   retention: { val: 78.2, suffix: '%', change: '▲ 0.6%', dir: 'up' } },
+      tiktok:    { users: { val: 982340,  suffix: '',   change: '▲ 24.6%', dir: 'up' },
+                   engagement: { val: 82.1, suffix: '%', change: '▲ 6.4%', dir: 'up' },
+                   watch: { val: 8.2,  suffix: ' min', change: '▲ 1.2 min', dir: 'up' },
+                   retention: { val: 68.5, suffix: '%', change: '▼ 1.8%', dir: 'down' } },
+      instagram: { users: { val: 721450,  suffix: '',   change: '▲ 8.9%',  dir: 'up' },
+                   engagement: { val: 74.8, suffix: '%', change: '▲ 3.5%', dir: 'up' },
+                   watch: { val: 6.5,  suffix: ' min', change: '▲ 0.8 min', dir: 'up' },
+                   retention: { val: 71.3, suffix: '%', change: '▼ 0.4%', dir: 'down' } },
+      facebook:  { users: { val: 543210,  suffix: '',   change: '▲ 3.2%',  dir: 'up' },
+                   engagement: { val: 58.4, suffix: '%', change: '▼ 1.1%', dir: 'down' },
+                   watch: { val: 12.1, suffix: ' min', change: '▲ 0.5 min', dir: 'up' },
+                   retention: { val: 69.8, suffix: '%', change: '▼ 2.3%', dir: 'down' } },
+      threads:   { users: { val: 214890,  suffix: '',   change: '▲ 41.2%', dir: 'up' },
+                   engagement: { val: 63.2, suffix: '%', change: '▲ 9.8%', dir: 'up' },
+                   watch: { val: 3.8,  suffix: ' min', change: '▲ 0.4 min', dir: 'up' },
+                   retention: { val: 65.4, suffix: '%', change: '▲ 3.1%', dir: 'up' } }
+    };
+
+    // ============ STATE ============
+    let currentPeriod = 30;
+    let currentPlatformFilter = null; // null = aggregate, or 'youtube', 'tiktok', etc.
+
     // ============ CHART INSTANCES ============
     let trendChart, platformChart, contentChart, hourChart, demoChart;
 
-    // ============ KPI COUNTER ANIMATION ============
-    function animateCounters() {
-      document.querySelectorAll('.kpi-value').forEach(el => {
-        const target = parseFloat(el.dataset.target);
-        const suffix = el.dataset.suffix || '';
-        const duration = 1500;
-        const start = performance.now();
-        const isFloat = target % 1 !== 0;
+    // ============ KPI ANIMATION (reusable) ============
+    function animateValue(el, target, suffix = '', duration = 900) {
+      const startVal = parseFloat(el.dataset.current || '0');
+      const start = performance.now();
+      const isFloat = target % 1 !== 0;
 
-        function update(now) {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = target * eased;
-          el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current).toLocaleString()) + suffix;
-          if (progress < 1) requestAnimationFrame(update);
-        }
-        requestAnimationFrame(update);
-      });
+      function update(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = startVal + (target - startVal) * eased;
+        el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current).toLocaleString()) + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+        else el.dataset.current = target;
+      }
+      requestAnimationFrame(update);
+    }
+
+    function updateChange(el, text, dir) {
+      el.className = 'kpi-change ' + dir;
+      const arrow = dir === 'up' ? '▲' : '▼';
+      const cleanText = text.replace(/^[▲▼]\s*/, '');
+      el.innerHTML = `${arrow} ${cleanText} <span>vs last period</span>`;
+    }
+
+    // ============ UPDATE KPIs ============
+    function updateKPIs() {
+      let data;
+      if (currentPlatformFilter) {
+        data = KPI_BY_PLATFORM[currentPlatformFilter];
+      } else {
+        data = KPI_BY_PERIOD[currentPeriod];
+      }
+
+      animateValue(document.getElementById('kpiUsersVal'), data.users.val, data.users.suffix);
+      updateChange(document.getElementById('kpiUsersChange'), data.users.change, data.users.dir);
+
+      animateValue(document.getElementById('kpiEngagementVal'), data.engagement.val, data.engagement.suffix);
+      updateChange(document.getElementById('kpiEngagementChange'), data.engagement.change, data.engagement.dir);
+
+      animateValue(document.getElementById('kpiWatchVal'), data.watch.val, data.watch.suffix);
+      updateChange(document.getElementById('kpiWatchChange'), data.watch.change, data.watch.dir);
+
+      animateValue(document.getElementById('kpiRetentionVal'), data.retention.val, data.retention.suffix);
+      updateChange(document.getElementById('kpiRetentionChange'), data.retention.change, data.retention.dir);
     }
 
     // ============ GENERATE TREND DATA ============
@@ -633,25 +689,23 @@
       }
       return Array.from({length: days}, (_, i) => {
         if (days <= 7) return `Day ${i+1}`;
-        if (days <= 30) return `D${i+1}`;
         return `D${i+1}`;
       });
     }
 
     function genTrend(base, variance, days) {
       const scale = days === 365 ? 30 : (days === 90 ? 3 : 1);
-      return Array.from({length: days}, (_, i) => {
+      return Array.from({length: days === 365 ? 12 : days}, (_, i) => {
         const trend = (i / days) * variance * 0.3;
         return base * scale + Math.sin(i/3)*variance + Math.random()*variance*0.5 + trend;
       });
     }
 
-    // ============ BUILD TREND CHART ============
     function buildTrendChart(days = 30) {
       const labels = generateLabels(days);
       const datasets = Object.values(PLATFORMS).map(p => ({
         label: p.label,
-        data: genTrend(p.base, p.variance, days === 365 ? 12 : days),
+        data: genTrend(p.base, p.variance, days),
         borderColor: p.color,
         backgroundColor: p.color + '1A',
         fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
@@ -672,7 +726,6 @@
       });
     }
 
-    // ============ BUILD PLATFORM SHARE ============
     function buildPlatformChart() {
       const labels = Object.keys(PLATFORM_SHARE).map(k => {
         const map = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', threads: 'Threads', twitter: 'Twitter/X' };
@@ -701,7 +754,6 @@
       });
     }
 
-    // ============ CONTENT TYPE (Polar) ============
     function buildContentChart() {
       if (contentChart) contentChart.destroy();
       contentChart = new Chart(document.getElementById('contentChart'), {
@@ -725,7 +777,6 @@
       });
     }
 
-    // ============ PEAK HOURS ============
     function buildHourChart() {
       if (hourChart) hourChart.destroy();
       hourChart = new Chart(document.getElementById('hourChart'), {
@@ -755,7 +806,6 @@
       });
     }
 
-    // ============ DEMOGRAPHICS ============
     function buildDemoChart() {
       if (demoChart) demoChart.destroy();
       demoChart = new Chart(document.getElementById('demoChart'), {
@@ -781,15 +831,33 @@
       });
     }
 
-    // ============ SEARCH FUNCTIONALITY ============
+    // ============ SEARCH ============
     const searchInput = document.getElementById('searchInput');
     const searchClear = document.getElementById('searchClear');
     const contentBody = document.getElementById('contentBody');
     const noResults = document.getElementById('noResults');
 
+    function detectPlatformFromQuery(q) {
+      if (!q) return null;
+      const ql = q.toLowerCase();
+      if (ql.includes('youtube')) return 'youtube';
+      if (ql.includes('tiktok') || ql.includes('tik tok')) return 'tiktok';
+      if (ql.includes('instagram') || ql.includes('reel')) return 'instagram';
+      if (ql.includes('facebook') || ql.includes('fb')) return 'facebook';
+      if (ql.includes('thread')) return 'threads';
+      return null;
+    }
+
     function performSearch(query) {
       const q = query.trim().toLowerCase();
       searchClear.classList.toggle('visible', q.length > 0);
+
+      // Detect platform filter
+      const detectedPlatform = detectPlatformFromQuery(q);
+      currentPlatformFilter = detectedPlatform;
+
+      // Update KPIs based on detected platform (or revert to period-based)
+      updateKPIs();
 
       // Filter table rows
       const rows = contentBody.querySelectorAll('tr');
@@ -809,7 +877,7 @@
         card.classList.toggle('dimmed', q.length > 0 && !match);
       });
 
-      // Dim insights that don't match
+      // Dim insights
       document.querySelectorAll('#insightList li').forEach(li => {
         const searchData = (li.dataset.search || '') + ' ' + li.textContent;
         const match = !q || searchData.toLowerCase().includes(q);
@@ -827,8 +895,12 @@
     // ============ PERIOD DROPDOWN ============
     const periodSelect = document.getElementById('periodSelect');
     periodSelect.addEventListener('change', (e) => {
-      const days = parseInt(e.target.value);
-      buildTrendChart(days);
+      currentPeriod = parseInt(e.target.value);
+      buildTrendChart(currentPeriod);
+      // Only update KPIs if not currently filtered by platform
+      if (!currentPlatformFilter) {
+        updateKPIs();
+      }
       showToast(`📊 Updated to: ${e.target.options[e.target.selectedIndex].text}`);
     });
 
@@ -847,9 +919,9 @@
           let csv = '';
           csv += 'PREDICTIVE MEDIA ANALYTICS REPORT\n';
           csv += `Generated:,${new Date().toLocaleString()}\n`;
-          csv += `Period:,${period}\n\n`;
+          csv += `Period:,${period}\n`;
+          csv += `Platform Filter:,${currentPlatformFilter || 'All (Aggregate)'}\n\n`;
 
-          // KPI Summary
           csv += '=== KEY PERFORMANCE INDICATORS ===\n';
           csv += 'Metric,Value,Change\n';
           document.querySelectorAll('.kpi-card').forEach(card => {
@@ -885,7 +957,6 @@
             csv += `${names[key]},${val}\n`;
           });
 
-          // Trigger download
           const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
@@ -907,7 +978,7 @@
       }, 400);
     });
 
-    // ============ TOAST NOTIFICATION ============
+    // ============ TOAST ============
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -917,7 +988,13 @@
 
     // ============ INIT ============
     window.addEventListener('load', () => {
-      animateCounters();
+      // Initialize current values for animation baseline
+      document.getElementById('kpiUsersVal').dataset.current = '0';
+      document.getElementById('kpiEngagementVal').dataset.current = '0';
+      document.getElementById('kpiWatchVal').dataset.current = '0';
+      document.getElementById('kpiRetentionVal').dataset.current = '0';
+
+      updateKPIs();
       buildTrendChart(30);
       buildPlatformChart();
       buildContentChart();

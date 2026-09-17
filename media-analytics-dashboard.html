@@ -1,1 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predictive Media Analytics Dashboard</title>
+  
+  <!-- External Fonts & Chart.js -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
+  <style>
+    /* =========================================
+       CSS STYLES
+       ========================================= */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0b0f1a;
+      --bg-2: #111827;
+      --card: #151b2b;
+      --card-hover: #1a2136;
+      --border: #1f2937;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --blue: #3b82f6;
+      --pink: #ec4899;
+      --purple: #8b5cf6;
+      --green: #10b981;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --grad: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--bg-2);
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 8px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--grad);
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-size: 18px;
+    }
+    .logo-text { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
+
+    .nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 10px;
+      color: var(--muted); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .nav-item:hover { background: var(--card); color: var(--text); }
+    .nav-item.active {
+      background: var(--grad);
+      color: white;
+      box-shadow: 0 4px 20px rgba(139,92,246,0.3);
+    }
+    .icon { font-size: 16px; }
+
+    .sidebar-footer { border-top: 1px solid var(--border); padding-top: 16px; }
+    .user-card { display: flex; gap: 10px; align-items: center; padding: 8px; }
+    .avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--grad);
+      display: grid; place-items: center;
+      font-weight: 700; font-size: 13px;
+    }
+    .user-name { font-size: 13px; font-weight: 600; }
+    .user-role { font-size: 11px; color: var(--muted); }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 28px 36px;
+      max-width: calc(100vw - 250px);
+    }
+
+    .header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 28px; flex-wrap: wrap; gap: 16px;
+    }
+    .page-title {
+      font-size: 28px; font-weight: 800;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-subtitle { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+    .header-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .search-box {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--card); border: 1px solid var(--border);
+      padding: 8px 14px; border-radius: 10px;
+    }
+    .search-box input {
+      background: transparent; border: none; outline: none;
+      color: var(--text); font-size: 13px; width: 160px;
+    }
+    .select {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); padding: 9px 14px; border-radius: 10px;
+      font-size: 13px; cursor: pointer; outline: none;
+    }
+    .btn-primary {
+      background: var(--grad); color: white; border: none;
+      padding: 9px 18px; border-radius: 10px; font-weight: 600;
+      font-size: 13px; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.4); }
+
+    /* KPI */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px; margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .kpi-card:hover { transform: translateY(-4px); border-color: var(--purple); }
+    .kpi-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .kpi-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .kpi-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: grid; place-items: center; font-size: 16px;
+    }
+    .kpi-icon.blue { background: rgba(59,130,246,0.15); }
+    .kpi-icon.green { background: rgba(16,185,129,0.15); }
+    .kpi-icon.purple { background: rgba(139,92,246,0.15); }
+    .kpi-icon.orange { background: rgba(245,158,11,0.15); }
+    .kpi-value { font-size: 30px; font-weight: 800; letter-spacing: -1px; }
+    .kpi-change { font-size: 12px; margin-top: 8px; font-weight: 600; }
+    .kpi-change.up { color: var(--green); }
+    .kpi-change.down { color: var(--red); }
+    .kpi-change span { color: var(--muted); font-weight: 400; margin-left: 4px; }
+
+    /* Grids */
+    .grid-2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin-bottom: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 24px; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 22px;
+    }
+    .card-head {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 18px; flex-wrap: wrap; gap: 10px;
+    }
+    .card-title { font-size: 16px; font-weight: 700; }
+    .card-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .legend-inline { display: flex; gap: 12px; font-size: 12px; color: var(--muted); align-items: center; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+    .dot.blue { background: var(--blue); }
+    .dot.pink { background: var(--pink); }
+    .dot.purple { background: var(--purple); }
+
+    /* Prediction card */
+    .prediction-card { background: linear-gradient(135deg, #1a2136 0%, #151b2b 100%); }
+    .badge {
+      background: rgba(16,185,129,0.15); color: var(--green);
+      padding: 4px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+    }
+
+    .insight-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .insight-list li {
+      display: flex; gap: 12px; padding: 12px;
+      background: rgba(255,255,255,0.02); border-radius: 10px;
+      border-left: 3px solid var(--purple);
+      transition: background 0.2s;
+    }
+    .insight-list li:hover { background: rgba(255,255,255,0.05); }
+    .insight-icon { font-size: 20px; }
+    .insight-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .insight-title b { color: var(--blue); }
+    .insight-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* Table */
+    .table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .table th {
+      text-align: left; padding: 10px 8px;
+      color: var(--muted); font-weight: 500; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .table td { padding: 14px 8px; border-bottom: 1px solid var(--border); }
+    .table tr:last-child td { border-bottom: none; }
+    .table tr:hover { background: rgba(255,255,255,0.02); }
+    .table small { color: var(--muted); }
+
+    .platform-tag {
+      padding: 3px 8px; border-radius: 6px;
+      font-size: 11px; font-weight: 600;
+    }
+    .platform-tag.yt { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .platform-tag.tt { background: rgba(236,72,153,0.15); color: #ec4899; }
+    .platform-tag.ig { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+
+    .bar {
+      display: inline-block; width: 60px; height: 6px;
+      background: rgba(255,255,255,0.08); border-radius: 3px;
+      vertical-align: middle; margin-right: 6px; overflow: hidden;
+    }
+    .bar > span {
+      display: block; height: 100%;
+      background: var(--grad); border-radius: 3px;
+    }
+
+    .footer {
+      text-align: center; color: var(--muted);
+      font-size: 12px; padding: 20px 0; margin-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { padding: 20px; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">📊</div>
+      <span class="logo-text">MediaPulse</span>
+    </div>
+    <nav class="nav">
+      <a href="#" class="nav-item active"><span class="icon">🏠</span> Overview</a>
+      <a href="#" class="nav-item"><span class="icon">📈</span> Engagement</a>
+      <a href="#" class="nav-item"><span class="icon">🎯</span> Predictions</a>
+      <a href="#" class="nav-item"><span class="icon">👥</span> Audience</a>
+      <a href="#" class="nav-item"><span class="icon">🎬</span> Content</a>
+      <a href="#" class="nav-item"><span class="icon">⚙️</span> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="avatar">AM</div>
+        <div>
+          <div class="user-name">Alex Morgan</div>
+          <div class="user-role">Data Analyst</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Header -->
+    <header class="header">
+      <div>
+        <h1 class="page-title">Predictive Media Analytics</h1>
+        <p class="page-subtitle">User engagement patterns across multimedia platforms</p>
+      </div>
+      <div class="header-actions">
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" placeholder="Search metrics..." />
+        </div>
+        <select id="periodSelect" class="select">
+          <option>Last 7 days</option>
+          <option selected>Last 30 days</option>
+          <option>Last 90 days</option>
+          <option>This year</option>
+        </select>
+        <button class="btn-primary">📥 Export Report</button>
+      </div>
+    </header>
+
+    <!-- KPI Cards -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">Total Users</span>
+          <span class="kpi-icon blue">👥</span>
+        </div>
+        <div class="kpi-value" data-target="2847563">0</div>
+        <div class="kpi-change up">▲ 12.4% <span>vs last period</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">Engagement Rate</span>
+          <span class="kpi-icon green">⚡</span>
+        </div>
+        <div class="kpi-value" data-target="68.7" data-suffix="%">0</div>
+        <div class="kpi-change up">▲ 3.2% <span>vs last period</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">Avg. Watch Time</span>
+          <span class="kpi-icon purple">⏱️</span>
+        </div>
+        <div class="kpi-value" data-target="14.3" data-suffix=" min">0</div>
+        <div class="kpi-change up">▲ 1.8 min <span>vs last period</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">Retention Rate</span>
+          <span class="kpi-icon orange">🎯</span>
+        </div>
+        <div class="kpi-value" data-target="74.2" data-suffix="%">0</div>
+        <div class="kpi-change down">▼ 0.9% <span>vs last period</span></div>
+      </div>
+    </section>
+
+    <!-- Charts Row 1 -->
+    <section class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Engagement Trends</h3>
+            <p class="card-sub">Daily active interactions across platforms</p>
+          </div>
+          <div class="legend-inline">
+            <span class="dot blue"></span> YouTube
+            <span class="dot pink"></span> TikTok
+            <span class="dot purple"></span> Instagram
+          </div>
+        </div>
+        <canvas id="trendChart" height="110"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Platform Share</h3>
+            <p class="card-sub">Audience distribution by platform</p>
+          </div>
+        </div>
+        <canvas id="platformChart" height="110"></canvas>
+      </div>
+    </section>
+
+    <!-- Charts Row 2 -->
+    <section class="grid-3">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Content Type</h3>
+            <p class="card-sub">Engagement by format</p>
+          </div>
+        </div>
+        <canvas id="contentChart" height="140"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Peak Activity Hours</h3>
+            <p class="card-sub">User activity by time of day</p>
+          </div>
+        </div>
+        <canvas id="hourChart" height="140"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Demographics</h3>
+            <p class="card-sub">Age group breakdown</p>
+          </div>
+        </div>
+        <canvas id="demoChart" height="140"></canvas>
+      </div>
+    </section>
+
+    <!-- Predictive + Table -->
+    <section class="grid-2">
+      <div class="card prediction-card">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">🔮 Predictive Insights</h3>
+            <p class="card-sub">ML-driven forecasts (Python + R models)</p>
+          </div>
+          <span class="badge">Live</span>
+        </div>
+        <ul class="insight-list">
+          <li>
+            <div class="insight-icon">📈</div>
+            <div>
+              <div class="insight-title">TikTok engagement will surge <b>+23%</b> next week</div>
+              <div class="insight-desc">Driven by trending hashtag #CreatorWeek. Confidence: 89%.</div>
+            </div>
+          </li>
+          <li>
+            <div class="insight-icon">⚠️</div>
+            <div>
+              <div class="insight-title">YouTube retention dip predicted on <b>Friday</b></div>
+              <div class="insight-desc">Historical pattern suggests 6% drop. Schedule long-form content earlier.</div>
+            </div>
+          </li>
+          <li>
+            <div class="insight-icon">🎯</div>
+            <div>
+              <div class="insight-title">Optimal posting window: <b>7–9 PM EST</b></div>
+              <div class="insight-desc">Cross-platform peak engagement detected across 18–34 age group.</div>
+            </div>
+          </li>
+          <li>
+            <div class="insight-icon">💡</div>
+            <div>
+              <div class="insight-title">Short-form video ROI outperforms long-form by <b>2.4×</b></div>
+              <div class="insight-desc">Recommend shifting 30% of content budget to Reels/Shorts.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Top Performing Content</h3>
+            <p class="card-sub">Ranked by engagement score</p>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Content</th>
+              <th>Platform</th>
+              <th>Views</th>
+              <th>Engagement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Summer Vlog Ep.12</b><br><small>Video • 8 min</small></td>
+              <td><span class="platform-tag yt">YouTube</span></td>
+              <td>1.2M</td>
+              <td><span class="bar"><span style="width:92%"></span></span> 92%</td>
+            </tr>
+            <tr>
+              <td><b>Dance Challenge Remix</b><br><small>Short • 30s</small></td>
+              <td><span class="platform-tag tt">TikTok</span></td>
+              <td>3.4M</td>
+              <td><span class="bar"><span style="width:88%"></span></span> 88%</td>
+            </tr>
+            <tr>
+              <td><b>Behind the Scenes</b><br><small>Reel • 45s</small></td>
+              <td><span class="platform-tag ig">Instagram</span></td>
+              <td>890K</td>
+              <td><span class="bar"><span style="width:81%"></span></span> 81%</td>
+            </tr>
+            <tr>
+              <td><b>Product Launch Teaser</b><br><small>Video • 1 min</small></td>
+              <td><span class="platform-tag yt">YouTube</span></td>
+              <td>620K</td>
+              <td><span class="bar"><span style="width:76%"></span></span> 76%</td>
+            </tr>
+            <tr>
+              <td><b>Q&A Live Stream</b><br><small>Stream • 42 min</small></td>
+              <td><span class="platform-tag tt">TikTok</span></td>
+              <td>410K</td>
+              <td><span class="bar"><span style="width:72%"></span></span> 72%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Built with ❤️ using Python & R analytics pipelines • © 2026 MediaPulse</p>
+    </footer>
+  </main>
+
+  <!-- =========================================
+       JAVASCRIPT
+       ========================================= -->
+  <script>
+    // Chart.js global defaults
+    Chart.defaults.color = '#9ca3af';
+    Chart.defaults.font.family = 'Inter, sans-serif';
+    Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+
+    // ---- KPI counter animation ----
+    function animateCounters() {
+      document.querySelectorAll('.kpi-value').forEach(el => {
+        const target = parseFloat(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1500;
+        const start = performance.now();
+        const isFloat = target % 1 !== 0;
+
+        function update(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = target * eased;
+          el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current).toLocaleString()) + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    // ---- Engagement Trend Chart ----
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    const labels = Array.from({length: 30}, (_, i) => `Day ${i+1}`);
+    function genTrend(base, variance) {
+      return labels.map((_, i) => base + Math.sin(i/3)*variance + Math.random()*variance*0.5);
+    }
+
+    new Chart(trendCtx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'YouTube',
+            data: genTrend(45000, 8000),
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.1)',
+            fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
+          },
+          {
+            label: 'TikTok',
+            data: genTrend(62000, 12000),
+            borderColor: '#ec4899',
+            backgroundColor: 'rgba(236,72,153,0.1)',
+            fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
+          },
+          {
+            label: 'Instagram',
+            data: genTrend(38000, 6000),
+            borderColor: '#8b5cf6',
+            backgroundColor: 'rgba(139,92,246,0.1)',
+            fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+          y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => (v/1000)+'k' } }
+        }
+      }
+    });
+
+    // ---- Platform Share (Doughnut) ----
+    new Chart(document.getElementById('platformChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['YouTube', 'TikTok', 'Instagram', 'Twitter/X', 'Others'],
+        datasets: [{
+          data: [32, 28, 22, 10, 8],
+          backgroundColor: ['#3b82f6', '#ec4899', '#8b5cf6', '#f59e0b', '#10b981'],
+          borderWidth: 0, hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        cutout: '65%',
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 15, boxWidth: 12 } }
+        }
+      }
+    });
+
+    // ---- Content Type (Polar) ----
+    new Chart(document.getElementById('contentChart'), {
+      type: 'polarArea',
+      data: {
+        labels: ['Short Video', 'Long Video', 'Live', 'Image', 'Audio'],
+        datasets: [{
+          data: [85, 62, 48, 55, 30],
+          backgroundColor: [
+            'rgba(236,72,153,0.7)', 'rgba(59,130,246,0.7)',
+            'rgba(139,92,246,0.7)', 'rgba(245,158,11,0.7)', 'rgba(16,185,129,0.7)'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } },
+        scales: { r: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } } }
+      }
+    });
+
+    // ---- Peak Hours (Bar) ----
+    new Chart(document.getElementById('hourChart'), {
+      type: 'bar',
+      data: {
+        labels: ['6a','9a','12p','3p','6p','9p','12a'],
+        datasets: [{
+          label: 'Activity',
+          data: [20, 45, 60, 55, 78, 95, 40],
+          backgroundColor: (ctx) => {
+            const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 200);
+            g.addColorStop(0, '#8b5cf6');
+            g.addColorStop(1, '#3b82f6');
+            return g;
+          },
+          borderRadius: 6, barThickness: 22
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false } },
+          y: { grid: { color: 'rgba(255,255,255,0.04)' } }
+        }
+      }
+    });
+
+    // ---- Demographics (Horizontal Bar) ----
+    new Chart(document.getElementById('demoChart'), {
+      type: 'bar',
+      data: {
+        labels: ['13-17', '18-24', '25-34', '35-44', '45-54', '55+'],
+        datasets: [{
+          label: '% Users',
+          data: [8, 28, 34, 18, 10, 5],
+          backgroundColor: ['#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'%' } },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+
+    // ---- Period filter (demo) ----
+    document.getElementById('periodSelect').addEventListener('change', (e) => {
+      console.log('Period changed to:', e.target.value);
+      // Hook: re-fetch data from your Python/R API here
+    });
+
+    // ---- Init ----
+    window.addEventListener('load', animateCounters);
+  </script>
+</body>
+</html>

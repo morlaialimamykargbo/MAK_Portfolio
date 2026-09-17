@@ -24,6 +24,8 @@
       --insight-bg: rgba(255,255,255,0.02);
       --insight-bg-hover: rgba(255,255,255,0.05);
       --settings-row: rgba(255,255,255,0.02);
+      --compare-bg: rgba(139,92,246,0.08);
+      --compare-border: rgba(139,92,246,0.3);
     }
     body.theme-light {
       --bg: #f3f4f6; --bg-2: #ffffff; --card: #ffffff; --card-hover: #f9fafb;
@@ -40,6 +42,8 @@
       --insight-bg: rgba(0,0,0,0.02);
       --insight-bg-hover: rgba(0,0,0,0.04);
       --settings-row: rgba(0,0,0,0.02);
+      --compare-bg: rgba(124,58,237,0.06);
+      --compare-border: rgba(124,58,237,0.25);
     }
     body.theme-ocean {
       --bg: #0a1929; --bg-2: #0f2744; --card: #132f4c; --card-hover: #173a5e;
@@ -56,6 +60,8 @@
       --insight-bg: rgba(255,255,255,0.03);
       --insight-bg-hover: rgba(255,255,255,0.06);
       --settings-row: rgba(255,255,255,0.03);
+      --compare-bg: rgba(167,139,250,0.1);
+      --compare-border: rgba(167,139,250,0.35);
     }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
@@ -97,6 +103,48 @@
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.4); }
     .btn-primary.exporting { opacity: 0.7; pointer-events: none; }
 
+    /* ===== PERIOD COMPARISON MODE ===== */
+    .compare-wrapper { position: relative; }
+    .compare-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 9px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .compare-btn:hover { border-color: var(--purple); }
+    .compare-btn.active { background: var(--compare-bg); border-color: var(--compare-border); color: var(--purple); }
+    .compare-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 260px; box-shadow: var(--shadow); z-index: 150; display: none; }
+    .compare-dropdown.open { display: block; }
+    .compare-dropdown-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px 4px; }
+    .compare-option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: background 0.2s; border: none; background: none; width: 100%; text-align: left; color: var(--text); font-size: 13px; }
+    .compare-option:hover { background: var(--card); }
+    .compare-option.active { background: var(--compare-bg); color: var(--purple); font-weight: 600; }
+    .compare-option-icon { font-size: 16px; width: 20px; text-align: center; }
+    .compare-option-info { flex: 1; }
+    .compare-option-name { display: block; font-size: 13px; }
+    .compare-option-desc { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+
+    /* ===== COMPARISON PANEL ===== */
+    .compare-panel { display: none; background: var(--compare-bg); border: 1px solid var(--compare-border); border-radius: 16px; padding: 20px; margin-bottom: 24px; animation: slideDown 0.3s ease-out; }
+    .compare-panel.active { display: block; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .compare-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .compare-panel-title { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .compare-panel-title span { font-size: 18px; }
+    .compare-panel-close { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: all 0.2s; }
+    .compare-panel-close:hover { background: var(--card); color: var(--text); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .compare-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .compare-item-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .compare-values { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; }
+    .compare-current { display: flex; flex-direction: column; }
+    .compare-current-label { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+    .compare-current-value { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .compare-previous { display: flex; flex-direction: column; align-items: flex-end; }
+    .compare-previous-label { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+    .compare-previous-value { font-size: 14px; font-weight: 600; color: var(--muted); }
+    .compare-delta { display: flex; align-items: center; gap: 4px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; font-weight: 700; }
+    .compare-delta.positive { color: var(--green); }
+    .compare-delta.negative { color: var(--red); }
+    .compare-delta.neutral { color: var(--muted); }
+    .compare-delta-arrow { font-size: 14px; }
+    .compare-delta-value { font-size: 13px; }
+
     /* ===== NOTIFICATION SYSTEM ===== */
     .notif-wrapper { position: relative; }
     .notif-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); width: 38px; height: 38px; border-radius: 10px; font-size: 16px; cursor: pointer; transition: all 0.2s; display: grid; place-items: center; position: relative; }
@@ -112,11 +160,10 @@
     .notif-list { flex: 1; overflow-y: auto; max-height: 380px; }
     .notif-list::-webkit-scrollbar { width: 4px; }
     .notif-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-    .notif-item { display: flex; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--border); transition: background 0.2s; cursor: default; animation: notifSlide 0.3s ease-out; }
+    .notif-item { display: flex; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--border); transition: background 0.2s; cursor: default; animation: notifSlide 0.3s ease-out; position: relative; padding-left: 20px; }
     .notif-item:hover { background: var(--insight-bg-hover); }
     .notif-item.unread { background: var(--insight-bg); }
     .notif-item.unread::before { content: ''; position: absolute; left: 6px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; background: var(--blue); border-radius: 50%; }
-    .notif-item { position: relative; padding-left: 20px; }
     @keyframes notifSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
     .notif-icon-wrap { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; font-size: 14px; flex-shrink: 0; }
     .notif-icon-wrap.alert { background: rgba(239,68,68,0.15); }
@@ -272,17 +319,20 @@
       .chart-container.square { height: 260px; }
       .theme-picker-grid { grid-template-columns: 1fr; }
       .notif-dropdown { width: calc(100vw - 32px); right: -60px; }
+      .compare-dropdown { width: calc(100vw - 32px); right: -16px; }
+      .compare-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 480px) {
       .kpi-grid { grid-template-columns: 1fr; }
       .header-actions { flex-direction: column; align-items: stretch; }
-      .select, .btn-primary, .theme-btn { width: 100%; justify-content: center; }
+      .select, .btn-primary, .theme-btn, .compare-btn { width: 100%; justify-content: center; }
       .modal-actions { flex-direction: column; }
       .modal-actions button { width: 100%; }
       .chart-container { height: 220px; }
       .chart-container.tall { height: 240px; }
       .chart-container.square { height: 240px; }
       .notif-dropdown { right: -16px; width: calc(100vw - 32px); }
+      .compare-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -331,7 +381,44 @@
           <option value="365">This year</option>
         </select>
 
-        <!-- NOTIFICATION BELL -->
+        <!-- PERIOD COMPARISON BUTTON -->
+        <div class="compare-wrapper">
+          <button class="compare-btn" id="compareBtn" title="Compare periods">
+            📊 <span id="compareBtnLabel">Compare</span>
+          </button>
+          <div class="compare-dropdown" id="compareDropdown">
+            <div class="compare-dropdown-title">Compare to</div>
+            <button class="compare-option" data-compare="previous">
+              <span class="compare-option-icon">⏮️</span>
+              <div class="compare-option-info">
+                <span class="compare-option-name">Previous Period</span>
+                <span class="compare-option-desc">vs the period before</span>
+              </div>
+            </button>
+            <button class="compare-option" data-compare="month">
+              <span class="compare-option-icon">📅</span>
+              <div class="compare-option-info">
+                <span class="compare-option-name">Last Month</span>
+                <span class="compare-option-desc">vs previous month</span>
+              </div>
+            </button>
+            <button class="compare-option" data-compare="year">
+              <span class="compare-option-icon">📆</span>
+              <div class="compare-option-info">
+                <span class="compare-option-name">Same Period Last Year</span>
+                <span class="compare-option-desc">Year-over-year comparison</span>
+              </div>
+            </button>
+            <button class="compare-option" data-compare="custom">
+              <span class="compare-option-icon">🎯</span>
+              <div class="compare-option-info">
+                <span class="compare-option-name">Custom Range</span>
+                <span class="compare-option-desc">Select specific dates</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
         <div class="notif-wrapper">
           <button class="notif-btn" id="notifBtn" title="Notifications">
             🔔
@@ -372,6 +459,18 @@
       </div>
     </header>
 
+    <!-- COMPARISON PANEL -->
+    <div class="compare-panel" id="comparePanel">
+      <div class="compare-panel-header">
+        <div class="compare-panel-title">
+          <span>📊</span>
+          <span id="comparePanelTitle">Period Comparison</span>
+        </div>
+        <button class="compare-panel-close" id="comparePanelClose" title="Close comparison">✕</button>
+      </div>
+      <div class="compare-grid" id="compareGrid"></div>
+    </div>
+
     <div class="live-bar">
       <div class="live-badge"><div class="live-dot"></div> LIVE DATA</div>
       <span class="last-updated" id="lastUpdated">Last updated: just now</span>
@@ -379,7 +478,6 @@
       <button class="api-btn" id="apiConfigBtn">🔑 Connect Real API</button>
     </div>
 
-    <!-- ================= VIEW: OVERVIEW ================= -->
     <div id="view-overview" class="view-section active">
       <section class="kpi-grid" id="kpiGrid">
         <div class="kpi-card" id="kpi-users" data-search="total users">
@@ -456,7 +554,6 @@
       </section>
     </div>
 
-    <!-- ================= VIEW: ENGAGEMENT ================= -->
     <div id="view-engagement" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Engagement Analytics</h2>
       <div class="kpi-grid">
@@ -471,7 +568,6 @@
       </div>
     </div>
 
-    <!-- ================= VIEW: PREDICTIONS ================= -->
     <div id="view-predictions" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Predictive Analytics & Forecasting</h2>
       <div class="kpi-grid">
@@ -493,7 +589,6 @@
       </div>
     </div>
 
-    <!-- ================= VIEW: AUDIENCE ================= -->
     <div id="view-audience" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Audience Intelligence</h2>
       <div class="kpi-grid">
@@ -509,7 +604,6 @@
       </div>
     </div>
 
-    <!-- ================= VIEW: CONTENT ================= -->
     <div id="view-content" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Content Performance Library</h2>
       <div class="kpi-grid">
@@ -526,7 +620,6 @@
       </div>
     </div>
 
-    <!-- ================= VIEW: SETTINGS ================= -->
     <div id="view-settings" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Dashboard Settings</h2>
       <div class="grid-2">
@@ -616,6 +709,141 @@
       card.addEventListener('click', () => { applyTheme(card.dataset.theme); showToast(`🎨 Theme changed to ${THEME_NAMES[card.dataset.theme]}`); });
     });
 
+    // ============ PERIOD COMPARISON MODE ============
+    class ComparisonEngine {
+      constructor() {
+        this.mode = null; // 'previous', 'month', 'year', 'custom'
+        this.active = false;
+        this.previousData = null;
+      }
+
+      activate(mode) {
+        this.mode = mode;
+        this.active = true;
+        this.generatePreviousData();
+        this.updateUI();
+        document.getElementById('compareBtn').classList.add('active');
+        document.getElementById('comparePanel').classList.add('active');
+        document.getElementById('compareBtnLabel').textContent = this.getModeLabel();
+        document.querySelectorAll('.compare-option').forEach(opt => {
+          opt.classList.toggle('active', opt.dataset.compare === mode);
+        });
+      }
+
+      deactivate() {
+        this.active = false;
+        this.mode = null;
+        document.getElementById('compareBtn').classList.remove('active');
+        document.getElementById('comparePanel').classList.remove('active');
+        document.getElementById('compareBtnLabel').textContent = 'Compare';
+        document.querySelectorAll('.compare-option').forEach(opt => opt.classList.remove('active'));
+      }
+
+      getModeLabel() {
+        const labels = { previous: 'vs Previous', month: 'vs Last Month', year: 'vs Last Year', custom: 'Custom' };
+        return labels[this.mode] || 'Compare';
+      }
+
+      generatePreviousData() {
+        const current = liveEngine.liveKPI;
+        // Generate realistic "previous period" data with variations
+        const variance = {
+          previous: { users: 0.92, engagement: 0.95, watch: 0.97, retention: 1.02 },
+          month: { users: 0.88, engagement: 0.93, watch: 0.95, retention: 1.03 },
+          year: { users: 0.75, engagement: 0.89, watch: 0.91, retention: 1.05 },
+          custom: { users: 0.85, engagement: 0.91, watch: 0.94, retention: 1.01 }
+        };
+        const v = variance[this.mode] || variance.previous;
+        this.previousData = {
+          users: Math.round(current.users * v.users),
+          engagement: parseFloat((current.engagement * v.engagement).toFixed(1)),
+          watch: parseFloat((current.watch * v.watch).toFixed(1)),
+          retention: parseFloat((current.retention * v.retention).toFixed(1))
+        };
+      }
+
+      updateUI() {
+        if (!this.active || !this.previousData) return;
+        const current = liveEngine.liveKPI;
+        const prev = this.previousData;
+        const grid = document.getElementById('compareGrid');
+        const title = document.getElementById('comparePanelTitle');
+        title.textContent = `Current Period vs ${this.getModeLabel().replace('vs ', '')}`;
+
+        const metrics = [
+          { label: 'Total Users', current: current.users, previous: prev.users, suffix: '', isFloat: false },
+          { label: 'Engagement Rate', current: current.engagement, previous: prev.engagement, suffix: '%', isFloat: true },
+          { label: 'Avg. Watch Time', current: current.watch, previous: prev.watch, suffix: ' min', isFloat: true },
+          { label: 'Retention Rate', current: current.retention, previous: prev.retention, suffix: '%', isFloat: true }
+        ];
+
+        grid.innerHTML = metrics.map(m => {
+          const delta = m.current - m.previous;
+          const pctChange = ((delta / m.previous) * 100).toFixed(1);
+          const isPositive = delta > 0;
+          const isNeutral = Math.abs(delta) < 0.01;
+          const deltaClass = isNeutral ? 'neutral' : (isPositive ? 'positive' : 'negative');
+          const arrow = isNeutral ? '→' : (isPositive ? '▲' : '▼');
+          const currentFormatted = m.isFloat ? m.current.toFixed(1) : m.current.toLocaleString();
+          const previousFormatted = m.isFloat ? m.previous.toFixed(1) : m.previous.toLocaleString();
+
+          return `<div class="compare-item">
+            <div class="compare-item-label">${m.label}</div>
+            <div class="compare-values">
+              <div class="compare-current">
+                <div class="compare-current-label">Current</div>
+                <div class="compare-current-value">${currentFormatted}${m.suffix}</div>
+              </div>
+              <div class="compare-previous">
+                <div class="compare-previous-label">Previous</div>
+                <div class="compare-previous-value">${previousFormatted}${m.suffix}</div>
+              </div>
+            </div>
+            <div class="compare-delta ${deltaClass}">
+              <span class="compare-delta-arrow">${arrow}</span>
+              <span class="compare-delta-value">${Math.abs(pctChange)}% ${isNeutral ? 'no change' : (isPositive ? 'growth' : 'decline')}</span>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      refresh() {
+        if (this.active) {
+          this.generatePreviousData();
+          this.updateUI();
+        }
+      }
+    }
+
+    const comparisonEngine = new ComparisonEngine();
+
+    // Comparison UI handlers
+    const compareBtn = document.getElementById('compareBtn');
+    const compareDropdown = document.getElementById('compareDropdown');
+    const comparePanelClose = document.getElementById('comparePanelClose');
+
+    compareBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      compareDropdown.classList.toggle('open');
+      themeDropdown.classList.remove('open');
+      document.getElementById('notifDropdown').classList.remove('open');
+    });
+    document.querySelectorAll('.compare-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        comparisonEngine.activate(opt.dataset.compare);
+        compareDropdown.classList.remove('open');
+        showToast(`📊 Comparison mode: ${comparisonEngine.getModeLabel()}`);
+      });
+    });
+    comparePanelClose.addEventListener('click', () => {
+      comparisonEngine.deactivate();
+    });
+    document.addEventListener('click', (e) => {
+      if (!compareDropdown.contains(e.target) && e.target !== compareBtn) {
+        compareDropdown.classList.remove('open');
+      }
+    });
+
     // ============ NOTIFICATION SYSTEM ============
     class NotificationManager {
       constructor() {
@@ -626,23 +854,17 @@
         this.milestones = [1000000, 2000000, 3000000, 5000000, 10000000, 25000000, 50000000];
         this.hitMilestones = new Set();
         this.lastAnomalyTime = 0;
-        this.cooldown = 15000; // 15s between anomaly alerts
+        this.cooldown = 15000;
         this.predictiveTimer = 0;
       }
 
       addNotification(type, title, desc) {
-        const notif = {
-          id: Date.now() + Math.random(),
-          type, title, desc,
-          time: new Date(),
-          read: false
-        };
+        const notif = { id: Date.now() + Math.random(), type, title, desc, time: new Date(), read: false };
         this.notifications.unshift(notif);
         if (this.notifications.length > this.maxNotifications) this.notifications.pop();
         this.unreadCount++;
         this.renderBadge();
         this.renderList();
-        // Show toast for high-priority
         if (type === 'alert' || type === 'success') {
           const icon = type === 'alert' ? '🚨' : '🎉';
           showToast(`${icon} ${title}`);
@@ -712,55 +934,44 @@
       analyze(kpiData) {
         const now = Date.now();
         const { users, engagement, watch, retention } = kpiData;
-
-        // Track history
         this.trackHistory('users', users);
         this.trackHistory('engagement', engagement);
         this.trackHistory('watch', watch);
         this.trackHistory('retention', retention);
 
-        // 1. ANOMALY DETECTION (spikes/drops)
         if (now - this.lastAnomalyTime > this.cooldown) {
           const avgUsers = this.getAverage('users');
           if (avgUsers) {
             const deviation = ((users - avgUsers) / avgUsers) * 100;
             if (deviation > 3) {
-              this.addNotification('warning', '📈 Unusual User Spike Detected',
-                `Total users jumped ${deviation.toFixed(1)}% above the rolling average. Current: ${users.toLocaleString()}`);
+              this.addNotification('warning', '📈 Unusual User Spike Detected', `Total users jumped ${deviation.toFixed(1)}% above the rolling average. Current: ${users.toLocaleString()}`);
               this.lastAnomalyTime = now;
             } else if (deviation < -3) {
-              this.addNotification('alert', '📉 User Drop Detected',
-                `Total users fell ${Math.abs(deviation).toFixed(1)}% below the rolling average. Investigate immediately.`);
+              this.addNotification('alert', '📉 User Drop Detected', `Total users fell ${Math.abs(deviation).toFixed(1)}% below the rolling average. Investigate immediately.`);
               this.lastAnomalyTime = now;
             }
           }
-
           const avgEng = this.getAverage('engagement');
           if (avgEng) {
             const engDev = ((engagement - avgEng) / avgEng) * 100;
             if (engDev > 5) {
-              this.addNotification('success', '⚡ Engagement Surge!',
-                `Engagement rate spiked to ${engagement}% (${engDev.toFixed(1)}% above average). Content is resonating!`);
+              this.addNotification('success', '⚡ Engagement Surge!', `Engagement rate spiked to ${engagement}% (${engDev.toFixed(1)}% above average). Content is resonating!`);
               this.lastAnomalyTime = now;
             } else if (engDev < -5) {
-              this.addNotification('warning', '⚡ Engagement Drop Alert',
-                `Engagement rate fell to ${engagement}% (${Math.abs(engDev).toFixed(1)}% below average). Consider reviewing recent content.`);
+              this.addNotification('warning', '⚡ Engagement Drop Alert', `Engagement rate fell to ${engagement}% (${Math.abs(engDev).toFixed(1)}% below average). Consider reviewing recent content.`);
               this.lastAnomalyTime = now;
             }
           }
         }
 
-        // 2. MILESTONE DETECTION
         for (const milestone of this.milestones) {
           if (users >= milestone && !this.hitMilestones.has(milestone)) {
             this.hitMilestones.add(milestone);
             const label = milestone >= 1000000 ? (milestone / 1000000) + 'M' : (milestone / 1000) + 'K';
-            this.addNotification('success', `🏆 Milestone: ${label} Users!`,
-              `Congratulations! Your total user count has surpassed ${label}. Keep up the great work!`);
+            this.addNotification('success', `🏆 Milestone: ${label} Users!`, `Congratulations! Your total user count has surpassed ${label}. Keep up the great work!`);
           }
         }
 
-        // 3. PREDICTIVE WARNINGS (every ~60s)
         this.predictiveTimer++;
         if (this.predictiveTimer >= 12) {
           this.predictiveTimer = 0;
@@ -771,23 +982,18 @@
             const recentAvg = recent.reduce((a, b) => a + b, 0) / 3;
             const olderAvg = older.reduce((a, b) => a + b, 0) / 3;
             const trend = ((recentAvg - olderAvg) / olderAvg) * 100;
-
             if (trend < -2) {
-              this.addNotification('warning', '🔮 Predicted Engagement Decline',
-                `Engagement trend is downward (${trend.toFixed(1)}%). Consider posting high-performing content formats within the next 2 hours.`);
+              this.addNotification('warning', '🔮 Predicted Engagement Decline', `Engagement trend is downward (${trend.toFixed(1)}%). Consider posting high-performing content formats within the next 2 hours.`);
             } else if (trend > 3) {
-              this.addNotification('info', '🔮 Engagement Momentum Building',
-                `Engagement is trending up ${trend.toFixed(1)}%. Great time to launch new content or campaigns!`);
+              this.addNotification('info', '🔮 Engagement Momentum Building', `Engagement is trending up ${trend.toFixed(1)}%. Great time to launch new content or campaigns!`);
             }
           }
-
           const rH = this.history.retention;
           if (rH.length >= 6) {
             const rRecent = rH.slice(-3).reduce((a, b) => a + b, 0) / 3;
             const rOlder = rH.slice(-6, -3).reduce((a, b) => a + b, 0) / 3;
             if (rRecent < rOlder - 1) {
-              this.addNotification('alert', '🔮 Retention Risk Warning',
-                `Retention rate is declining (${rRecent.toFixed(1)}% vs ${rOlder.toFixed(1)}%). Review onboarding flow and content quality.`);
+              this.addNotification('alert', '🔮 Retention Risk Warning', `Retention rate is declining (${rRecent.toFixed(1)}% vs ${rOlder.toFixed(1)}%). Review onboarding flow and content quality.`);
             }
           }
         }
@@ -795,8 +1001,6 @@
     }
 
     const notifManager = new NotificationManager();
-
-    // Notification UI handlers
     const notifBtn = document.getElementById('notifBtn');
     const notifDropdown = document.getElementById('notifDropdown');
     const notifClearAll = document.getElementById('notifClearAll');
@@ -805,15 +1009,13 @@
       e.stopPropagation();
       notifDropdown.classList.toggle('open');
       themeDropdown.classList.remove('open');
+      compareDropdown.classList.remove('open');
       if (notifDropdown.classList.contains('open')) {
         notifManager.markAllRead();
         notifManager.renderList();
       }
     });
-    notifClearAll.addEventListener('click', (e) => {
-      e.stopPropagation();
-      notifManager.clearAll();
-    });
+    notifClearAll.addEventListener('click', (e) => { e.stopPropagation(); notifManager.clearAll(); });
     document.addEventListener('click', (e) => {
       if (!notifDropdown.contains(e.target) && e.target !== notifBtn) notifDropdown.classList.remove('open');
     });
@@ -850,8 +1052,8 @@
         this.liveContentEng = this.liveContentEng.map(e => Math.round(this.fluctuate(e, 0.005, 30, 99)));
         this.pushTrendPoint();
         this.updateDOM();
-        // Run notification analysis
         notifManager.analyze(this.liveKPI);
+        comparisonEngine.refresh();
       }
       pushTrendPoint() {
         if (!trendChart) return;
@@ -1053,7 +1255,7 @@
     document.getElementById('periodSelect').addEventListener('change', (e) => { currentPeriod = parseInt(e.target.value); buildTrendChart(currentPeriod); if (!currentPlatformFilter) { const pd = KPI_BY_PERIOD[currentPeriod]; liveEngine.liveKPI.users = pd.users.val; liveEngine.liveKPI.engagement = pd.engagement.val; liveEngine.liveKPI.watch = pd.watch.val; liveEngine.liveKPI.retention = pd.retention.val; updateKPIs(); } showToast(`📊 Updated to: ${e.target.options[e.target.selectedIndex].text}`); });
 
     // ============ EXPORT ============
-    document.getElementById('exportBtn').addEventListener('click', () => { const btn = document.getElementById('exportBtn'); btn.classList.add('exporting'); btn.textContent = '⏳ Exporting...'; setTimeout(() => { try { const period = document.getElementById('periodSelect').options[document.getElementById('periodSelect').selectedIndex].text; const ts = new Date().toISOString().split('T')[0]; const fn = `media-analytics-report-${ts}.csv`; let csv = `PREDICTIVE MEDIA ANALYTICS REPORT\nGenerated:,${new Date().toLocaleString()}\nPeriod:,${period}\nPlatform Filter:,${currentPlatformFilter || 'All'}\nData Source:,${liveEngine.useRealAPI ? 'Live API' : 'Simulated'}\nTheme:,${THEME_NAMES[getCurrentTheme()]}\n\n=== KPIs ===\nMetric,Value,Change\n`; document.querySelectorAll('.kpi-card').forEach(c => { csv += `"${c.querySelector('.kpi-label').textContent}","${c.querySelector('.kpi-value').textContent}","${c.querySelector('.kpi-change').textContent.trim()}"\n`; }); csv += '\n=== CONTENT ===\nContent,Platform,Views,Engagement\n'; contentBody.querySelectorAll('tr:not(.hidden)').forEach(r => { const c = r.querySelectorAll('td'); csv += `"${c[0].textContent.replace(/\s+/g,' ').trim()}","${c[1].textContent.trim()}","${c[2].textContent.trim()}","${c[3].textContent.trim()}"\n`; }); const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = fn; document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url); showToast(`✅ Report exported: ${fn}`); } catch (err) { showToast('❌ Export failed.'); } finally { btn.classList.remove('exporting'); btn.textContent = '📥 Export Report'; } }, 400); });
+    document.getElementById('exportBtn').addEventListener('click', () => { const btn = document.getElementById('exportBtn'); btn.classList.add('exporting'); btn.textContent = '⏳ Exporting...'; setTimeout(() => { try { const period = document.getElementById('periodSelect').options[document.getElementById('periodSelect').selectedIndex].text; const ts = new Date().toISOString().split('T')[0]; const fn = `media-analytics-report-${ts}.csv`; let csv = `PREDICTIVE MEDIA ANALYTICS REPORT\nGenerated:,${new Date().toLocaleString()}\nPeriod:,${period}\nPlatform Filter:,${currentPlatformFilter || 'All'}\nData Source:,${liveEngine.useRealAPI ? 'Live API' : 'Simulated'}\nTheme:,${THEME_NAMES[getCurrentTheme()]}\nComparison Mode:,${comparisonEngine.active ? comparisonEngine.getModeLabel() : 'Off'}\n\n=== KPIs ===\nMetric,Value,Change\n`; document.querySelectorAll('.kpi-card').forEach(c => { csv += `"${c.querySelector('.kpi-label').textContent}","${c.querySelector('.kpi-value').textContent}","${c.querySelector('.kpi-change').textContent.trim()}"\n`; }); csv += '\n=== CONTENT ===\nContent,Platform,Views,Engagement\n'; contentBody.querySelectorAll('tr:not(.hidden)').forEach(r => { const c = r.querySelectorAll('td'); csv += `"${c[0].textContent.replace(/\s+/g,' ').trim()}","${c[1].textContent.trim()}","${c[2].textContent.trim()}","${c[3].textContent.trim()}"\n`; }); const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = fn; document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url); showToast(`✅ Report exported: ${fn}`); } catch (err) { showToast('❌ Export failed.'); } finally { btn.classList.remove('exporting'); btn.textContent = '📥 Export Report'; } }, 400); });
 
     // ============ API CONFIG MODAL ============
     const apiModal = document.getElementById('apiModal');
@@ -1075,7 +1277,6 @@
       updateKPIs(); buildTrendChart(30); buildPlatformChart(); buildContentChart(); buildHourChart(); buildDemoChart();
       liveEngine.start();
       if (liveEngine.useRealAPI) { document.getElementById('dataSource').textContent = '🟢 API Connected'; document.getElementById('dataSource').classList.add('connected'); }
-      // Welcome notification
       setTimeout(() => { notifManager.addNotification('info', '👋 Welcome to MediaPulse!', 'Your dashboard is live. Notifications will appear here as anomalies, milestones, and predictions are detected.'); }, 2000);
     });
   </script>

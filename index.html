@@ -83,24 +83,11 @@
         .bubble-16 { width: 38px; height: 38px; left: 75%; background: var(--accent-primary); animation-duration: 26s; animation-delay: 1s; }
         
         @keyframes bubble-rise {
-            0% {
-                transform: translateY(0) translateX(0) scale(0.5);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.6;
-            }
-            50% {
-                transform: translateY(-50vh) translateX(30px) scale(1);
-                opacity: 0.4;
-            }
-            90% {
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(-110vh) translateX(-20px) scale(0.8);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
+            10% { opacity: 0.6; }
+            50% { transform: translateY(-50vh) translateX(30px) scale(1); opacity: 0.4; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-110vh) translateX(-20px) scale(0.8); opacity: 0; }
         }
 
         /* ===== NAVIGATION ===== */
@@ -136,35 +123,17 @@
         .social-link svg { width: 24px; height: 24px; }
 
         /* ===== CREATIVE WAVES ANIMATION ===== */
-        .hero-waves {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 180px;
-            overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .hero-waves svg {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 100%;
-        }
+        .hero-waves { position: absolute; bottom: 0; left: 0; width: 100%; height: 180px; overflow: hidden; z-index: 1; pointer-events: none; }
+        .hero-waves svg { position: absolute; bottom: 0; left: 0; width: 200%; height: 100%; }
         .wave-1 { animation: wave-flow 12s linear infinite; opacity: 0.4; }
         .wave-2 { animation: wave-flow 18s linear infinite; opacity: 0.3; }
         .wave-3 { animation: wave-flow 24s linear infinite; opacity: 0.2; }
         .wave-4 { animation: wave-flow 30s linear infinite; opacity: 0.15; }
-        @keyframes wave-flow {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        @keyframes wave-flow { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* Hero Image */
+        /* Hero Image - INCREASED SIZE */
         .hero-image { display: flex; justify-content: center; animation: fadeIn 1s ease 0.5s backwards; position: relative; z-index: 2; }
-        .image-wrapper { position: relative; width: 400px; height: 400px; }
+        .image-wrapper { position: relative; width: 460px; height: 460px; } /* Increased from 400px */
         .profile-img { 
             width: 100%; height: 100%; object-fit: cover; object-position: center top;
             border-radius: 20px; position: relative; z-index: 10;
@@ -198,27 +167,12 @@
         .section-title:hover .section-icon { transform: scale(1.1) rotate(-5deg); color: var(--accent-secondary); }
         .section-title .highlight { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-        /* ===== ABOUT SECTION - ENLARGED IMAGE ===== */
-        .about-container { 
-            display: grid; 
-            grid-template-columns: 1.3fr 1fr; 
-            gap: 4rem; 
-            align-items: center; 
-            max-width: 1100px; 
-            margin: 0 auto; 
-        }
+        /* ===== ABOUT SECTION ===== */
+        .about-container { display: grid; grid-template-columns: 1.3fr 1fr; gap: 4rem; align-items: center; max-width: 1100px; margin: 0 auto; }
         .about-image-box { 
-            position: relative; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5); 
-            transform: rotate(-2deg); 
-            transition: transform 0.3s ease; 
-            border: 3px solid var(--glass-border);
-            width: 100%;
-            max-width: 550px;
-            aspect-ratio: 4 / 5;
-            margin: 0 auto;
+            position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5); 
+            transform: rotate(-2deg); transition: transform 0.3s ease; border: 3px solid var(--glass-border);
+            width: 100%; max-width: 550px; aspect-ratio: 4 / 5; margin: 0 auto;
         }
         .about-image-box:hover { transform: rotate(0deg) scale(1.02); }
         .about-image-box img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
@@ -242,96 +196,34 @@
         .skill-bar { height: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
         .skill-fill { height: 100%; background: var(--gradient-primary); border-radius: 10px; transition: width 1.5s ease; width: 0; }
 
-        /* ===== PROJECTS SECTION - REDUCED TITLE SIZE ===== */
+        /* ===== PROJECTS SECTION - FULL TEXT VISIBLE ===== */
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
         .project-card { background: var(--bg-card); backdrop-filter: blur(12px); border: 2px solid var(--glass-border); border-radius: 16px; overflow: hidden; transition: all 0.4s ease; }
         .project-card:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: var(--shadow-glow); }
-        .project-image { 
-            height: 200px; 
-            background: var(--bg-secondary); 
-            position: relative; 
-            overflow: hidden; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-        }
+        .project-image { height: 200px; background: var(--bg-secondary); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .project-image::before { content: ''; position: absolute; inset: 0; background: var(--gradient-primary); opacity: 0.1; }
         
-        /* Visible icon on load */
-        .project-default-icon {
-            position: relative;
-            z-index: 2;
-            width: 70px;
-            height: 70px;
-            color: var(--accent-primary);
-            transition: all 0.4s ease;
-            opacity: 1;
-            transform: scale(1);
-        }
-        .project-card:hover .project-default-icon {
-            opacity: 0;
-            transform: scale(0.5);
-        }
+        .project-default-icon { position: relative; z-index: 2; width: 70px; height: 70px; color: var(--accent-primary); transition: all 0.4s ease; opacity: 1; transform: scale(1); }
+        .project-card:hover .project-default-icon { opacity: 0; transform: scale(0.5); }
         
-        /* Hover overlay with View Project */
-        .project-overlay { 
-            position: absolute; 
-            inset: 0; 
-            background: rgba(11, 17, 32, 0.9); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            opacity: 0; 
-            transition: opacity 0.4s ease;
-            z-index: 3;
-        }
+        .project-overlay { position: absolute; inset: 0; background: rgba(11, 17, 32, 0.9); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; z-index: 3; }
         .project-card:hover .project-overlay { opacity: 1; }
-        .project-link { 
-            padding: 1rem 2rem; 
-            background: var(--gradient-primary); 
-            color: white; 
-            text-decoration: none; 
-            border-radius: 10px; 
-            font-weight: 600; 
-            transform: translateY(20px); 
-            transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.1rem;
-        }
+        .project-link { padding: 1rem 2rem; background: var(--gradient-primary); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; transform: translateY(20px); transition: transform 0.3s ease; display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem; }
         .project-card:hover .project-link { transform: translateY(0); }
         .project-link svg { width: 20px; height: 20px; }
         
         .project-content { padding: 1.5rem; }
+        /* UPDATED: Removed truncation so titles wrap naturally */
         .project-title { 
-            font-size: 0.95rem; 
+            font-size: 1rem; 
             font-weight: 700; 
             margin-bottom: 0.8rem; 
             color: var(--text-primary);
             line-height: 1.4;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         .project-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6; }
-        .project-tech { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 0.35rem; 
-            margin-bottom: 1rem;
-        }
-        .tech-tag { 
-            padding: 0.25rem 0.6rem; 
-            background: rgba(59, 130, 246, 0.1); 
-            color: var(--accent-primary); 
-            border: 1.5px solid rgba(59, 130, 246, 0.25); 
-            border-radius: 5px; 
-            font-size: 0.72rem; 
-            font-weight: 500;
-            white-space: nowrap;
-            line-height: 1.3;
-        }
+        .project-tech { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+        .tech-tag { padding: 0.25rem 0.6rem; background: rgba(59, 130, 246, 0.1); color: var(--accent-primary); border: 1.5px solid rgba(59, 130, 246, 0.25); border-radius: 5px; font-size: 0.72rem; font-weight: 500; white-space: nowrap; line-height: 1.3; }
         .project-links { display: flex; gap: 1rem; }
         .link-btn { color: var(--accent-tertiary); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.3s ease; }
         .link-btn:hover { color: var(--accent-primary); }
@@ -352,137 +244,40 @@
         .timeline-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent-primary); }
 
         /* ===== KEY ACHIEVEMENTS ===== */
-        .achievements-subtitle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-        .achievements-subtitle .sub-icon {
-            width: 32px;
-            height: 32px;
-            color: var(--accent-primary);
-        }
-        .achievements-divider {
-            width: 100px;
-            height: 4px;
-            background: var(--gradient-primary);
-            border-radius: 4px;
-            margin: 0 auto 2rem;
-        }
-        .achievements-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .achievement-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 2px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 2rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            transition: all 0.3s ease;
-        }
-        .achievement-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-primary);
-            box-shadow: var(--shadow-glow);
-        }
-        .achievement-icon {
-            width: 28px;
-            height: 28px;
-            color: var(--accent-primary);
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .achievement-text {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
+        .achievements-subtitle { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-top: 2rem; margin-bottom: 2rem; color: var(--text-primary); font-size: 1.8rem; font-weight: 700; letter-spacing: -0.3px; }
+        .achievements-subtitle .sub-icon { width: 32px; height: 32px; color: var(--accent-primary); }
+        .achievements-divider { width: 100px; height: 4px; background: var(--gradient-primary); border-radius: 4px; margin: 0 auto 2rem; }
+        .achievements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+        .achievement-card { background: var(--bg-card); backdrop-filter: blur(12px); border: 2px solid var(--glass-border); border-radius: 12px; padding: 2rem; display: flex; align-items: flex-start; gap: 1rem; transition: all 0.3s ease; }
+        .achievement-card:hover { transform: translateY(-3px); border-color: var(--accent-primary); box-shadow: var(--shadow-glow); }
+        .achievement-icon { width: 28px; height: 28px; color: var(--accent-primary); flex-shrink: 0; margin-top: 2px; }
+        .achievement-text { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7; }
 
         /* ===== EDUCATION SECTION ===== */
         .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
-        .education-card { 
-            background: var(--bg-card); 
-            backdrop-filter: blur(12px); 
-            border: 2px solid var(--glass-border); 
-            border-radius: 16px; 
-            padding: 2.5rem; 
-            text-align: center; 
-            transition: all 0.3s ease; 
-        }
+        .education-card { background: var(--bg-card); backdrop-filter: blur(12px); border: 2px solid var(--glass-border); border-radius: 16px; padding: 2.5rem; text-align: center; transition: all 0.3s ease; }
         .education-card:hover { transform: translateY(-5px); border-color: var(--accent-primary); box-shadow: var(--shadow-glow); }
         .edu-icon { font-size: 3rem; margin-bottom: 1rem; }
-        .edu-degree { 
-            font-size: 1.05rem; 
-            font-weight: 700; 
-            margin-bottom: 0.5rem; 
-            color: var(--text-primary);
-            line-height: 1.4;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        .edu-school { 
-            color: var(--accent-tertiary); 
-            font-weight: 600; 
-            margin-bottom: 0.3rem; 
-            font-size: 0.95rem;
-            line-height: 1.4;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
+        .edu-degree { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word; }
+        .edu-school { color: var(--accent-tertiary); font-weight: 600; margin-bottom: 0.3rem; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word; }
         .edu-year { color: var(--text-secondary); font-size: 0.95rem; font-family: var(--font-mono); margin-bottom: 1rem; }
         .edu-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
 
         /* ===== CONTACT SECTION ===== */
         .contact-subtitle { text-align: center; color: var(--text-secondary); font-size: 1.3rem; margin-bottom: 3rem; margin-top: -2rem; }
         .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto; }
-        .contact-form { 
-            display: flex; flex-direction: column; gap: 1.5rem; 
-            background: var(--bg-card); backdrop-filter: blur(12px);
-            border: 2px solid var(--glass-border); border-radius: 16px;
-            padding: 3rem; box-shadow: var(--shadow-glow);
-        }
+        .contact-form { display: flex; flex-direction: column; gap: 1.5rem; background: var(--bg-card); backdrop-filter: blur(12px); border: 2px solid var(--glass-border); border-radius: 16px; padding: 3rem; box-shadow: var(--shadow-glow); }
         .name-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
         .form-group { position: relative; }
-        .form-group input, .form-group textarea { 
-            width: 100%; padding: 1.2rem 1.4rem; background: rgba(255, 255, 255, 0.03); border: 2px solid var(--glass-border); 
-            border-radius: 10px; color: var(--text-primary); font-family: var(--font-primary); font-size: 1.1rem; 
-            transition: all 0.3s ease; outline: none; 
-        }
+        .form-group input, .form-group textarea { width: 100%; padding: 1.2rem 1.4rem; background: rgba(255, 255, 255, 0.03); border: 2px solid var(--glass-border); border-radius: 10px; color: var(--text-primary); font-family: var(--font-primary); font-size: 1.1rem; transition: all 0.3s ease; outline: none; }
         .form-group textarea { resize: vertical; min-height: 140px; }
         .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); background: rgba(255, 255, 255, 0.05); }
-        .form-group label { 
-            position: absolute; left: 1.4rem; top: 1.2rem; color: var(--text-secondary); pointer-events: none; 
-            transition: opacity 0.3s ease, transform 0.3s ease; opacity: 1; transform: translateY(0);
-            font-size: 1.1rem;
-        }
-        .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label, 
-        .form-group textarea:focus + label, .form-group textarea:not(:placeholder-shown) + label { 
-            opacity: 0; transform: translateY(-10px);
-        }
+        .form-group label { position: absolute; left: 1.4rem; top: 1.2rem; color: var(--text-secondary); pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; opacity: 1; transform: translateY(0); font-size: 1.1rem; }
+        .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label, .form-group textarea:focus + label, .form-group textarea:not(:placeholder-shown) + label { opacity: 0; transform: translateY(-10px); }
         
-        .map-container {
-            width: 100%; height: 100%; min-height: 400px; border-radius: 16px; overflow: hidden;
-            border: 2px solid var(--glass-border); box-shadow: var(--shadow-glow); background: var(--bg-card);
-        }
-        .map-container iframe {
-            width: 100%; height: 100%; border: 0;
-            filter: grayscale(0.4) invert(0.9) hue-rotate(180deg) brightness(0.9) contrast(0.9);
-        }
+        .map-container { width: 100%; height: 100%; min-height: 400px; border-radius: 16px; overflow: hidden; border: 2px solid var(--glass-border); box-shadow: var(--shadow-glow); background: var(--bg-card); }
+        .map-container iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.4) invert(0.9) hue-rotate(180deg) brightness(0.9) contrast(0.9); }
 
         /* ===== FOOTER ===== */
         .footer { padding: 2.5rem 0; text-align: center; border-top: 2px solid var(--glass-border); margin-top: 4rem; position: relative; z-index: 1; }
@@ -512,7 +307,7 @@
             .hero-tagline { margin: 0 auto 2.5rem; font-size: 1.2rem; }
             .hero-buttons { justify-content: center; }
             .hero-social { justify-content: center; }
-            .image-wrapper { width: 300px; height: 300px; }
+            .image-wrapper { width: 340px; height: 340px; } /* Increased from 300px */
             .about-container { grid-template-columns: 1fr; gap: 2.5rem; }
             .about-image-box { max-width: 500px; }
             .skills-grid { grid-template-columns: 1fr; }
@@ -547,7 +342,7 @@
         @media (max-width: 480px) {
             .hero-buttons { flex-direction: column; }
             .btn { width: 100%; text-align: center; padding: 1.2rem 2rem; font-size: 1.2rem; }
-            .image-wrapper { width: 250px; height: 250px; }
+            .image-wrapper { width: 280px; height: 280px; } /* Increased from 250px */
             .hero-name { font-size: clamp(1.8rem, 7vw, 2.5rem); }
             .hero-title { font-size: clamp(1.2rem, 5vw, 1.6rem); }
             .whatsapp-float { bottom: 20px; left: 20px; width: 55px; height: 55px; }
@@ -562,7 +357,7 @@
             .about-text-box p { font-size: 1.05rem; }
             .category-title { font-size: 1.3rem; }
             .skill-name { font-size: 1.05rem; }
-            .project-title { font-size: 0.9rem; }
+            .project-title { font-size: 1rem; }
             .project-desc { font-size: 0.9rem; }
             .tech-tag { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
             .timeline-title { font-size: 1.3rem; }
@@ -590,21 +385,11 @@
 
     <!-- Floating Bubbles (About Me to Contact Me) -->
     <div class="bubbles-container" aria-hidden="true">
-        <div class="bubble bubble-1"></div>
-        <div class="bubble bubble-2"></div>
-        <div class="bubble bubble-3"></div>
-        <div class="bubble bubble-4"></div>
-        <div class="bubble bubble-5"></div>
-        <div class="bubble bubble-6"></div>
-        <div class="bubble bubble-7"></div>
-        <div class="bubble bubble-8"></div>
-        <div class="bubble bubble-9"></div>
-        <div class="bubble bubble-10"></div>
-        <div class="bubble bubble-11"></div>
-        <div class="bubble bubble-12"></div>
-        <div class="bubble bubble-13"></div>
-        <div class="bubble bubble-14"></div>
-        <div class="bubble bubble-15"></div>
+        <div class="bubble bubble-1"></div><div class="bubble bubble-2"></div><div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div><div class="bubble bubble-5"></div><div class="bubble bubble-6"></div>
+        <div class="bubble bubble-7"></div><div class="bubble bubble-8"></div><div class="bubble bubble-9"></div>
+        <div class="bubble bubble-10"></div><div class="bubble bubble-11"></div><div class="bubble bubble-12"></div>
+        <div class="bubble bubble-13"></div><div class="bubble bubble-14"></div><div class="bubble bubble-15"></div>
         <div class="bubble bubble-16"></div>
     </div>
 
@@ -613,12 +398,8 @@
         <div class="nav-container">
             <a href="#home" class="nav-logo">MAK<span class="dot">.</span></a>
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li><li><a href="#experience">Experience</a></li><li><a href="#contact">Contact</a></li>
             </ul>
             <div class="hamburger"><span></span><span></span><span></span></div>
         </div>
@@ -648,25 +429,16 @@
                     <img src="Mak.png" alt="Morlai Alimamy Kargbo" class="profile-img" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face'">
                     <div class="floating-badge badge-code">&lt;/&gt;</div>
                     <div class="floating-badge badge-data">📊</div>
-                    <div class="floating-badge badge-media">🎨</div>
+                    <div class="floating-badge badge-media"></div>
                 </div>
             </div>
         </div>
         
-        <!-- Creative Animated Waves -->
         <div class="hero-waves">
-            <svg class="wave-1" viewBox="0 0 1440 180" preserveAspectRatio="none">
-                <path d="M0,96L48,106.7C96,117,192,139,288,138.7C384,139,480,117,576,112C672,107,768,117,864,128C960,139,1056,149,1152,144C1248,139,1344,117,1392,106.7L1440,96L1440,180L1392,180C1344,180,1248,180,1152,180C1056,180,960,180,864,180C768,180,672,180,576,180C480,180,384,180,288,180C192,180,96,180,48,180L0,180Z" fill="#3B82F6"></path>
-            </svg>
-            <svg class="wave-2" viewBox="0 0 1440 180" preserveAspectRatio="none">
-                <path d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,90.7C672,85,768,107,864,117.3C960,128,1056,128,1152,112C1248,96,1344,64,1392,48L1440,32L1440,180L1392,180C1344,180,1248,180,1152,180C1056,180,960,180,864,180C768,180,672,180,576,180C480,180,384,180,288,180C192,180,96,180,48,180L0,180Z" fill="#10B981"></path>
-            </svg>
-            <svg class="wave-3" viewBox="0 0 1440 180" preserveAspectRatio="none">
-                <path d="M0,128L48,117.3C96,107,192,85,288,90.7C384,96,480,128,576,133.3C672,139,768,117,864,101.3C960,85,1056,75,1152,80C1248,85,1344,107,1392,117.3L1440,128L1440,180L1392,180C1344,180,1248,180,1152,180C1056,180,960,180,864,180C768,180,672,180,576,180C480,180,384,180,288,180C192,180,96,180,48,180L0,180Z" fill="#06B6D4"></path>
-            </svg>
-            <svg class="wave-4" viewBox="0 0 1440 180" preserveAspectRatio="none">
-                <path d="M0,160L48,149.3C96,139,192,117,288,112C384,107,480,117,576,133.3C672,149,768,171,864,170.7C960,171,1056,149,1152,138.7C1248,128,1344,128,1392,128L1440,128L1440,180L1392,180C1344,180,1248,180,1152,180C1056,180,960,180,864,180C768,180,672,180,576,180C480,180,384,180,288,180C192,180,96,180,48,180L0,180Z" fill="#3B82F6"></path>
-            </svg>
+            <svg class="wave-1" viewBox="0 0 1440 180" preserveAspectRatio="none"><path d="M0,96L48,106.7C96,117,192,139,288,138.7C384,139,480,117,576,112C672,107,768,117,864,128C960,139,1056,149,1152,144C1248,139,1344,117,1392,106.7L1440,96L1440,180L1392,180C1344,180,1248,180,1152,180C1056,180,960,180,864,180C768,180,672,180,576,180C480,180,384,180,288,180C192,180,96,180,48,180L0,180Z" fill="#3B82F6"></path></svg>
+            <svg class="wave-2" viewBox="0 0 1440 180" preserveAspectRatio="none"><path d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,90.7C672,85,768,107,864,117.3C960,128,1056,128,1152,112C1248,96,1344,64,1392,48L1440,32L1440,180L1392,180C1344,180,1248,180,1152,180C1056,180,960,180,864,180C768,180,672,180,576,180C480,180,384,180,288,180C192,180,96,180,48,180L0,180Z" fill="#10B981"></path></svg>
+            <svg class="wave-3" viewBox="0 0 1440 180" preserveAspectRatio="none"><path d="M0,128L48,117.3C96,107,192,85,288,90.7C384,96,480,128,576,133.3C672,139,768,117,864,101.3C960,85,1056,75,1152,80C1248,85,1344,107,1392,117.3L1440,128L1440,180L1392,180C1344,180,1248,180,1152,180C1056,180,960,180,864,180C768,180,672,180,576,180C480,180,384,180,288,180C192,180,96,180,48,180L0,180Z" fill="#06B6D4"></path></svg>
+            <svg class="wave-4" viewBox="0 0 1440 180" preserveAspectRatio="none"><path d="M0,160L48,149.3C96,139,192,117,288,112C384,107,480,117,576,133.3C672,149,768,171,864,170.7C960,171,1056,149,1152,138.7C1248,128,1344,128,1392,128L1440,128L1440,180L1392,180C1344,180,1248,180,1152,180C1056,180,960,180,864,180C768,180,672,180,576,180C480,180,384,180,288,180C192,180,96,180,48,180L0,180Z" fill="#3B82F6"></path></svg>
         </div>
         
         <div class="scroll-indicator"><span>Scroll</span><div class="scroll-line"></div></div>
@@ -755,12 +527,7 @@
                 <div class="project-card">
                     <div class="project-image">
                         <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
-                        <div class="project-overlay">
-                            <a href="#" class="project-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                View Project
-                            </a>
-                        </div>
+                        <div class="project-overlay"><a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View Project</a></div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Predictive Media Analytics Dashboard</h3>
@@ -772,12 +539,7 @@
                 <div class="project-card">
                     <div class="project-image">
                         <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 10h.01"></path><path d="M12 10h.01"></path><path d="M16 10h.01"></path></svg>
-                        <div class="project-overlay">
-                            <a href="#" class="project-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                View Project
-                            </a>
-                        </div>
+                        <div class="project-overlay"><a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View Project</a></div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Sentiment Analysis on Social Media</h3>
@@ -789,12 +551,7 @@
                 <div class="project-card">
                     <div class="project-image">
                         <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
-                        <div class="project-overlay">
-                            <a href="#" class="project-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                View Project
-                            </a>
-                        </div>
+                        <div class="project-overlay"><a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View Project</a></div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Interactive Data Visualization Platform</h3>
@@ -806,12 +563,7 @@
                 <div class="project-card">
                     <div class="project-image">
                         <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        <div class="project-overlay">
-                            <a href="#" class="project-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                View Project
-                            </a>
-                        </div>
+                        <div class="project-overlay"><a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View Project</a></div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Multimedia Recommendation Engine</h3>
@@ -823,12 +575,7 @@
                 <div class="project-card">
                     <div class="project-image">
                         <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                        <div class="project-overlay">
-                            <a href="#" class="project-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                View Project
-                            </a>
-                        </div>
+                        <div class="project-overlay"><a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View Project</a></div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Real-time Video Analytics System</h3>
@@ -840,12 +587,7 @@
                 <div class="project-card">
                     <div class="project-image">
                         <svg class="project-default-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-                        <div class="project-overlay">
-                            <a href="#" class="project-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                View Project
-                            </a>
-                        </div>
+                        <div class="project-overlay"><a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>View Project</a></div>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Audio Sentiment & Speech Recognition</h3>
@@ -956,37 +698,18 @@
                 </div>
             </div>
 
-            <!-- Key Achievements -->
             <div class="achievements-subtitle">
                 <svg class="sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
                 Key Achievements
             </div>
             <div class="achievements-divider"></div>
             <div class="achievements-grid">
-                <div class="achievement-card">
-                    <svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <p class="achievement-text">Configured and troubleshot over 8,000 devices for Sierra Leone's ITN Mass Campaign with CRS</p>
-                </div>
-                <div class="achievement-card">
-                    <svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <p class="achievement-text">Built real-time interactive dashboards integrating multiple data sources for health programme decision-making</p>
-                </div>
-                <div class="achievement-card">
-                    <svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <p class="achievement-text">Trained DHMT staff, Chiefdom Supervisors, CHOs, and CHWs on digital data collection tools at district level</p>
-                </div>
-                <div class="achievement-card">
-                    <svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <p class="achievement-text">Deployed containerized applications using Docker and Kubernetes for scalable health data infrastructure</p>
-                </div>
-                <div class="achievement-card">
-                    <svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <p class="achievement-text">Developed custom Python-based Streamlit web apps for ad-hoc reporting and data exploration</p>
-                </div>
-                <div class="achievement-card">
-                    <svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <p class="achievement-text">Collected and digitized national TVET institution data using KoboToolbox across all regions of Sierra Leone</p>
-                </div>
+                <div class="achievement-card"><svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><p class="achievement-text">Configured and troubleshot over 8,000 devices for Sierra Leone's ITN Mass Campaign with CRS</p></div>
+                <div class="achievement-card"><svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><p class="achievement-text">Built real-time interactive dashboards integrating multiple data sources for health programme decision-making</p></div>
+                <div class="achievement-card"><svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><p class="achievement-text">Trained DHMT staff, Chiefdom Supervisors, CHOs, and CHWs on digital data collection tools at district level</p></div>
+                <div class="achievement-card"><svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><p class="achievement-text">Deployed containerized applications using Docker and Kubernetes for scalable health data infrastructure</p></div>
+                <div class="achievement-card"><svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><p class="achievement-text">Developed custom Python-based Streamlit web apps for ad-hoc reporting and data exploration</p></div>
+                <div class="achievement-card"><svg class="achievement-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg><p class="achievement-text">Collected and digitized national TVET institution data using KoboToolbox across all regions of Sierra Leone</p></div>
             </div>
         </div>
     </section>
@@ -1029,49 +752,21 @@
                     <input type="hidden" name="_template" value="table">
                     
                     <div class="name-grid">
-                        <div class="form-group">
-                            <input type="text" name="firstName" id="firstName" required placeholder=" ">
-                            <label for="firstName">First Name</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="middleName" id="middleName" placeholder=" ">
-                            <label for="middleName">Middle Name</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="lastName" id="lastName" required placeholder=" ">
-                            <label for="lastName">Last Name</label>
-                        </div>
+                        <div class="form-group"><input type="text" name="firstName" id="firstName" required placeholder=" "><label for="firstName">First Name</label></div>
+                        <div class="form-group"><input type="text" name="middleName" id="middleName" placeholder=" "><label for="middleName">Middle Name</label></div>
+                        <div class="form-group"><input type="text" name="lastName" id="lastName" required placeholder=" "><label for="lastName">Last Name</label></div>
                     </div>
-                    
                     <div class="contact-grid">
-                        <div class="form-group">
-                            <input type="email" name="email" id="email" required placeholder=" ">
-                            <label for="email">Email</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="tel" name="phone" id="phone" pattern="^\+?[0-9\s\-\(\)]{7,20}$" title="Please enter a valid international phone number including country code (e.g., +1 234 567 8900)" placeholder=" ">
-                            <label for="phone">Phone (with country code)</label>
-                        </div>
+                        <div class="form-group"><input type="email" name="email" id="email" required placeholder=" "><label for="email">Email</label></div>
+                        <div class="form-group"><input type="tel" name="phone" id="phone" pattern="^\+?[0-9\s\-\(\)]{7,20}$" title="Please enter a valid international phone number including country code (e.g., +1 234 567 8900)" placeholder=" "><label for="phone">Phone (with country code)</label></div>
                     </div>
-
-                    <div class="form-group">
-                        <input type="text" name="subject" id="subject" required placeholder=" ">
-                        <label for="subject">Subject</label>
-                    </div>
-                    <div class="form-group">
-                        <textarea name="message" id="message" rows="5" required placeholder=" "></textarea>
-                        <label for="message">Message</label>
-                    </div>
+                    <div class="form-group"><input type="text" name="subject" id="subject" required placeholder=" "><label for="subject">Subject</label></div>
+                    <div class="form-group"><textarea name="message" id="message" rows="5" required placeholder=" "></textarea><label for="message">Message</label></div>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Send Message</button>
                 </form>
                 
                 <div class="map-container">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.1234567890123!2d-13.234567890123456!3d8.456789012345678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwMjcnMjQuNCJOIDEzwrAxNCcwNC40Ilc!5e0!3m2!1sen!2ssl!4v1234567890123!5m2!1sen!2ssl" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                    <iframe src="https://www.google.com/maps?q=Blackhall+Road,+Freetown,+Sierra+Leone&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
@@ -1095,7 +790,6 @@
     </button>
 
     <script>
-        // Typing Animation with Loop
         const nameElement = document.getElementById('typing-name');
         const titleElement = document.getElementById('typing-title');
         const nameText = "Morlai Alimamy Kargbo";
@@ -1124,12 +818,10 @@
         }
         setTimeout(typeText, 1000);
 
-        // Mobile Menu Toggle
         const hamburger = document.querySelector('.hamburger'), navMenu = document.querySelector('.nav-menu');
         hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navMenu.classList.toggle('active'); });
         document.querySelectorAll('.nav-menu a').forEach(link => { link.addEventListener('click', () => { hamburger.classList.remove('active'); navMenu.classList.remove('active'); }); });
 
-        // Navbar & Scroll Top Button
         const navbar = document.querySelector('.navbar'), scrollTopBtn = document.getElementById('scrollTopBtn');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) { navbar.style.background = 'rgba(11, 17, 32, 0.95)'; navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)'; } 
@@ -1138,7 +830,6 @@
         });
         scrollTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-        // Scroll Animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1151,7 +842,6 @@
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
         document.querySelectorAll('.section, .skill-category, .about-container').forEach(el => { el.classList.add('fade-in'); observer.observe(el); });
 
-        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1160,42 +850,23 @@
             });
         });
 
-        // AJAX Form Submission to FormSubmit.co
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
-
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault(); 
-            
             const originalBtnText = submitBtn.textContent;
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
-
             const formData = new FormData(contactForm);
-
-            fetch(contactForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            })
+            fetch(contactForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
             .then(response => {
-                if (response.ok) {
-                    alert("Thank you! Your message has been sent successfully to Morlai.");
-                    contactForm.reset();
-                } else {
-                    alert("Oops! There was a problem sending your message. Please try again.");
-                }
+                if (response.ok) { alert("Thank you! Your message has been sent successfully to Morlai."); contactForm.reset(); } 
+                else { alert("Oops! There was a problem sending your message. Please try again."); }
             })
-            .catch(error => {
-                alert("Oops! There was a problem sending your message. Please check your internet connection.");
-            })
-            .finally(() => {
-                submitBtn.textContent = originalBtnText;
-                submitBtn.disabled = false;
-            });
+            .catch(error => { alert("Oops! There was a problem sending your message. Please check your internet connection."); })
+            .finally(() => { submitBtn.textContent = originalBtnText; submitBtn.disabled = false; });
         });
 
-        // Parallax
         const heroImage = document.querySelector('.image-wrapper');
         window.addEventListener('scroll', () => { if (heroImage && window.innerWidth > 968) { heroImage.style.transform = `translateY(${window.pageYOffset * 0.3}px)`; } });
     </script>

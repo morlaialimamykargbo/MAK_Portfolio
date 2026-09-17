@@ -19,7 +19,6 @@
     }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; }
 
-    /* Sidebar & Mobile Menu */
     .sidebar { width: 250px; background: var(--bg-2); border-right: 1px solid var(--border); padding: 24px 16px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; z-index: 100; transition: transform 0.3s ease; }
     .logo { display: flex; align-items: center; gap: 10px; padding: 0 8px 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
     .logo-icon { width: 36px; height: 36px; background: var(--grad); border-radius: 10px; display: grid; place-items: center; font-size: 18px; }
@@ -38,7 +37,6 @@
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; }
     .sidebar-overlay.open { display: block; }
 
-    /* Main Content */
     .main { flex: 1; padding: 28px 36px; width: 100%; }
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
     .header-left { display: flex; align-items: center; gap: 12px; }
@@ -152,6 +150,19 @@
     .view-section.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* ===== CHART CONTAINER FIX ===== */
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 280px;
+    }
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .chart-container.tall { height: 320px; }
+    .chart-container.square { height: 300px; }
+
     /* RESPONSIVE DESIGN */
     @media (max-width: 1100px) {
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -169,6 +180,9 @@
       .kpi-value { font-size: 24px; }
       .live-bar { gap: 8px; }
       .last-updated { display: none; }
+      .chart-container { height: 240px; }
+      .chart-container.tall { height: 260px; }
+      .chart-container.square { height: 260px; }
     }
     @media (max-width: 480px) {
       .kpi-grid { grid-template-columns: 1fr; }
@@ -176,6 +190,9 @@
       .select, .btn-primary { width: 100%; text-align: center; }
       .modal-actions { flex-direction: column; }
       .modal-actions button { width: 100%; }
+      .chart-container { height: 220px; }
+      .chart-container.tall { height: 240px; }
+      .chart-container.square { height: 240px; }
     }
   </style>
 </head>
@@ -268,18 +285,18 @@
               <span class="dot blue"></span> YouTube <span class="dot pink"></span> TikTok <span class="dot purple"></span> Instagram <span class="dot fb"></span> Facebook <span class="dot threads"></span> Threads
             </div>
           </div>
-          <canvas id="trendChart" height="110"></canvas>
+          <div class="chart-container tall"><canvas id="trendChart"></canvas></div>
         </div>
         <div class="card">
           <div class="card-head"><div><h3 class="card-title">Platform Share</h3><p class="card-sub">Audience distribution by platform</p></div></div>
-          <canvas id="platformChart" height="110"></canvas>
+          <div class="chart-container square"><canvas id="platformChart"></canvas></div>
         </div>
       </section>
 
       <section class="grid-3">
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Content Type</h3><p class="card-sub">Engagement by format</p></div></div><canvas id="contentChart" height="140"></canvas></div>
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Peak Activity Hours</h3><p class="card-sub">User activity by time of day</p></div></div><canvas id="hourChart" height="140"></canvas></div>
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Demographics</h3><p class="card-sub">Age group breakdown</p></div></div><canvas id="demoChart" height="140"></canvas></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Content Type</h3><p class="card-sub">Engagement by format</p></div></div><div class="chart-container square"><canvas id="contentChart"></canvas></div></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Peak Activity Hours</h3><p class="card-sub">User activity by time of day</p></div></div><div class="chart-container"><canvas id="hourChart"></canvas></div></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Demographics</h3><p class="card-sub">Age group breakdown</p></div></div><div class="chart-container"><canvas id="demoChart"></canvas></div></div>
       </section>
 
       <section class="grid-2">
@@ -326,8 +343,8 @@
         <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Avg. Response Time</span><span class="kpi-icon green">⏱️</span></div><div class="kpi-value">2.4 hrs</div><div class="kpi-change down">▼ 12 mins <span>vs last period</span></div></div>
       </div>
       <div class="grid-2">
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Engagement by Type</h3><p class="card-sub">Likes, Shares, and Comments breakdown</p></div></div><canvas id="engagementTypeChart" height="120"></canvas></div>
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Engagement Rate Trend</h3><p class="card-sub">Percentage of audience interacting</p></div></div><canvas id="engagementRateChart" height="120"></canvas></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Engagement by Type</h3><p class="card-sub">Likes, Shares, and Comments breakdown</p></div></div><div class="chart-container"><canvas id="engagementTypeChart"></canvas></div></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Engagement Rate Trend</h3><p class="card-sub">Percentage of audience interacting</p></div></div><div class="chart-container"><canvas id="engagementRateChart"></canvas></div></div>
       </div>
     </div>
 
@@ -341,7 +358,7 @@
         <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Model Accuracy</span><span class="kpi-icon blue">🎯</span></div><div class="kpi-value">94.7%</div><div class="kpi-change up">R² Score</div></div>
       </div>
       <div class="grid-2">
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Subscriber Forecast (Prophet Model)</h3><p class="card-sub">Historical vs Predicted growth</p></div></div><canvas id="forecastChart" height="120"></canvas></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Subscriber Forecast (Prophet Model)</h3><p class="card-sub">Historical vs Predicted growth</p></div></div><div class="chart-container"><canvas id="forecastChart"></canvas></div></div>
         <div class="card prediction-card"><div class="card-head"><div><h3 class="card-title">🧠 Model Feature Importance</h3><p class="card-sub">What drives engagement most?</p></div></div>
           <ul class="insight-list">
             <li><div class="insight-icon">🕒</div><div><div class="insight-title">Time of Day (38%)</div><div class="insight-desc">Posting between 7-9 PM EST yields highest initial velocity.</div></div></li>
@@ -363,9 +380,9 @@
         <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Primary Device</span><span class="kpi-icon orange">📱</span></div><div class="kpi-value">Mobile</div><div class="kpi-change up">78% of traffic</div></div>
       </div>
       <div class="grid-3">
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Device Breakdown</h3></div></div><canvas id="deviceChart" height="140"></canvas></div>
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Global Audience Distribution</h3><p class="card-sub">Top 12 countries worldwide</p></div></div><canvas id="locationChart" height="140"></canvas></div>
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Gender by Age</h3></div></div><canvas id="genderAgeChart" height="140"></canvas></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Device Breakdown</h3></div></div><div class="chart-container square"><canvas id="deviceChart"></canvas></div></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Global Audience Distribution</h3><p class="card-sub">Top 12 countries worldwide</p></div></div><div class="chart-container tall"><canvas id="locationChart"></canvas></div></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Gender by Age</h3></div></div><div class="chart-container"><canvas id="genderAgeChart"></canvas></div></div>
       </div>
     </div>
 
@@ -619,7 +636,8 @@
         const targetView = document.getElementById(`view-${view}`);
         if (targetView) {
           targetView.classList.add('active');
-          window.dispatchEvent(new Event('resize'));
+          // Trigger resize so charts redraw properly in new container
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
           if (view === 'engagement' && !window.engagementChartsInitialized) { initEngagementCharts(); window.engagementChartsInitialized = true; }
           if (view === 'predictions' && !window.predictionChartsInitialized) { initPredictionCharts(); window.predictionChartsInitialized = true; }
           if (view === 'audience' && !window.audienceChartsInitialized) { initAudienceCharts(); window.audienceChartsInitialized = true; }
@@ -764,9 +782,8 @@
         options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } } }
       });
       
-      // GLOBAL AUDIENCE DATA (12 Countries)
       const globalLocations = ['USA', 'India', 'UK', 'Brazil', 'Canada', 'Germany', 'Japan', 'France', 'Australia', 'Mexico', 'Philippines', 'South Korea'];
-      const locationData = [22, 15, 12, 9, 8, 7, 6, 5, 4, 4, 4, 4]; // Sums to 100%
+      const locationData = [22, 15, 12, 9, 8, 7, 6, 5, 4, 4, 4, 4];
       
       new Chart(document.getElementById('locationChart'), {
         type: 'bar',

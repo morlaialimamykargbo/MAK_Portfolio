@@ -157,24 +157,13 @@
         .skill-bar { height: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
         .skill-fill { height: 100%; background: var(--gradient-primary); border-radius: 10px; transition: width 1.5s ease; width: 0; }
 
-        /* ===== SERVICES SECTION (NEW) ===== */
+        /* ===== SERVICES SECTION ===== */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; }
-        .service-card { 
-            background: var(--bg-card); backdrop-filter: blur(12px); border: 2px solid var(--glass-border); 
-            border-radius: 16px; padding: 2.5rem; text-align: center; transition: all 0.4s ease; 
-            position: relative; overflow: hidden;
-        }
-        .service-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-            background: var(--gradient-primary); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
-        }
+        .service-card { background: var(--bg-card); backdrop-filter: blur(12px); border: 2px solid var(--glass-border); border-radius: 16px; padding: 2.5rem; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gradient-primary); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
         .service-card:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: var(--shadow-glow); }
         .service-card:hover::before { transform: scaleX(1); }
-        .service-icon { 
-            width: 60px; height: 60px; margin: 0 auto 1.5rem; color: var(--accent-primary); 
-            background: rgba(59, 130, 246, 0.1); border-radius: 12px; padding: 12px;
-            transition: all 0.3s ease;
-        }
+        .service-icon { width: 60px; height: 60px; margin: 0 auto 1.5rem; color: var(--accent-primary); background: rgba(59, 130, 246, 0.1); border-radius: 12px; padding: 12px; transition: all 0.3s ease; }
         .service-card:hover .service-icon { background: var(--gradient-primary); color: white; transform: scale(1.1); }
         .service-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); }
         .service-desc { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; }
@@ -226,19 +215,216 @@
         .achievement-icon { width: 28px; height: 28px; color: var(--accent-primary); flex-shrink: 0; margin-top: 2px; }
         .achievement-text { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7; }
 
-        /* ===== TESTIMONIALS SECTION (NEW) ===== */
-        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; }
-        .testimonial-card { 
-            background: var(--bg-card); backdrop-filter: blur(12px); border: 2px solid var(--glass-border); 
-            border-radius: 16px; padding: 2.5rem; position: relative; transition: all 0.3s ease;
+        /* ===== TESTIMONIALS CAROUSEL (UPDATED) ===== */
+        .testimonials-carousel {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
         }
-        .testimonial-card:hover { transform: translateY(-5px); border-color: var(--accent-primary); box-shadow: var(--shadow-glow); }
-        .quote-icon { position: absolute; top: 20px; right: 25px; width: 40px; height: 40px; color: var(--accent-primary); opacity: 0.2; }
-        .testimonial-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; font-style: italic; margin-bottom: 1.5rem; }
-        .testimonial-author { display: flex; align-items: center; gap: 1rem; }
-        .author-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 1.2rem; }
-        .author-info h4 { color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.2rem; }
-        .author-info p { color: var(--accent-tertiary); font-size: 0.9rem; }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .testimonial-slide {
+            min-width: 100%;
+            padding: 0 1rem;
+        }
+        .testimonial-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+        .client-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--accent-primary);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        .client-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .quote-icon {
+            width: 40px;
+            height: 40px;
+            color: var(--accent-primary);
+            opacity: 0.3;
+            margin-bottom: 1rem;
+        }
+        .testimonial-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+        .testimonial-author h4 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .testimonial-author p {
+            color: var(--accent-tertiary);
+            font-size: 0.95rem;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--glass-border);
+            border: 2px solid var(--accent-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-dot.active {
+            background: var(--accent-primary);
+            transform: scale(1.2);
+        }
+        .carousel-dot:hover {
+            background: var(--accent-secondary);
+        }
+
+        /* ===== CV DOWNLOAD MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow-glow);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        .modal-icon svg {
+            width: 30px;
+            height: 30px;
+            color: white;
+        }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .modal-text {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .modal-form input {
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .modal-form input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .modal-close {
+            background: transparent;
+            border: 2px solid var(--glass-border);
+            color: var(--text-secondary);
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .modal-close:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+        }
+        .modal-submit {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .modal-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
 
         /* ===== EDUCATION SECTION ===== */
         .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
@@ -326,6 +512,7 @@
             .education-card { padding: 2rem; }
             .service-card { padding: 2rem; }
             .testimonial-card { padding: 2rem; }
+            .modal-content { padding: 2rem; }
         }
         @media (max-width: 480px) {
             .hero-buttons { flex-direction: column; }
@@ -360,6 +547,8 @@
             .form-group label { font-size: 1.05rem; }
             .footer p { font-size: 0.95rem; }
             .about-image-box { max-width: 100%; }
+            .client-image { width: 80px; height: 80px; }
+            .testimonial-text { font-size: 1rem; }
         }
     </style>
 </head>
@@ -400,10 +589,10 @@
                 <p class="hero-tagline">Bridging the gap between robust code and immersive digital experiences.</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">View My Work</a>
-                    <a href="#" class="btn btn-secondary" download>
+                    <button onclick="openCVModal()" class="btn btn-secondary">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                         Download CV
-                    </a>
+                    </button>
                     <a href="#contact" class="btn btn-secondary">Let's Connect</a>
                 </div>
                 <div class="hero-social">
@@ -503,7 +692,7 @@
         </div>
     </section>
 
-    <!-- Services Section (NEW) -->
+    <!-- Services Section -->
     <section id="services" class="section services">
         <div class="container">
             <h2 class="section-title">
@@ -728,50 +917,83 @@
         </div>
     </section>
 
-    <!-- Testimonials Section (NEW) -->
+    <!-- Testimonials Carousel Section -->
     <section id="testimonials" class="section testimonials">
         <div class="container">
             <h2 class="section-title">
                 <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 Client <span class="highlight">Testimonials</span>
             </h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card fade-in">
-                    <svg class="quote-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                    <p class="testimonial-text">"Morlai's ability to blend data science with multimedia design is rare. He delivered a dashboard that not only looked stunning but provided deep insights into our user behavior."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">JD</div>
-                        <div class="author-info">
-                            <h4>John Doe</h4>
-                            <p>Product Manager, Tech Innovators</p>
+            <div class="testimonials-carousel">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="client-image">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Client 1">
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                            <p class="testimonial-text">"Morlai's ability to blend data science with multimedia design is rare. He delivered a dashboard that not only looked stunning but provided deep insights into our user behavior."</p>
+                            <div class="testimonial-author">
+                                <h4>John Doe</h4>
+                                <p>Product Manager, Tech Innovators</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="client-image">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face" alt="Client 2">
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                            <p class="testimonial-text">"Working with Morlai on the ITN Mass Campaign was a game-changer. His technical expertise in configuring thousands of devices and training staff was invaluable to our success."</p>
+                            <div class="testimonial-author">
+                                <h4>Sarah Kamara</h4>
+                                <p>Program Director, CRS Sierra Leone</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="client-image">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face" alt="Client 3">
+                            </div>
+                            <svg class="quote-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                            <p class="testimonial-text">"Highly professional and detail-oriented. Morlai transformed our raw video assets into a cohesive, high-quality multimedia production that exceeded our expectations."</p>
+                            <div class="testimonial-author">
+                                <h4>Michael Turay</h4>
+                                <p>Creative Director, Priority Solutions</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card fade-in">
-                    <svg class="quote-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                    <p class="testimonial-text">"Working with Morlai on the ITN Mass Campaign was a game-changer. His technical expertise in configuring thousands of devices and training staff was invaluable to our success."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">SK</div>
-                        <div class="author-info">
-                            <h4>Sarah Kamara</h4>
-                            <p>Program Director, CRS Sierra Leone</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card fade-in">
-                    <svg class="quote-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                    <p class="testimonial-text">"Highly professional and detail-oriented. Morlai transformed our raw video assets into a cohesive, high-quality multimedia production that exceeded our expectations."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">MT</div>
-                        <div class="author-info">
-                            <h4>Michael Turay</h4>
-                            <p>Creative Director, Priority Solutions</p>
-                        </div>
-                    </div>
+                <div class="carousel-dots">
+                    <button class="carousel-dot active" data-index="0"></button>
+                    <button class="carousel-dot" data-index="1"></button>
+                    <button class="carousel-dot" data-index="2"></button>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- CV Download Modal -->
+    <div class="modal-overlay" id="cvModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </div>
+            <h3 class="modal-title">Download My CV</h3>
+            <p class="modal-text">Please fill in your details below. I'll receive a notification and you'll be able to download my CV immediately.</p>
+            <form class="modal-form" id="cvForm">
+                <input type="text" name="visitorName" placeholder="Your Full Name" required>
+                <input type="email" name="visitorEmail" placeholder="Your Email Address" required>
+                <input type="text" name="visitorCompany" placeholder="Company/Organization (Optional)">
+            </form>
+            <div class="modal-buttons">
+                <button type="button" class="modal-close" onclick="closeCVModal()">Cancel</button>
+                <button type="submit" form="cvForm" class="modal-submit">Request CV</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Education Section -->
     <section id="education" class="section education">
@@ -846,6 +1068,7 @@
     </button>
 
     <script>
+        // Typing Animation
         const nameElement = document.getElementById('typing-name');
         const titleElement = document.getElementById('typing-title');
         const nameText = "Morlai Alimamy Kargbo";
@@ -874,10 +1097,12 @@
         }
         setTimeout(typeText, 1000);
 
+        // Mobile Menu Toggle
         const hamburger = document.querySelector('.hamburger'), navMenu = document.querySelector('.nav-menu');
         hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navMenu.classList.toggle('active'); });
         document.querySelectorAll('.nav-menu a').forEach(link => { link.addEventListener('click', () => { hamburger.classList.remove('active'); navMenu.classList.remove('active'); }); });
 
+        // Navbar & Scroll Top Button
         const navbar = document.querySelector('.navbar'), scrollTopBtn = document.getElementById('scrollTopBtn');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) { navbar.style.background = 'rgba(11, 17, 32, 0.95)'; navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)'; } 
@@ -886,6 +1111,7 @@
         });
         scrollTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
+        // Scroll Animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -896,8 +1122,9 @@
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-        document.querySelectorAll('.section, .skill-category, .about-container, .service-card, .testimonial-card').forEach(el => { el.classList.add('fade-in'); observer.observe(el); });
+        document.querySelectorAll('.section, .skill-category, .about-container, .service-card').forEach(el => { el.classList.add('fade-in'); observer.observe(el); });
 
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -906,6 +1133,7 @@
             });
         });
 
+        // Contact Form Submission
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         contactForm.addEventListener('submit', function(e) {
@@ -923,8 +1151,128 @@
             .finally(() => { submitBtn.textContent = originalBtnText; submitBtn.disabled = false; });
         });
 
+        // Parallax
         const heroImage = document.querySelector('.image-wrapper');
         window.addEventListener('scroll', () => { if (heroImage && window.innerWidth > 968) { heroImage.style.transform = `translateY(${window.pageYOffset * 0.3}px)`; } });
+
+        // ===== TESTIMONIALS CAROUSEL =====
+        const track = document.getElementById('carouselTrack');
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        function goToSlide(index) {
+            currentSlide = index;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        // Auto-advance carousel
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            goToSlide(currentSlide);
+        }
+
+        // Set interval for auto-advance (5 seconds)
+        let autoAdvance = setInterval(nextSlide, 5000);
+
+        // Dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+                // Reset auto-advance timer
+                clearInterval(autoAdvance);
+                autoAdvance = setInterval(nextSlide, 5000);
+            });
+        });
+
+        // Pause on hover
+        track.addEventListener('mouseenter', () => clearInterval(autoAdvance));
+        track.addEventListener('mouseleave', () => {
+            autoAdvance = setInterval(nextSlide, 5000);
+        });
+
+        // ===== CV DOWNLOAD MODAL =====
+        const cvModal = document.getElementById('cvModal');
+        const cvForm = document.getElementById('cvForm');
+
+        function openCVModal() {
+            cvModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCVModal() {
+            cvModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on outside click
+        cvModal.addEventListener('click', (e) => {
+            if (e.target === cvModal) {
+                closeCVModal();
+            }
+        });
+
+        // Handle CV form submission
+        cvForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(cvForm);
+            const visitorName = formData.get('visitorName');
+            const visitorEmail = formData.get('visitorEmail');
+            const visitorCompany = formData.get('visitorCompany') || 'Not specified';
+            
+            // Send notification email to Morlai
+            const notificationData = new FormData();
+            notificationData.append('name', visitorName);
+            notificationData.append('email', visitorEmail);
+            notificationData.append('company', visitorCompany);
+            notificationData.append('_subject', `CV Download Request from ${visitorName}`);
+            notificationData.append('_template', 'table');
+            
+            // Using formsubmit.co to send notification
+            fetch('https://formsubmit.co/ajax/0759b1003247a12992044fdd8a5e042a', {
+                method: 'POST',
+                body: notificationData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    alert(`Thank you ${visitorName}! I've been notified of your request. Your download will begin shortly.`);
+                    closeCVModal();
+                    
+                    // Simulate download (replace with actual CV PDF link)
+                    // For now, we'll create a dummy download
+                    setTimeout(() => {
+                        // Create a temporary link to trigger download
+                        const link = document.createElement('a');
+                        link.href = '#'; // Replace with actual CV PDF URL
+                        link.download = 'Morlai_Kargbo_CV.pdf';
+                        // For demo purposes, show alert
+                        alert('In a real implementation, your CV PDF would download here. Replace the href with your actual CV PDF URL.');
+                    }, 1000);
+                    
+                    cvForm.reset();
+                } else {
+                    alert('There was an error sending your request. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error. Please try again.');
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && cvModal.classList.contains('active')) {
+                closeCVModal();
+            }
+        });
     </script>
 </body>
 </html>

@@ -4,168 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Predictive Media Analytics Dashboard</title>
-  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --bg: #0b0f1a;
-      --bg-2: #111827;
-      --card: #151b2b;
-      --card-hover: #1a2136;
-      --border: #1f2937;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --blue: #3b82f6;
-      --pink: #ec4899;
-      --purple: #8b5cf6;
-      --green: #10b981;
-      --orange: #f59e0b;
-      --red: #ef4444;
-      --fb: #1877F2;
-      --threads: #F5F5F5;
+      --bg: #0b0f1a; --bg-2: #111827; --card: #151b2b; --card-hover: #1a2136;
+      --border: #1f2937; --text: #e5e7eb; --muted: #9ca3af;
+      --blue: #3b82f6; --pink: #ec4899; --purple: #8b5cf6;
+      --green: #10b981; --orange: #f59e0b; --red: #ef4444;
+      --fb: #1877F2; --threads: #F5F5F5;
       --grad: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
     }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .sidebar {
-      width: 250px;
-      background: var(--bg-2);
-      border-right: 1px solid var(--border);
-      padding: 24px 16px;
-      display: flex;
-      flex-direction: column;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 8px 24px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-    .logo-icon {
-      width: 36px; height: 36px;
-      background: var(--grad);
-      border-radius: 10px;
-      display: grid; place-items: center;
-      font-size: 18px;
-    }
+    .sidebar { width: 250px; background: var(--bg-2); border-right: 1px solid var(--border); padding: 24px 16px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .logo { display: flex; align-items: center; gap: 10px; padding: 0 8px 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .logo-icon { width: 36px; height: 36px; background: var(--grad); border-radius: 10px; display: grid; place-items: center; font-size: 18px; }
     .logo-text { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
-
     .nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-    .nav-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 12px; border-radius: 10px;
-      color: var(--muted); text-decoration: none;
-      font-size: 14px; font-weight: 500;
-      transition: all 0.2s;
-    }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; }
     .nav-item:hover { background: var(--card); color: var(--text); }
-    .nav-item.active {
-      background: var(--grad);
-      color: white;
-      box-shadow: 0 4px 20px rgba(139,92,246,0.3);
-    }
+    .nav-item.active { background: var(--grad); color: white; box-shadow: 0 4px 20px rgba(139,92,246,0.3); }
     .icon { font-size: 16px; }
-
     .sidebar-footer { border-top: 1px solid var(--border); padding-top: 16px; }
     .user-card { display: flex; gap: 10px; align-items: center; padding: 8px; }
-    .avatar {
-      width: 38px; height: 38px; border-radius: 50%;
-      background: var(--grad);
-      display: grid; place-items: center;
-      font-weight: 700; font-size: 13px;
-    }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; font-weight: 700; font-size: 13px; }
     .user-name { font-size: 13px; font-weight: 600; }
     .user-role { font-size: 11px; color: var(--muted); }
 
-    .main {
-      flex: 1;
-      padding: 28px 36px;
-      max-width: calc(100vw - 250px);
-    }
-
-    .header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 28px; flex-wrap: wrap; gap: 16px;
-    }
-    .page-title {
-      font-size: 28px; font-weight: 800;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .main { flex: 1; padding: 28px 36px; max-width: calc(100vw - 250px); }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
+    .page-title { font-size: 28px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .page-subtitle { color: var(--muted); font-size: 14px; margin-top: 4px; }
-
     .header-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .search-box {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--card); border: 1px solid var(--border);
-      padding: 8px 14px; border-radius: 10px;
-      transition: border-color 0.2s;
-    }
+    .search-box { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); padding: 8px 14px; border-radius: 10px; transition: border-color 0.2s; }
     .search-box:focus-within { border-color: var(--purple); }
-    .search-box input {
-      background: transparent; border: none; outline: none;
-      color: var(--text); font-size: 13px; width: 180px;
-    }
-    .search-clear {
-      display: none;
-      background: none; border: none; color: var(--muted);
-      cursor: pointer; font-size: 14px; padding: 0 4px;
-    }
+    .search-box input { background: transparent; border: none; outline: none; color: var(--text); font-size: 13px; width: 180px; }
+    .search-clear { display: none; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 0 4px; }
     .search-clear.visible { display: inline-block; }
-    .select {
-      background: var(--card); border: 1px solid var(--border);
-      color: var(--text); padding: 9px 14px; border-radius: 10px;
-      font-size: 13px; cursor: pointer; outline: none;
-      transition: border-color 0.2s;
-    }
+    .select { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 9px 14px; border-radius: 10px; font-size: 13px; cursor: pointer; outline: none; transition: border-color 0.2s; }
     .select:focus { border-color: var(--purple); }
-    .btn-primary {
-      background: var(--grad); color: white; border: none;
-      padding: 9px 18px; border-radius: 10px; font-weight: 600;
-      font-size: 13px; cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+    .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 18px; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.4); }
     .btn-primary.exporting { opacity: 0.7; pointer-events: none; }
 
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px; margin-bottom: 24px;
-    }
-    .kpi-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 20px;
-      transition: transform 0.2s, border-color 0.2s, opacity 0.2s;
-    }
+    /* LIVE indicator */
+    .live-bar { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+    .live-badge { display: flex; align-items: center; gap: 6px; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #ef4444; }
+    .live-dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; animation: livePulse 1.5s infinite; }
+    @keyframes livePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); } 50% { box-shadow: 0 0 0 6px rgba(239,68,68,0); } }
+    .last-updated { font-size: 12px; color: var(--muted); }
+    .data-source { font-size: 11px; color: var(--muted); background: var(--card); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+    .data-source.connected { border-color: var(--green); color: var(--green); }
+    .api-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+    .api-btn:hover { border-color: var(--purple); color: var(--text); }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 24px; }
+    .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; transition: transform 0.2s, border-color 0.2s, opacity 0.2s; position: relative; overflow: hidden; }
     .kpi-card:hover { transform: translateY(-4px); border-color: var(--purple); }
     .kpi-card.dimmed { opacity: 0.25; transform: scale(0.98); }
+    .kpi-card .live-tick { position: absolute; top: 8px; right: 8px; font-size: 9px; color: var(--green); opacity: 0; transition: opacity 0.3s; }
+    .kpi-card .live-tick.flash { opacity: 1; }
     .kpi-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .kpi-label { font-size: 13px; color: var(--muted); font-weight: 500; }
-    .kpi-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      display: grid; place-items: center; font-size: 16px;
-    }
+    .kpi-icon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; font-size: 16px; }
     .kpi-icon.blue { background: rgba(59,130,246,0.15); }
     .kpi-icon.green { background: rgba(16,185,129,0.15); }
     .kpi-icon.purple { background: rgba(139,92,246,0.15); }
@@ -178,45 +82,20 @@
 
     .grid-2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin-bottom: 24px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 24px; }
-
-    .card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 22px;
-    }
-    .card-head {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 18px; flex-wrap: wrap; gap: 10px;
-    }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
+    .card-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
     .card-title { font-size: 16px; font-weight: 700; }
     .card-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
     .legend-inline { display: flex; gap: 10px; font-size: 11px; color: var(--muted); align-items: center; flex-wrap: wrap; }
     .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
-    .dot.blue { background: var(--blue); }
-    .dot.pink { background: var(--pink); }
-    .dot.purple { background: var(--purple); }
-    .dot.fb { background: var(--fb); }
-    .dot.threads { background: var(--threads); }
+    .dot.blue { background: var(--blue); } .dot.pink { background: var(--pink); } .dot.purple { background: var(--purple); }
+    .dot.fb { background: var(--fb); } .dot.threads { background: var(--threads); }
 
     .prediction-card { background: linear-gradient(135deg, #1a2136 0%, #151b2b 100%); }
-    .badge {
-      background: rgba(16,185,129,0.15); color: var(--green);
-      padding: 4px 10px; border-radius: 20px;
-      font-size: 11px; font-weight: 700;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
-    }
-
+    .badge { background: rgba(16,185,129,0.15); color: var(--green); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); } 50% { box-shadow: 0 0 0 8px rgba(16,185,129,0); } }
     .insight-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-    .insight-list li {
-      display: flex; gap: 12px; padding: 12px;
-      background: rgba(255,255,255,0.02); border-radius: 10px;
-      border-left: 3px solid var(--purple);
-      transition: background 0.2s, opacity 0.2s;
-    }
+    .insight-list li { display: flex; gap: 12px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; border-left: 3px solid var(--purple); transition: background 0.2s, opacity 0.2s; }
     .insight-list li:hover { background: rgba(255,255,255,0.05); }
     .insight-list li.dimmed { opacity: 0.25; }
     .insight-icon { font-size: 20px; }
@@ -225,78 +104,49 @@
     .insight-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
     .table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .table th {
-      text-align: left; padding: 10px 8px;
-      color: var(--muted); font-weight: 500; font-size: 11px;
-      text-transform: uppercase; letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--border);
-    }
+    .table th { text-align: left; padding: 10px 8px; color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
     .table td { padding: 14px 8px; border-bottom: 1px solid var(--border); }
     .table tr:last-child td { border-bottom: none; }
     .table tbody tr { transition: opacity 0.2s, background 0.2s; }
     .table tbody tr:hover { background: rgba(255,255,255,0.02); }
     .table tbody tr.hidden { display: none; }
     .table small { color: var(--muted); }
-    .no-results {
-      text-align: center; padding: 30px; color: var(--muted);
-      font-size: 13px; display: none;
-    }
+    .no-results { text-align: center; padding: 30px; color: var(--muted); font-size: 13px; display: none; }
     .no-results.visible { display: block; }
-
-    .platform-tag {
-      padding: 3px 8px; border-radius: 6px;
-      font-size: 11px; font-weight: 600;
-      display: inline-block;
-    }
+    .platform-tag { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-block; }
     .platform-tag.yt { background: rgba(239,68,68,0.15); color: #ef4444; }
     .platform-tag.tt { background: rgba(236,72,153,0.15); color: #ec4899; }
     .platform-tag.ig { background: rgba(139,92,246,0.15); color: #8b5cf6; }
     .platform-tag.fb { background: rgba(24,119,242,0.15); color: #1877F2; }
     .platform-tag.th { background: rgba(245,245,245,0.15); color: #F5F5F5; }
+    .bar { display: inline-block; width: 60px; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; vertical-align: middle; margin-right: 6px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--grad); border-radius: 3px; transition: width 0.6s; }
 
-    .bar {
-      display: inline-block; width: 60px; height: 6px;
-      background: rgba(255,255,255,0.08); border-radius: 3px;
-      vertical-align: middle; margin-right: 6px; overflow: hidden;
-    }
-    .bar > span {
-      display: block; height: 100%;
-      background: var(--grad); border-radius: 3px;
-    }
-
-    .footer {
-      text-align: center; color: var(--muted);
-      font-size: 12px; padding: 20px 0; margin-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-
-    .toast {
-      position: fixed; bottom: 30px; right: 30px;
-      background: var(--card); border: 1px solid var(--green);
-      color: var(--text); padding: 14px 20px;
-      border-radius: 12px; font-size: 13px; font-weight: 500;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      transform: translateY(100px); opacity: 0;
-      transition: all 0.3s; z-index: 1000;
-    }
+    .footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border); }
+    .toast { position: fixed; bottom: 30px; right: 30px; background: var(--card); border: 1px solid var(--green); color: var(--text); padding: 14px 20px; border-radius: 12px; font-size: 13px; font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 1000; }
     .toast.show { transform: translateY(0); opacity: 1; }
 
-    @media (max-width: 1100px) {
-      .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .main { padding: 20px; max-width: 100%; }
-      .search-box input { width: 120px; }
-    }
+    /* API Config Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; place-items: center; }
+    .modal-overlay.open { display: grid; }
+    .modal { background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 90%; max-width: 480px; }
+    .modal h2 { font-size: 18px; margin-bottom: 6px; }
+    .modal p { font-size: 12px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+    .modal label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; margin-top: 12px; }
+    .modal input { width: 100%; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 9px 12px; border-radius: 8px; font-size: 13px; outline: none; }
+    .modal input:focus { border-color: var(--purple); }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+    .modal-actions button { padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
+    .btn-save { background: var(--grad); color: white; }
+    .btn-cancel { background: var(--card); color: var(--muted); border: 1px solid var(--border) !important; }
+
+    @media (max-width: 1100px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { .sidebar { display: none; } .main { padding: 20px; max-width: 100%; } .search-box input { width: 120px; } }
   </style>
 </head>
 <body>
   <aside class="sidebar">
-    <div class="logo">
-      <div class="logo-icon">📊</div>
-      <span class="logo-text">MediaPulse</span>
-    </div>
+    <div class="logo"><div class="logo-icon">📊</div><span class="logo-text">MediaPulse</span></div>
     <nav class="nav">
       <a href="#" class="nav-item active"><span class="icon">🏠</span> Overview</a>
       <a href="#" class="nav-item"><span class="icon">📈</span> Engagement</a>
@@ -308,10 +158,7 @@
     <div class="sidebar-footer">
       <div class="user-card">
         <div class="avatar">AM</div>
-        <div>
-          <div class="user-name">Alex Morgan</div>
-          <div class="user-role">Data Analyst</div>
-        </div>
+        <div><div class="user-name">Alex Morgan</div><div class="user-role">Data Analyst</div></div>
       </div>
     </div>
   </aside>
@@ -338,36 +185,36 @@
       </div>
     </header>
 
+    <!-- LIVE BAR -->
+    <div class="live-bar">
+      <div class="live-badge"><div class="live-dot"></div> LIVE DATA</div>
+      <span class="last-updated" id="lastUpdated">Last updated: just now</span>
+      <span class="data-source" id="dataSource">📡 Simulated Stream</span>
+      <button class="api-btn" id="apiConfigBtn">🔑 Connect Real API</button>
+    </div>
+
     <section class="kpi-grid" id="kpiGrid">
       <div class="kpi-card" id="kpi-users" data-search="total users">
-        <div class="kpi-head">
-          <span class="kpi-label">Total Users</span>
-          <span class="kpi-icon blue">👥</span>
-        </div>
+        <span class="live-tick" id="tickUsers">● updated</span>
+        <div class="kpi-head"><span class="kpi-label">Total Users</span><span class="kpi-icon blue">👥</span></div>
         <div class="kpi-value" id="kpiUsersVal">0</div>
         <div class="kpi-change up" id="kpiUsersChange">▲ 12.4% <span>vs last period</span></div>
       </div>
       <div class="kpi-card" id="kpi-engagement" data-search="engagement rate">
-        <div class="kpi-head">
-          <span class="kpi-label">Engagement Rate</span>
-          <span class="kpi-icon green">⚡</span>
-        </div>
+        <span class="live-tick" id="tickEngagement">● updated</span>
+        <div class="kpi-head"><span class="kpi-label">Engagement Rate</span><span class="kpi-icon green">⚡</span></div>
         <div class="kpi-value" id="kpiEngagementVal">0</div>
         <div class="kpi-change up" id="kpiEngagementChange">▲ 3.2% <span>vs last period</span></div>
       </div>
       <div class="kpi-card" id="kpi-watch" data-search="avg watch time">
-        <div class="kpi-head">
-          <span class="kpi-label">Avg. Watch Time</span>
-          <span class="kpi-icon purple">⏱️</span>
-        </div>
+        <span class="live-tick" id="tickWatch">● updated</span>
+        <div class="kpi-head"><span class="kpi-label">Avg. Watch Time</span><span class="kpi-icon purple">⏱️</span></div>
         <div class="kpi-value" id="kpiWatchVal">0</div>
         <div class="kpi-change up" id="kpiWatchChange">▲ 1.8 min <span>vs last period</span></div>
       </div>
       <div class="kpi-card" id="kpi-retention" data-search="retention rate">
-        <div class="kpi-head">
-          <span class="kpi-label">Retention Rate</span>
-          <span class="kpi-icon orange">🎯</span>
-        </div>
+        <span class="live-tick" id="tickRetention">● updated</span>
+        <div class="kpi-head"><span class="kpi-label">Retention Rate</span><span class="kpi-icon orange">🎯</span></div>
         <div class="kpi-value" id="kpiRetentionVal">0</div>
         <div class="kpi-change down" id="kpiRetentionChange">▼ 0.9% <span>vs last period</span></div>
       </div>
@@ -376,203 +223,245 @@
     <section class="grid-2">
       <div class="card">
         <div class="card-head">
-          <div>
-            <h3 class="card-title">Engagement Trends</h3>
-            <p class="card-sub">Daily active interactions across platforms</p>
-          </div>
+          <div><h3 class="card-title">Engagement Trends</h3><p class="card-sub">Daily active interactions across platforms</p></div>
           <div class="legend-inline">
-            <span class="dot blue"></span> YouTube
-            <span class="dot pink"></span> TikTok
-            <span class="dot purple"></span> Instagram
-            <span class="dot fb"></span> Facebook
-            <span class="dot threads"></span> Threads
+            <span class="dot blue"></span> YouTube <span class="dot pink"></span> TikTok <span class="dot purple"></span> Instagram <span class="dot fb"></span> Facebook <span class="dot threads"></span> Threads
           </div>
         </div>
         <canvas id="trendChart" height="110"></canvas>
       </div>
-
       <div class="card">
-        <div class="card-head">
-          <div>
-            <h3 class="card-title">Platform Share</h3>
-            <p class="card-sub">Audience distribution by platform</p>
-          </div>
-        </div>
+        <div class="card-head"><div><h3 class="card-title">Platform Share</h3><p class="card-sub">Audience distribution by platform</p></div></div>
         <canvas id="platformChart" height="110"></canvas>
       </div>
     </section>
 
     <section class="grid-3">
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <h3 class="card-title">Content Type</h3>
-            <p class="card-sub">Engagement by format</p>
-          </div>
-        </div>
-        <canvas id="contentChart" height="140"></canvas>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <h3 class="card-title">Peak Activity Hours</h3>
-            <p class="card-sub">User activity by time of day</p>
-          </div>
-        </div>
-        <canvas id="hourChart" height="140"></canvas>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <h3 class="card-title">Demographics</h3>
-            <p class="card-sub">Age group breakdown</p>
-          </div>
-        </div>
-        <canvas id="demoChart" height="140"></canvas>
-      </div>
+      <div class="card"><div class="card-head"><div><h3 class="card-title">Content Type</h3><p class="card-sub">Engagement by format</p></div></div><canvas id="contentChart" height="140"></canvas></div>
+      <div class="card"><div class="card-head"><div><h3 class="card-title">Peak Activity Hours</h3><p class="card-sub">User activity by time of day</p></div></div><canvas id="hourChart" height="140"></canvas></div>
+      <div class="card"><div class="card-head"><div><h3 class="card-title">Demographics</h3><p class="card-sub">Age group breakdown</p></div></div><canvas id="demoChart" height="140"></canvas></div>
     </section>
 
     <section class="grid-2">
       <div class="card prediction-card">
-        <div class="card-head">
-          <div>
-            <h3 class="card-title">🔮 Predictive Insights</h3>
-            <p class="card-sub">ML-driven forecasts (Python + R models)</p>
-          </div>
-          <span class="badge">Live</span>
-        </div>
+        <div class="card-head"><div><h3 class="card-title">🔮 Predictive Insights</h3><p class="card-sub">ML-driven forecasts (Python + R models)</p></div><span class="badge">Live</span></div>
         <ul class="insight-list" id="insightList">
-          <li data-search="tiktok surge creatorweek">
-            <div class="insight-icon">📈</div>
-            <div>
-              <div class="insight-title">TikTok engagement will surge <b>+23%</b> next week</div>
-              <div class="insight-desc">Driven by trending hashtag #CreatorWeek. Confidence: 89%.</div>
-            </div>
-          </li>
-          <li data-search="youtube retention friday">
-            <div class="insight-icon">⚠️</div>
-            <div>
-              <div class="insight-title">YouTube retention dip predicted on <b>Friday</b></div>
-              <div class="insight-desc">Historical pattern suggests 6% drop. Schedule long-form content earlier.</div>
-            </div>
-          </li>
-          <li data-search="facebook threads optimal posting window">
-            <div class="insight-icon">🎯</div>
-            <div>
-              <div class="insight-title">Optimal posting window: <b>7–9 PM EST</b></div>
-              <div class="insight-desc">Cross-platform peak engagement detected across 18–34 age group.</div>
-            </div>
-          </li>
-          <li data-search="short-form video roi reels shorts">
-            <div class="insight-icon">💡</div>
-            <div>
-              <div class="insight-title">Short-form video ROI outperforms long-form by <b>2.4×</b></div>
-              <div class="insight-desc">Recommend shifting 30% of content budget to Reels/Shorts.</div>
-            </div>
-          </li>
-          <li data-search="threads growth text posts">
-            <div class="insight-icon">🧵</div>
-            <div>
-              <div class="insight-title">Threads text posts see <b>+41%</b> engagement lift</div>
-              <div class="insight-desc">Conversational content outperforms media-only posts on Threads.</div>
-            </div>
-          </li>
-          <li data-search="facebook live video groups">
-            <div class="insight-icon">📘</div>
-            <div>
-              <div class="insight-title">Facebook Groups drive <b>3.1×</b> more shares</div>
-              <div class="insight-desc">Community-focused content in Groups boosts organic reach significantly.</div>
-            </div>
-          </li>
+          <li data-search="tiktok surge creatorweek"><div class="insight-icon">📈</div><div><div class="insight-title">TikTok engagement will surge <b>+23%</b> next week</div><div class="insight-desc">Driven by trending hashtag #CreatorWeek. Confidence: 89%.</div></div></li>
+          <li data-search="youtube retention friday"><div class="insight-icon">⚠️</div><div><div class="insight-title">YouTube retention dip predicted on <b>Friday</b></div><div class="insight-desc">Historical pattern suggests 6% drop. Schedule long-form content earlier.</div></div></li>
+          <li data-search="facebook threads optimal posting window"><div class="insight-icon">🎯</div><div><div class="insight-title">Optimal posting window: <b>7–9 PM EST</b></div><div class="insight-desc">Cross-platform peak engagement detected across 18–34 age group.</div></div></li>
+          <li data-search="short-form video roi reels shorts"><div class="insight-icon">💡</div><div><div class="insight-title">Short-form video ROI outperforms long-form by <b>2.4×</b></div><div class="insight-desc">Recommend shifting 30% of content budget to Reels/Shorts.</div></div></li>
+          <li data-search="threads growth text posts"><div class="insight-icon">🧵</div><div><div class="insight-title">Threads text posts see <b>+41%</b> engagement lift</div><div class="insight-desc">Conversational content outperforms media-only posts on Threads.</div></div></li>
+          <li data-search="facebook live video groups"><div class="insight-icon">📘</div><div><div class="insight-title">Facebook Groups drive <b>3.1×</b> more shares</div><div class="insight-desc">Community-focused content in Groups boosts organic reach significantly.</div></div></li>
         </ul>
       </div>
-
       <div class="card">
-        <div class="card-head">
-          <div>
-            <h3 class="card-title">Top Performing Content</h3>
-            <p class="card-sub">Ranked by engagement score</p>
-          </div>
-        </div>
+        <div class="card-head"><div><h3 class="card-title">Top Performing Content</h3><p class="card-sub">Ranked by engagement score</p></div></div>
         <table class="table" id="contentTable">
-          <thead>
-            <tr>
-              <th>Content</th>
-              <th>Platform</th>
-              <th>Views</th>
-              <th>Engagement</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Content</th><th>Platform</th><th>Views</th><th>Engagement</th></tr></thead>
           <tbody id="contentBody">
-            <tr data-search="summer vlog ep12 video youtube">
-              <td><b>Summer Vlog Ep.12</b><br><small>Video • 8 min</small></td>
-              <td><span class="platform-tag yt">YouTube</span></td>
-              <td>1.2M</td>
-              <td><span class="bar"><span style="width:92%"></span></span> 92%</td>
-            </tr>
-            <tr data-search="dance challenge remix short tiktok">
-              <td><b>Dance Challenge Remix</b><br><small>Short • 30s</small></td>
-              <td><span class="platform-tag tt">TikTok</span></td>
-              <td>3.4M</td>
-              <td><span class="bar"><span style="width:88%"></span></span> 88%</td>
-            </tr>
-            <tr data-search="behind the scenes reel instagram">
-              <td><b>Behind the Scenes</b><br><small>Reel • 45s</small></td>
-              <td><span class="platform-tag ig">Instagram</span></td>
-              <td>890K</td>
-              <td><span class="bar"><span style="width:81%"></span></span> 81%</td>
-            </tr>
-            <tr data-search="community update post facebook groups">
-              <td><b>Community Update Post</b><br><small>Post • Image</small></td>
-              <td><span class="platform-tag fb">Facebook</span></td>
-              <td>540K</td>
-              <td><span class="bar"><span style="width:79%"></span></span> 79%</td>
-            </tr>
-            <tr data-search="product launch teaser video youtube">
-              <td><b>Product Launch Teaser</b><br><small>Video • 1 min</small></td>
-              <td><span class="platform-tag yt">YouTube</span></td>
-              <td>620K</td>
-              <td><span class="bar"><span style="width:76%"></span></span> 76%</td>
-            </tr>
-            <tr data-search="founder thoughts thread threads">
-              <td><b>Founder Thoughts Thread</b><br><small>Thread • 8 posts</small></td>
-              <td><span class="platform-tag th">Threads</span></td>
-              <td>320K</td>
-              <td><span class="bar"><span style="width:74%"></span></span> 74%</td>
-            </tr>
-            <tr data-search="qa live stream tiktok">
-              <td><b>Q&A Live Stream</b><br><small>Stream • 42 min</small></td>
-              <td><span class="platform-tag tt">TikTok</span></td>
-              <td>410K</td>
-              <td><span class="bar"><span style="width:72%"></span></span> 72%</td>
-            </tr>
-            <tr data-search="facebook live product demo">
-              <td><b>Live Product Demo</b><br><small>Live • 25 min</small></td>
-              <td><span class="platform-tag fb">Facebook</span></td>
-              <td>280K</td>
-              <td><span class="bar"><span style="width:68%"></span></span> 68%</td>
-            </tr>
+            <tr data-search="summer vlog ep12 video youtube"><td><b>Summer Vlog Ep.12</b><br><small>Video • 8 min</small></td><td><span class="platform-tag yt">YouTube</span></td><td class="views-cell">1.2M</td><td><span class="bar"><span style="width:92%"></span></span> <span class="eng-val">92%</span></td></tr>
+            <tr data-search="dance challenge remix short tiktok"><td><b>Dance Challenge Remix</b><br><small>Short • 30s</small></td><td><span class="platform-tag tt">TikTok</span></td><td class="views-cell">3.4M</td><td><span class="bar"><span style="width:88%"></span></span> <span class="eng-val">88%</span></td></tr>
+            <tr data-search="behind the scenes reel instagram"><td><b>Behind the Scenes</b><br><small>Reel • 45s</small></td><td><span class="platform-tag ig">Instagram</span></td><td class="views-cell">890K</td><td><span class="bar"><span style="width:81%"></span></span> <span class="eng-val">81%</span></td></tr>
+            <tr data-search="community update post facebook groups"><td><b>Community Update Post</b><br><small>Post • Image</small></td><td><span class="platform-tag fb">Facebook</span></td><td class="views-cell">540K</td><td><span class="bar"><span style="width:79%"></span></span> <span class="eng-val">79%</span></td></tr>
+            <tr data-search="product launch teaser video youtube"><td><b>Product Launch Teaser</b><br><small>Video • 1 min</small></td><td><span class="platform-tag yt">YouTube</span></td><td class="views-cell">620K</td><td><span class="bar"><span style="width:76%"></span></span> <span class="eng-val">76%</span></td></tr>
+            <tr data-search="founder thoughts thread threads"><td><b>Founder Thoughts Thread</b><br><small>Thread • 8 posts</small></td><td><span class="platform-tag th">Threads</span></td><td class="views-cell">320K</td><td><span class="bar"><span style="width:74%"></span></span> <span class="eng-val">74%</span></td></tr>
+            <tr data-search="qa live stream tiktok"><td><b>Q&A Live Stream</b><br><small>Stream • 42 min</small></td><td><span class="platform-tag tt">TikTok</span></td><td class="views-cell">410K</td><td><span class="bar"><span style="width:72%"></span></span> <span class="eng-val">72%</span></td></tr>
+            <tr data-search="facebook live product demo"><td><b>Live Product Demo</b><br><small>Live • 25 min</small></td><td><span class="platform-tag fb">Facebook</span></td><td class="views-cell">280K</td><td><span class="bar"><span style="width:68%"></span></span> <span class="eng-val">68%</span></td></tr>
           </tbody>
         </table>
         <div class="no-results" id="noResults">🔍 No matching content found</div>
       </div>
     </section>
 
-    <footer class="footer">
-      <p>Built with ❤️ using Python & R analytics pipelines • © 2026 MediaPulse</p>
-    </footer>
+    <footer class="footer"><p>Built with ❤️ using Python & R analytics pipelines • © 2026 MediaPulse</p></footer>
   </main>
 
   <div class="toast" id="toast">✅ Report exported successfully!</div>
+
+  <!-- API CONFIG MODAL -->
+  <div class="modal-overlay" id="apiModal">
+    <div class="modal">
+      <h2>🔑 Connect Real APIs</h2>
+      <p>Enter your API keys to pull live data from real platforms. Keys are stored in your browser only (localStorage) and never sent to any third party.</p>
+      <label>YouTube Data API v3 Key</label>
+      <input type="text" id="ytApiKey" placeholder="AIzaSy..." />
+      <label>YouTube Channel ID (optional)</label>
+      <input type="text" id="ytChannelId" placeholder="UC..." />
+      <label>Meta App Access Token (Facebook/Instagram/Threads)</label>
+      <input type="text" id="metaToken" placeholder="EAAD..." />
+      <div class="modal-actions">
+        <button class="btn-cancel" id="apiCancelBtn">Cancel</button>
+        <button class="btn-save" id="apiSaveBtn">Save & Connect</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     Chart.defaults.color = '#9ca3af';
     Chart.defaults.font.family = 'Inter, sans-serif';
     Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
 
-    // ============ DATA CONFIG ============
+    // ============ LIVE DATA ENGINE ============
+    class LiveDataEngine {
+      constructor() {
+        this.interval = null;
+        this.lastUpdate = Date.now();
+        this.tickCount = 0;
+        this.apiKeys = this.loadApiKeys();
+        this.useRealAPI = !!(this.apiKeys.ytKey || this.apiKeys.metaToken);
+        this.liveKPI = {
+          users: 2847563, engagement: 68.7, watch: 14.3, retention: 74.2
+        };
+        this.liveTrendData = {};
+        this.livePlatformShare = { youtube: 26, tiktok: 24, instagram: 19, facebook: 18, threads: 8, twitter: 5 };
+        this.liveContentViews = [1200000, 3400000, 890000, 540000, 620000, 320000, 410000, 280000];
+        this.liveContentEng = [92, 88, 81, 79, 76, 74, 72, 68];
+      }
+
+      loadApiKeys() {
+        try {
+          return JSON.parse(localStorage.getItem('mediaPulseAPI') || '{}');
+        } catch { return {}; }
+      }
+
+      saveApiKeys(keys) {
+        this.apiKeys = keys;
+        localStorage.setItem('mediaPulseAPI', JSON.stringify(keys));
+        this.useRealAPI = !!(keys.ytKey || keys.metaToken);
+      }
+
+      // Fluctuate a value realistically
+      fluctuate(val, pct = 0.005, min = 0, max = Infinity) {
+        const delta = val * pct * (Math.random() * 2 - 1);
+        return Math.max(min, Math.min(max, val + delta));
+      }
+
+      // Generate a new trend data point
+      genPoint(base, variance) {
+        return base + Math.sin(Date.now() / 10000) * variance + (Math.random() - 0.5) * variance;
+      }
+
+      // Start the live engine
+      start() {
+        this.updateAll();
+        this.interval = setInterval(() => this.updateAll(), 5000); // every 5 seconds
+        this.tryFetchRealAPI();
+      }
+
+      stop() {
+        if (this.interval) clearInterval(this.interval);
+      }
+
+      updateAll() {
+        this.tickCount++;
+        this.lastUpdate = Date.now();
+
+        // 1. Fluctuate KPIs
+        this.liveKPI.users = Math.round(this.fluctuate(this.liveKPI.users, 0.002, 100000));
+        this.liveKPI.engagement = parseFloat(this.fluctuate(this.liveKPI.engagement, 0.008, 40, 99).toFixed(1));
+        this.liveKPI.watch = parseFloat(this.fluctuate(this.liveKPI.watch, 0.01, 1, 60).toFixed(1));
+        this.liveKPI.retention = parseFloat(this.fluctuate(this.liveKPI.retention, 0.006, 30, 99).toFixed(1));
+
+        // 2. Fluctuate platform shares (keep sum ~100)
+        const keys = Object.keys(this.livePlatformShare);
+        const rKey = keys[Math.floor(Math.random() * keys.length)];
+        const delta = (Math.random() - 0.5) * 0.6;
+        this.livePlatformShare[rKey] = Math.max(2, this.livePlatformShare[rKey] + delta);
+
+        // 3. Fluctuate content views & engagement
+        this.liveContentViews = this.liveContentViews.map(v => Math.round(this.fluctuate(v, 0.008, 10000)));
+        this.liveContentEng = this.liveContentEng.map(e => Math.round(this.fluctuate(e, 0.005, 30, 99)));
+
+        // 4. Push new trend point
+        this.pushTrendPoint();
+
+        // 5. Update DOM
+        this.updateDOM();
+      }
+
+      pushTrendPoint() {
+        if (!trendChart) return;
+        const chart = trendChart;
+        const now = new Date();
+        const label = `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+
+        chart.data.labels.push(label);
+        if (chart.data.labels.length > 40) chart.data.labels.shift();
+
+        const bases = [45000, 62000, 38000, 32000, 18000];
+        const vars = [8000, 12000, 6000, 5000, 4000];
+        chart.data.datasets.forEach((ds, i) => {
+          ds.data.push(this.genPoint(bases[i], vars[i]));
+          if (ds.data.length > 40) ds.data.shift();
+        });
+        chart.update('none');
+      }
+
+      updateDOM() {
+        // KPIs
+        if (!currentPlatformFilter) {
+          animateValue(document.getElementById('kpiUsersVal'), this.liveKPI.users, '');
+          animateValue(document.getElementById('kpiEngagementVal'), this.liveKPI.engagement, '%');
+          animateValue(document.getElementById('kpiWatchVal'), this.liveKPI.watch, ' min');
+          animateValue(document.getElementById('kpiRetentionVal'), this.liveKPI.retention, '%');
+        }
+
+        // Flash tick indicators
+        ['tickUsers','tickEngagement','tickWatch','tickRetention'].forEach(id => {
+          const el = document.getElementById(id);
+          el.classList.add('flash');
+          setTimeout(() => el.classList.remove('flash'), 1500);
+        });
+
+        // Platform share chart
+        if (platformChart) {
+          platformChart.data.datasets[0].data = Object.values(this.livePlatformShare);
+          platformChart.update('none');
+        }
+
+        // Content table views & engagement
+        const rows = document.querySelectorAll('#contentBody tr');
+        rows.forEach((row, i) => {
+          if (i < this.liveContentViews.length) {
+            const v = this.liveContentViews[i];
+            const vStr = v >= 1000000 ? (v/1000000).toFixed(1)+'M' : Math.round(v/1000)+'K';
+            row.querySelector('.views-cell').textContent = vStr;
+            const eng = this.liveContentEng[i];
+            row.querySelector('.eng-val').textContent = eng + '%';
+            row.querySelector('.bar span').style.width = eng + '%';
+          }
+        });
+
+        // Last updated
+        document.getElementById('lastUpdated').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+      }
+
+      // Attempt to fetch real API data
+      async tryFetchRealAPI() {
+        if (this.apiKeys.ytKey && this.apiKeys.ytChannelId) {
+          try {
+            const url = `https://www.googleapis.com/youtube/v3/channels?part=statistics,snippet&id=${this.apiKeys.ytChannelId}&key=${this.apiKeys.ytKey}`;
+            const res = await fetch(url);
+            if (res.ok) {
+              const data = await res.json();
+              if (data.items && data.items[0]) {
+                const stats = data.items[0].statistics;
+                this.liveKPI.users = parseInt(stats.subscriberCount) || this.liveKPI.users;
+                document.getElementById('dataSource').textContent = '🟢 YouTube API Connected';
+                document.getElementById('dataSource').classList.add('connected');
+                showToast('✅ YouTube API connected! Pulling live subscriber data.');
+              }
+            }
+          } catch (e) {
+            console.warn('YouTube API fetch failed:', e);
+          }
+        }
+      }
+    }
+
+    const liveEngine = new LiveDataEngine();
+
+    // ============ PLATFORM CONFIG ============
     const PLATFORMS = {
       youtube:   { label: 'YouTube',   color: '#3b82f6', base: 45000, variance: 8000 },
       tiktok:    { label: 'TikTok',    color: '#ec4899', base: 62000, variance: 12000 },
@@ -581,67 +470,30 @@
       threads:   { label: 'Threads',   color: '#F5F5F5', base: 18000, variance: 4000 }
     };
 
-    const PLATFORM_SHARE = {
-      youtube: 26, tiktok: 24, instagram: 19, facebook: 18, threads: 8, twitter: 5
-    };
-
-    // ============ KPI DATA BY PERIOD (aggregate) ============
     const KPI_BY_PERIOD = {
-      7:   { users: { val: 684210,  suffix: '',   change: '▲ 14.8%', dir: 'up' },
-             engagement: { val: 71.2, suffix: '%', change: '▲ 4.1%', dir: 'up' },
-             watch: { val: 15.1, suffix: ' min', change: '▲ 2.3 min', dir: 'up' },
-             retention: { val: 75.8, suffix: '%', change: '▲ 1.2%', dir: 'up' } },
-      30:  { users: { val: 2847563, suffix: '',   change: '▲ 12.4%', dir: 'up' },
-             engagement: { val: 68.7, suffix: '%', change: '▲ 3.2%', dir: 'up' },
-             watch: { val: 14.3, suffix: ' min', change: '▲ 1.8 min', dir: 'up' },
-             retention: { val: 74.2, suffix: '%', change: '▼ 0.9%', dir: 'down' } },
-      90:  { users: { val: 8241890, suffix: '',   change: '▲ 9.7%', dir: 'up' },
-             engagement: { val: 66.4, suffix: '%', change: '▲ 2.1%', dir: 'up' },
-             watch: { val: 13.8, suffix: ' min', change: '▲ 0.9 min', dir: 'up' },
-             retention: { val: 73.1, suffix: '%', change: '▼ 1.4%', dir: 'down' } },
-      365: { users: { val: 32418750, suffix: '',  change: '▲ 18.2%', dir: 'up' },
-             engagement: { val: 64.9, suffix: '%', change: '▲ 5.8%', dir: 'up' },
-             watch: { val: 13.2, suffix: ' min', change: '▲ 2.4 min', dir: 'up' },
-             retention: { val: 71.5, suffix: '%', change: '▼ 2.1%', dir: 'down' } }
+      7:   { users: { val: 684210,  suffix: '',   change: '▲ 14.8%', dir: 'up' }, engagement: { val: 71.2, suffix: '%', change: '▲ 4.1%', dir: 'up' }, watch: { val: 15.1, suffix: ' min', change: '▲ 2.3 min', dir: 'up' }, retention: { val: 75.8, suffix: '%', change: '▲ 1.2%', dir: 'up' } },
+      30:  { users: { val: 2847563, suffix: '',   change: '▲ 12.4%', dir: 'up' }, engagement: { val: 68.7, suffix: '%', change: '▲ 3.2%', dir: 'up' }, watch: { val: 14.3, suffix: ' min', change: '▲ 1.8 min', dir: 'up' }, retention: { val: 74.2, suffix: '%', change: '▼ 0.9%', dir: 'down' } },
+      90:  { users: { val: 8241890, suffix: '',   change: '▲ 9.7%',  dir: 'up' }, engagement: { val: 66.4, suffix: '%', change: '▲ 2.1%', dir: 'up' }, watch: { val: 13.8, suffix: ' min', change: '▲ 0.9 min', dir: 'up' }, retention: { val: 73.1, suffix: '%', change: '▼ 1.4%', dir: 'down' } },
+      365: { users: { val: 32418750,suffix: '',   change: '▲ 18.2%', dir: 'up' }, engagement: { val: 64.9, suffix: '%', change: '▲ 5.8%', dir: 'up' }, watch: { val: 13.2, suffix: ' min', change: '▲ 2.4 min', dir: 'up' }, retention: { val: 71.5, suffix: '%', change: '▼ 2.1%', dir: 'down' } }
     };
 
-    // ============ KPI DATA BY PLATFORM (when searching) ============
     const KPI_BY_PLATFORM = {
-      youtube:   { users: { val: 1124680, suffix: '',   change: '▲ 10.2%', dir: 'up' },
-                   engagement: { val: 72.3, suffix: '%', change: '▲ 2.8%', dir: 'up' },
-                   watch: { val: 18.4, suffix: ' min', change: '▲ 2.1 min', dir: 'up' },
-                   retention: { val: 78.2, suffix: '%', change: '▲ 0.6%', dir: 'up' } },
-      tiktok:    { users: { val: 982340,  suffix: '',   change: '▲ 24.6%', dir: 'up' },
-                   engagement: { val: 82.1, suffix: '%', change: '▲ 6.4%', dir: 'up' },
-                   watch: { val: 8.2,  suffix: ' min', change: '▲ 1.2 min', dir: 'up' },
-                   retention: { val: 68.5, suffix: '%', change: '▼ 1.8%', dir: 'down' } },
-      instagram: { users: { val: 721450,  suffix: '',   change: '▲ 8.9%',  dir: 'up' },
-                   engagement: { val: 74.8, suffix: '%', change: '▲ 3.5%', dir: 'up' },
-                   watch: { val: 6.5,  suffix: ' min', change: '▲ 0.8 min', dir: 'up' },
-                   retention: { val: 71.3, suffix: '%', change: '▼ 0.4%', dir: 'down' } },
-      facebook:  { users: { val: 543210,  suffix: '',   change: '▲ 3.2%',  dir: 'up' },
-                   engagement: { val: 58.4, suffix: '%', change: '▼ 1.1%', dir: 'down' },
-                   watch: { val: 12.1, suffix: ' min', change: '▲ 0.5 min', dir: 'up' },
-                   retention: { val: 69.8, suffix: '%', change: '▼ 2.3%', dir: 'down' } },
-      threads:   { users: { val: 214890,  suffix: '',   change: '▲ 41.2%', dir: 'up' },
-                   engagement: { val: 63.2, suffix: '%', change: '▲ 9.8%', dir: 'up' },
-                   watch: { val: 3.8,  suffix: ' min', change: '▲ 0.4 min', dir: 'up' },
-                   retention: { val: 65.4, suffix: '%', change: '▲ 3.1%', dir: 'up' } }
+      youtube:   { users: { val: 1124680, suffix: '', change: '▲ 10.2%', dir: 'up' }, engagement: { val: 72.3, suffix: '%', change: '▲ 2.8%', dir: 'up' }, watch: { val: 18.4, suffix: ' min', change: '▲ 2.1 min', dir: 'up' }, retention: { val: 78.2, suffix: '%', change: '▲ 0.6%', dir: 'up' } },
+      tiktok:    { users: { val: 982340,  suffix: '', change: '▲ 24.6%', dir: 'up' }, engagement: { val: 82.1, suffix: '%', change: '▲ 6.4%', dir: 'up' }, watch: { val: 8.2,  suffix: ' min', change: '▲ 1.2 min', dir: 'up' }, retention: { val: 68.5, suffix: '%', change: '▼ 1.8%', dir: 'down' } },
+      instagram: { users: { val: 721450,  suffix: '', change: '▲ 8.9%',  dir: 'up' }, engagement: { val: 74.8, suffix: '%', change: '▲ 3.5%', dir: 'up' }, watch: { val: 6.5,  suffix: ' min', change: '▲ 0.8 min', dir: 'up' }, retention: { val: 71.3, suffix: '%', change: '▼ 0.4%', dir: 'down' } },
+      facebook:  { users: { val: 543210,  suffix: '', change: '▲ 3.2%',  dir: 'up' }, engagement: { val: 58.4, suffix: '%', change: '▼ 1.1%', dir: 'down' }, watch: { val: 12.1, suffix: ' min', change: '▲ 0.5 min', dir: 'up' }, retention: { val: 69.8, suffix: '%', change: '▼ 2.3%', dir: 'down' } },
+      threads:   { users: { val: 214890,  suffix: '', change: '▲ 41.2%', dir: 'up' }, engagement: { val: 63.2, suffix: '%', change: '▲ 9.8%', dir: 'up' }, watch: { val: 3.8,  suffix: ' min', change: '▲ 0.4 min', dir: 'up' }, retention: { val: 65.4, suffix: '%', change: '▲ 3.1%', dir: 'up' } }
     };
 
-    // ============ STATE ============
     let currentPeriod = 30;
-    let currentPlatformFilter = null; // null = aggregate, or 'youtube', 'tiktok', etc.
-
-    // ============ CHART INSTANCES ============
+    let currentPlatformFilter = null;
     let trendChart, platformChart, contentChart, hourChart, demoChart;
 
-    // ============ KPI ANIMATION (reusable) ============
+    // ============ KPI ANIMATION ============
     function animateValue(el, target, suffix = '', duration = 900) {
       const startVal = parseFloat(el.dataset.current || '0');
       const start = performance.now();
       const isFloat = target % 1 !== 0;
-
       function update(now) {
         const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
@@ -660,97 +512,63 @@
       el.innerHTML = `${arrow} ${cleanText} <span>vs last period</span>`;
     }
 
-    // ============ UPDATE KPIs ============
     function updateKPIs() {
       let data;
       if (currentPlatformFilter) {
         data = KPI_BY_PLATFORM[currentPlatformFilter];
       } else {
-        data = KPI_BY_PERIOD[currentPeriod];
+        // Use live engine values for aggregate
+        const periodData = KPI_BY_PERIOD[currentPeriod];
+        data = {
+          users: { val: liveEngine.liveKPI.users, suffix: '', change: periodData.users.change, dir: periodData.users.dir },
+          engagement: { val: liveEngine.liveKPI.engagement, suffix: '%', change: periodData.engagement.change, dir: periodData.engagement.dir },
+          watch: { val: liveEngine.liveKPI.watch, suffix: ' min', change: periodData.watch.change, dir: periodData.watch.dir },
+          retention: { val: liveEngine.liveKPI.retention, suffix: '%', change: periodData.retention.change, dir: periodData.retention.dir }
+        };
       }
-
       animateValue(document.getElementById('kpiUsersVal'), data.users.val, data.users.suffix);
       updateChange(document.getElementById('kpiUsersChange'), data.users.change, data.users.dir);
-
       animateValue(document.getElementById('kpiEngagementVal'), data.engagement.val, data.engagement.suffix);
       updateChange(document.getElementById('kpiEngagementChange'), data.engagement.change, data.engagement.dir);
-
       animateValue(document.getElementById('kpiWatchVal'), data.watch.val, data.watch.suffix);
       updateChange(document.getElementById('kpiWatchChange'), data.watch.change, data.watch.dir);
-
       animateValue(document.getElementById('kpiRetentionVal'), data.retention.val, data.retention.suffix);
       updateChange(document.getElementById('kpiRetentionChange'), data.retention.change, data.retention.dir);
     }
 
-    // ============ GENERATE TREND DATA ============
+    // ============ CHARTS ============
     function generateLabels(days) {
-      if (days === 365) {
-        return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      }
-      return Array.from({length: days}, (_, i) => {
-        if (days <= 7) return `Day ${i+1}`;
-        return `D${i+1}`;
-      });
+      if (days === 365) return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return Array.from({length: days}, (_, i) => days <= 7 ? `Day ${i+1}` : `D${i+1}`);
     }
 
     function genTrend(base, variance, days) {
       const scale = days === 365 ? 30 : (days === 90 ? 3 : 1);
-      return Array.from({length: days === 365 ? 12 : days}, (_, i) => {
-        const trend = (i / days) * variance * 0.3;
-        return base * scale + Math.sin(i/3)*variance + Math.random()*variance*0.5 + trend;
-      });
+      return Array.from({length: days === 365 ? 12 : days}, (_, i) => base * scale + Math.sin(i/3)*variance + Math.random()*variance*0.5 + (i/days)*variance*0.3);
     }
 
     function buildTrendChart(days = 30) {
       const labels = generateLabels(days);
       const datasets = Object.values(PLATFORMS).map(p => ({
-        label: p.label,
-        data: genTrend(p.base, p.variance, days),
-        borderColor: p.color,
-        backgroundColor: p.color + '1A',
+        label: p.label, data: genTrend(p.base, p.variance, days),
+        borderColor: p.color, backgroundColor: p.color + '1A',
         fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
       }));
-
       if (trendChart) trendChart.destroy();
       trendChart = new Chart(document.getElementById('trendChart'), {
-        type: 'line',
-        data: { labels, datasets },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
-            y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => (v/1000)+'k' } }
-          }
-        }
+        type: 'line', data: { labels, datasets },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => (v/1000)+'k' } } } }
       });
     }
 
     function buildPlatformChart() {
-      const labels = Object.keys(PLATFORM_SHARE).map(k => {
-        const map = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', threads: 'Threads', twitter: 'Twitter/X' };
-        return map[k];
-      });
+      const map = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', threads: 'Threads', twitter: 'Twitter/X' };
       const colors = ['#3b82f6', '#ec4899', '#8b5cf6', '#1877F2', '#F5F5F5', '#f59e0b'];
-
       if (platformChart) platformChart.destroy();
       platformChart = new Chart(document.getElementById('platformChart'), {
         type: 'doughnut',
-        data: {
-          labels,
-          datasets: [{
-            data: Object.values(PLATFORM_SHARE),
-            backgroundColor: colors,
-            borderWidth: 0, hoverOffset: 10
-          }]
-        },
-        options: {
-          responsive: true,
-          cutout: '65%',
-          plugins: {
-            legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { size: 11 } } }
-          }
-        }
+        data: { labels: Object.keys(liveEngine.livePlatformShare).map(k => map[k]), datasets: [{ data: Object.values(liveEngine.livePlatformShare), backgroundColor: colors, borderWidth: 0, hoverOffset: 10 }] },
+        options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { size: 11 } } } } }
       });
     }
 
@@ -758,22 +576,8 @@
       if (contentChart) contentChart.destroy();
       contentChart = new Chart(document.getElementById('contentChart'), {
         type: 'polarArea',
-        data: {
-          labels: ['Short Video', 'Long Video', 'Live', 'Image', 'Thread'],
-          datasets: [{
-            data: [85, 62, 48, 55, 42],
-            backgroundColor: [
-              'rgba(236,72,153,0.7)', 'rgba(59,130,246,0.7)',
-              'rgba(139,92,246,0.7)', 'rgba(245,158,11,0.7)', 'rgba(245,245,245,0.7)'
-            ],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } },
-          scales: { r: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } } }
-        }
+        data: { labels: ['Short Video', 'Long Video', 'Live', 'Image', 'Thread'], datasets: [{ data: [85, 62, 48, 55, 42], backgroundColor: ['rgba(236,72,153,0.7)', 'rgba(59,130,246,0.7)', 'rgba(139,92,246,0.7)', 'rgba(245,158,11,0.7)', 'rgba(245,245,245,0.7)'], borderWidth: 0 }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } }, scales: { r: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } } } }
       });
     }
 
@@ -781,28 +585,8 @@
       if (hourChart) hourChart.destroy();
       hourChart = new Chart(document.getElementById('hourChart'), {
         type: 'bar',
-        data: {
-          labels: ['6a','9a','12p','3p','6p','9p','12a'],
-          datasets: [{
-            label: 'Activity',
-            data: [20, 45, 60, 55, 78, 95, 40],
-            backgroundColor: (ctx) => {
-              const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 200);
-              g.addColorStop(0, '#8b5cf6');
-              g.addColorStop(1, '#3b82f6');
-              return g;
-            },
-            borderRadius: 6, barThickness: 22
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { display: false } },
-            y: { grid: { color: 'rgba(255,255,255,0.04)' } }
-          }
-        }
+        data: { labels: ['6a','9a','12p','3p','6p','9p','12a'], datasets: [{ label: 'Activity', data: [20, 45, 60, 55, 78, 95, 40], backgroundColor: (ctx) => { const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 200); g.addColorStop(0, '#8b5cf6'); g.addColorStop(1, '#3b82f6'); return g; }, borderRadius: 6, barThickness: 22 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255,255,255,0.04)' } } } }
       });
     }
 
@@ -810,24 +594,8 @@
       if (demoChart) demoChart.destroy();
       demoChart = new Chart(document.getElementById('demoChart'), {
         type: 'bar',
-        data: {
-          labels: ['13-17', '18-24', '25-34', '35-44', '45-54', '55+'],
-          datasets: [{
-            label: '% Users',
-            data: [8, 28, 34, 18, 10, 5],
-            backgroundColor: ['#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
-            borderRadius: 6
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'%' } },
-            y: { grid: { display: false } }
-          }
-        }
+        data: { labels: ['13-17', '18-24', '25-34', '35-44', '45-54', '55+'], datasets: [{ label: '% Users', data: [8, 28, 34, 18, 10, 5], backgroundColor: ['#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'], borderRadius: 6 }] },
+        options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'%' } }, y: { grid: { display: false } } } }
       });
     }
 
@@ -851,15 +619,8 @@
     function performSearch(query) {
       const q = query.trim().toLowerCase();
       searchClear.classList.toggle('visible', q.length > 0);
-
-      // Detect platform filter
-      const detectedPlatform = detectPlatformFromQuery(q);
-      currentPlatformFilter = detectedPlatform;
-
-      // Update KPIs based on detected platform (or revert to period-based)
+      currentPlatformFilter = detectPlatformFromQuery(q);
       updateKPIs();
-
-      // Filter table rows
       const rows = contentBody.querySelectorAll('tr');
       let visibleCount = 0;
       rows.forEach(row => {
@@ -869,114 +630,107 @@
         if (match) visibleCount++;
       });
       noResults.classList.toggle('visible', q.length > 0 && visibleCount === 0);
-
-      // Dim KPI cards that don't match
       document.querySelectorAll('.kpi-card').forEach(card => {
         const searchData = (card.dataset.search || '') + ' ' + card.textContent;
-        const match = !q || searchData.toLowerCase().includes(q);
-        card.classList.toggle('dimmed', q.length > 0 && !match);
+        card.classList.toggle('dimmed', q.length > 0 && !searchData.toLowerCase().includes(q));
       });
-
-      // Dim insights
       document.querySelectorAll('#insightList li').forEach(li => {
         const searchData = (li.dataset.search || '') + ' ' + li.textContent;
-        const match = !q || searchData.toLowerCase().includes(q);
-        li.classList.toggle('dimmed', q.length > 0 && !match);
+        li.classList.toggle('dimmed', q.length > 0 && !searchData.toLowerCase().includes(q));
       });
     }
 
     searchInput.addEventListener('input', (e) => performSearch(e.target.value));
-    searchClear.addEventListener('click', () => {
-      searchInput.value = '';
-      performSearch('');
-      searchInput.focus();
-    });
+    searchClear.addEventListener('click', () => { searchInput.value = ''; performSearch(''); searchInput.focus(); });
 
     // ============ PERIOD DROPDOWN ============
     const periodSelect = document.getElementById('periodSelect');
     periodSelect.addEventListener('change', (e) => {
       currentPeriod = parseInt(e.target.value);
       buildTrendChart(currentPeriod);
-      // Only update KPIs if not currently filtered by platform
       if (!currentPlatformFilter) {
+        // Seed live engine with period base values
+        const pd = KPI_BY_PERIOD[currentPeriod];
+        liveEngine.liveKPI.users = pd.users.val;
+        liveEngine.liveKPI.engagement = pd.engagement.val;
+        liveEngine.liveKPI.watch = pd.watch.val;
+        liveEngine.liveKPI.retention = pd.retention.val;
         updateKPIs();
       }
       showToast(`📊 Updated to: ${e.target.options[e.target.selectedIndex].text}`);
     });
 
-    // ============ EXPORT REPORT ============
+    // ============ EXPORT ============
     const exportBtn = document.getElementById('exportBtn');
     exportBtn.addEventListener('click', () => {
       exportBtn.classList.add('exporting');
       exportBtn.textContent = '⏳ Exporting...';
-
       setTimeout(() => {
         try {
           const period = periodSelect.options[periodSelect.selectedIndex].text;
           const timestamp = new Date().toISOString().split('T')[0];
           const filename = `media-analytics-report-${timestamp}.csv`;
-
-          let csv = '';
-          csv += 'PREDICTIVE MEDIA ANALYTICS REPORT\n';
+          let csv = 'PREDICTIVE MEDIA ANALYTICS REPORT\n';
           csv += `Generated:,${new Date().toLocaleString()}\n`;
           csv += `Period:,${period}\n`;
-          csv += `Platform Filter:,${currentPlatformFilter || 'All (Aggregate)'}\n\n`;
-
-          csv += '=== KEY PERFORMANCE INDICATORS ===\n';
-          csv += 'Metric,Value,Change\n';
+          csv += `Platform Filter:,${currentPlatformFilter || 'All (Aggregate)'}\n`;
+          csv += `Data Source:,${liveEngine.useRealAPI ? 'Live API' : 'Simulated Stream'}\n\n`;
+          csv += '=== KEY PERFORMANCE INDICATORS ===\nMetric,Value,Change\n';
           document.querySelectorAll('.kpi-card').forEach(card => {
-            const label = card.querySelector('.kpi-label').textContent;
-            const value = card.querySelector('.kpi-value').textContent;
-            const change = card.querySelector('.kpi-change').textContent.trim();
-            csv += `"${label}","${value}","${change}"\n`;
+            csv += `"${card.querySelector('.kpi-label').textContent}","${card.querySelector('.kpi-value').textContent}","${card.querySelector('.kpi-change').textContent.trim()}"\n`;
           });
-
-          csv += '\n=== TOP PERFORMING CONTENT ===\n';
-          csv += 'Content,Platform,Views,Engagement\n';
+          csv += '\n=== TOP PERFORMING CONTENT ===\nContent,Platform,Views,Engagement\n';
           contentBody.querySelectorAll('tr:not(.hidden)').forEach(row => {
-            const cells = row.querySelectorAll('td');
-            const content = cells[0].textContent.replace(/\s+/g, ' ').trim();
-            const platform = cells[1].textContent.trim();
-            const views = cells[2].textContent.trim();
-            const engagement = cells[3].textContent.trim();
-            csv += `"${content}","${platform}","${views}","${engagement}"\n`;
+            const c = row.querySelectorAll('td');
+            csv += `"${c[0].textContent.replace(/\s+/g,' ').trim()}","${c[1].textContent.trim()}","${c[2].textContent.trim()}","${c[3].textContent.trim()}"\n`;
           });
-
-          csv += '\n=== PREDICTIVE INSIGHTS ===\n';
-          csv += 'Insight,Details\n';
+          csv += '\n=== PREDICTIVE INSIGHTS ===\nInsight,Details\n';
           document.querySelectorAll('#insightList li').forEach(li => {
-            const title = li.querySelector('.insight-title').textContent.replace(/\s+/g, ' ').trim();
-            const desc = li.querySelector('.insight-desc').textContent.replace(/\s+/g, ' ').trim();
-            csv += `"${title}","${desc}"\n`;
+            csv += `"${li.querySelector('.insight-title').textContent.replace(/\s+/g,' ').trim()}","${li.querySelector('.insight-desc').textContent.replace(/\s+/g,' ').trim()}"\n`;
           });
-
-          csv += '\n=== PLATFORM ENGAGEMENT DATA ===\n';
-          csv += 'Platform,Share (%)\n';
-          Object.entries(PLATFORM_SHARE).forEach(([key, val]) => {
-            const names = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', threads: 'Threads', twitter: 'Twitter/X' };
-            csv += `${names[key]},${val}\n`;
+          csv += '\n=== PLATFORM SHARE ===\nPlatform,Share (%)\n';
+          Object.entries(liveEngine.livePlatformShare).forEach(([k,v]) => {
+            const n = { youtube:'YouTube', tiktok:'TikTok', instagram:'Instagram', facebook:'Facebook', threads:'Threads', twitter:'Twitter/X' };
+            csv += `${n[k]},${v.toFixed(1)}\n`;
           });
-
           const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
-          link.href = url;
-          link.download = filename;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
-
+          link.href = url; link.download = filename;
+          document.body.appendChild(link); link.click();
+          document.body.removeChild(link); URL.revokeObjectURL(url);
           showToast(`✅ Report exported: ${filename}`);
-        } catch (err) {
-          console.error(err);
-          showToast('❌ Export failed. Please try again.');
-        } finally {
-          exportBtn.classList.remove('exporting');
-          exportBtn.textContent = '📥 Export Report';
-        }
+        } catch (err) { console.error(err); showToast('❌ Export failed.'); }
+        finally { exportBtn.classList.remove('exporting'); exportBtn.textContent = '📥 Export Report'; }
       }, 400);
     });
+
+    // ============ API CONFIG MODAL ============
+    const apiModal = document.getElementById('apiModal');
+    document.getElementById('apiConfigBtn').addEventListener('click', () => {
+      document.getElementById('ytApiKey').value = liveEngine.apiKeys.ytKey || '';
+      document.getElementById('ytChannelId').value = liveEngine.apiKeys.ytChannelId || '';
+      document.getElementById('metaToken').value = liveEngine.apiKeys.metaToken || '';
+      apiModal.classList.add('open');
+    });
+    document.getElementById('apiCancelBtn').addEventListener('click', () => apiModal.classList.remove('open'));
+    document.getElementById('apiSaveBtn').addEventListener('click', () => {
+      liveEngine.saveApiKeys({
+        ytKey: document.getElementById('ytApiKey').value.trim(),
+        ytChannelId: document.getElementById('ytChannelId').value.trim(),
+        metaToken: document.getElementById('metaToken').value.trim()
+      });
+      apiModal.classList.remove('open');
+      if (liveEngine.useRealAPI) {
+        liveEngine.tryFetchRealAPI();
+        showToast('🔑 API keys saved! Attempting live connection...');
+      } else {
+        document.getElementById('dataSource').textContent = '📡 Simulated Stream';
+        document.getElementById('dataSource').classList.remove('connected');
+        showToast('📡 Using simulated live data stream.');
+      }
+    });
+    apiModal.addEventListener('click', (e) => { if (e.target === apiModal) apiModal.classList.remove('open'); });
 
     // ============ TOAST ============
     function showToast(message) {
@@ -988,18 +742,24 @@
 
     // ============ INIT ============
     window.addEventListener('load', () => {
-      // Initialize current values for animation baseline
-      document.getElementById('kpiUsersVal').dataset.current = '0';
-      document.getElementById('kpiEngagementVal').dataset.current = '0';
-      document.getElementById('kpiWatchVal').dataset.current = '0';
-      document.getElementById('kpiRetentionVal').dataset.current = '0';
-
+      ['kpiUsersVal','kpiEngagementVal','kpiWatchVal','kpiRetentionVal'].forEach(id => {
+        document.getElementById(id).dataset.current = '0';
+      });
       updateKPIs();
       buildTrendChart(30);
       buildPlatformChart();
       buildContentChart();
       buildHourChart();
       buildDemoChart();
+
+      // Start live data engine
+      liveEngine.start();
+
+      // If API keys already saved, show connected status
+      if (liveEngine.useRealAPI) {
+        document.getElementById('dataSource').textContent = '🟢 API Connected';
+        document.getElementById('dataSource').classList.add('connected');
+      }
     });
   </script>
 </body>

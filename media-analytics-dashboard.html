@@ -10,9 +10,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <style>
-    /* =========================================
-       CSS STYLES
-       ========================================= */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -29,6 +26,8 @@
       --green: #10b981;
       --orange: #f59e0b;
       --red: #ef4444;
+      --fb: #1877F2;
+      --threads: #F5F5F5;
       --grad: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
     }
 
@@ -123,16 +122,26 @@
       display: flex; align-items: center; gap: 8px;
       background: var(--card); border: 1px solid var(--border);
       padding: 8px 14px; border-radius: 10px;
+      transition: border-color 0.2s;
     }
+    .search-box:focus-within { border-color: var(--purple); }
     .search-box input {
       background: transparent; border: none; outline: none;
-      color: var(--text); font-size: 13px; width: 160px;
+      color: var(--text); font-size: 13px; width: 180px;
     }
+    .search-clear {
+      display: none;
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 14px; padding: 0 4px;
+    }
+    .search-clear.visible { display: inline-block; }
     .select {
       background: var(--card); border: 1px solid var(--border);
       color: var(--text); padding: 9px 14px; border-radius: 10px;
       font-size: 13px; cursor: pointer; outline: none;
+      transition: border-color 0.2s;
     }
+    .select:focus { border-color: var(--purple); }
     .btn-primary {
       background: var(--grad); color: white; border: none;
       padding: 9px 18px; border-radius: 10px; font-weight: 600;
@@ -140,6 +149,7 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.4); }
+    .btn-primary.exporting { opacity: 0.7; pointer-events: none; }
 
     /* KPI */
     .kpi-grid {
@@ -150,9 +160,10 @@
     .kpi-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 16px; padding: 20px;
-      transition: transform 0.2s, border-color 0.2s;
+      transition: transform 0.2s, border-color 0.2s, opacity 0.2s;
     }
     .kpi-card:hover { transform: translateY(-4px); border-color: var(--purple); }
+    .kpi-card.dimmed { opacity: 0.25; transform: scale(0.98); }
     .kpi-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .kpi-label { font-size: 13px; color: var(--muted); font-weight: 500; }
     .kpi-icon {
@@ -184,11 +195,13 @@
     .card-title { font-size: 16px; font-weight: 700; }
     .card-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-    .legend-inline { display: flex; gap: 12px; font-size: 12px; color: var(--muted); align-items: center; }
+    .legend-inline { display: flex; gap: 10px; font-size: 11px; color: var(--muted); align-items: center; flex-wrap: wrap; }
     .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
     .dot.blue { background: var(--blue); }
     .dot.pink { background: var(--pink); }
     .dot.purple { background: var(--purple); }
+    .dot.fb { background: var(--fb); }
+    .dot.threads { background: var(--threads); }
 
     /* Prediction card */
     .prediction-card { background: linear-gradient(135deg, #1a2136 0%, #151b2b 100%); }
@@ -208,9 +221,10 @@
       display: flex; gap: 12px; padding: 12px;
       background: rgba(255,255,255,0.02); border-radius: 10px;
       border-left: 3px solid var(--purple);
-      transition: background 0.2s;
+      transition: background 0.2s, opacity 0.2s;
     }
     .insight-list li:hover { background: rgba(255,255,255,0.05); }
+    .insight-list li.dimmed { opacity: 0.25; }
     .insight-icon { font-size: 20px; }
     .insight-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
     .insight-title b { color: var(--blue); }
@@ -226,16 +240,26 @@
     }
     .table td { padding: 14px 8px; border-bottom: 1px solid var(--border); }
     .table tr:last-child td { border-bottom: none; }
-    .table tr:hover { background: rgba(255,255,255,0.02); }
+    .table tbody tr { transition: opacity 0.2s, background 0.2s; }
+    .table tbody tr:hover { background: rgba(255,255,255,0.02); }
+    .table tbody tr.hidden { display: none; }
     .table small { color: var(--muted); }
+    .no-results {
+      text-align: center; padding: 30px; color: var(--muted);
+      font-size: 13px; display: none;
+    }
+    .no-results.visible { display: block; }
 
     .platform-tag {
       padding: 3px 8px; border-radius: 6px;
       font-size: 11px; font-weight: 600;
+      display: inline-block;
     }
     .platform-tag.yt { background: rgba(239,68,68,0.15); color: #ef4444; }
     .platform-tag.tt { background: rgba(236,72,153,0.15); color: #ec4899; }
     .platform-tag.ig { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+    .platform-tag.fb { background: rgba(24,119,242,0.15); color: #1877F2; }
+    .platform-tag.th { background: rgba(245,245,245,0.15); color: #F5F5F5; }
 
     .bar {
       display: inline-block; width: 60px; height: 6px;
@@ -253,6 +277,18 @@
       border-top: 1px solid var(--border);
     }
 
+    /* Toast notification */
+    .toast {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--card); border: 1px solid var(--green);
+      color: var(--text); padding: 14px 20px;
+      border-radius: 12px; font-size: 13px; font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.3s; z-index: 1000;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
     /* Responsive */
     @media (max-width: 1100px) {
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -260,6 +296,7 @@
     @media (max-width: 768px) {
       .sidebar { display: none; }
       .main { padding: 20px; max-width: 100%; }
+      .search-box input { width: 120px; }
     }
   </style>
 </head>
@@ -300,21 +337,22 @@
       <div class="header-actions">
         <div class="search-box">
           <span>🔍</span>
-          <input type="text" placeholder="Search metrics..." />
+          <input type="text" id="searchInput" placeholder="Search metrics, content..." />
+          <button class="search-clear" id="searchClear" title="Clear">✕</button>
         </div>
         <select id="periodSelect" class="select">
-          <option>Last 7 days</option>
-          <option selected>Last 30 days</option>
-          <option>Last 90 days</option>
-          <option>This year</option>
+          <option value="7">Last 7 days</option>
+          <option value="30" selected>Last 30 days</option>
+          <option value="90">Last 90 days</option>
+          <option value="365">This year</option>
         </select>
-        <button class="btn-primary">📥 Export Report</button>
+        <button class="btn-primary" id="exportBtn">📥 Export Report</button>
       </div>
     </header>
 
     <!-- KPI Cards -->
-    <section class="kpi-grid">
-      <div class="kpi-card">
+    <section class="kpi-grid" id="kpiGrid">
+      <div class="kpi-card" data-search="total users">
         <div class="kpi-head">
           <span class="kpi-label">Total Users</span>
           <span class="kpi-icon blue">👥</span>
@@ -322,7 +360,7 @@
         <div class="kpi-value" data-target="2847563">0</div>
         <div class="kpi-change up">▲ 12.4% <span>vs last period</span></div>
       </div>
-      <div class="kpi-card">
+      <div class="kpi-card" data-search="engagement rate">
         <div class="kpi-head">
           <span class="kpi-label">Engagement Rate</span>
           <span class="kpi-icon green">⚡</span>
@@ -330,7 +368,7 @@
         <div class="kpi-value" data-target="68.7" data-suffix="%">0</div>
         <div class="kpi-change up">▲ 3.2% <span>vs last period</span></div>
       </div>
-      <div class="kpi-card">
+      <div class="kpi-card" data-search="avg watch time">
         <div class="kpi-head">
           <span class="kpi-label">Avg. Watch Time</span>
           <span class="kpi-icon purple">⏱️</span>
@@ -338,7 +376,7 @@
         <div class="kpi-value" data-target="14.3" data-suffix=" min">0</div>
         <div class="kpi-change up">▲ 1.8 min <span>vs last period</span></div>
       </div>
-      <div class="kpi-card">
+      <div class="kpi-card" data-search="retention rate">
         <div class="kpi-head">
           <span class="kpi-label">Retention Rate</span>
           <span class="kpi-icon orange">🎯</span>
@@ -360,6 +398,8 @@
             <span class="dot blue"></span> YouTube
             <span class="dot pink"></span> TikTok
             <span class="dot purple"></span> Instagram
+            <span class="dot fb"></span> Facebook
+            <span class="dot threads"></span> Threads
           </div>
         </div>
         <canvas id="trendChart" height="110"></canvas>
@@ -419,33 +459,47 @@
           </div>
           <span class="badge">Live</span>
         </div>
-        <ul class="insight-list">
-          <li>
+        <ul class="insight-list" id="insightList">
+          <li data-search="tiktok surge creatorweek">
             <div class="insight-icon">📈</div>
             <div>
               <div class="insight-title">TikTok engagement will surge <b>+23%</b> next week</div>
               <div class="insight-desc">Driven by trending hashtag #CreatorWeek. Confidence: 89%.</div>
             </div>
           </li>
-          <li>
+          <li data-search="youtube retention friday">
             <div class="insight-icon">⚠️</div>
             <div>
               <div class="insight-title">YouTube retention dip predicted on <b>Friday</b></div>
               <div class="insight-desc">Historical pattern suggests 6% drop. Schedule long-form content earlier.</div>
             </div>
           </li>
-          <li>
+          <li data-search="facebook threads optimal posting window">
             <div class="insight-icon">🎯</div>
             <div>
               <div class="insight-title">Optimal posting window: <b>7–9 PM EST</b></div>
               <div class="insight-desc">Cross-platform peak engagement detected across 18–34 age group.</div>
             </div>
           </li>
-          <li>
+          <li data-search="short-form video roi reels shorts">
             <div class="insight-icon">💡</div>
             <div>
               <div class="insight-title">Short-form video ROI outperforms long-form by <b>2.4×</b></div>
               <div class="insight-desc">Recommend shifting 30% of content budget to Reels/Shorts.</div>
+            </div>
+          </li>
+          <li data-search="threads growth text posts">
+            <div class="insight-icon">🧵</div>
+            <div>
+              <div class="insight-title">Threads text posts see <b>+41%</b> engagement lift</div>
+              <div class="insight-desc">Conversational content outperforms media-only posts on Threads.</div>
+            </div>
+          </li>
+          <li data-search="facebook live video groups">
+            <div class="insight-icon">📘</div>
+            <div>
+              <div class="insight-title">Facebook Groups drive <b>3.1×</b> more shares</div>
+              <div class="insight-desc">Community-focused content in Groups boosts organic reach significantly.</div>
             </div>
           </li>
         </ul>
@@ -458,7 +512,7 @@
             <p class="card-sub">Ranked by engagement score</p>
           </div>
         </div>
-        <table class="table">
+        <table class="table" id="contentTable">
           <thead>
             <tr>
               <th>Content</th>
@@ -467,39 +521,58 @@
               <th>Engagement</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody id="contentBody">
+            <tr data-search="summer vlog ep12 video youtube">
               <td><b>Summer Vlog Ep.12</b><br><small>Video • 8 min</small></td>
               <td><span class="platform-tag yt">YouTube</span></td>
               <td>1.2M</td>
               <td><span class="bar"><span style="width:92%"></span></span> 92%</td>
             </tr>
-            <tr>
+            <tr data-search="dance challenge remix short tiktok">
               <td><b>Dance Challenge Remix</b><br><small>Short • 30s</small></td>
               <td><span class="platform-tag tt">TikTok</span></td>
               <td>3.4M</td>
               <td><span class="bar"><span style="width:88%"></span></span> 88%</td>
             </tr>
-            <tr>
+            <tr data-search="behind the scenes reel instagram">
               <td><b>Behind the Scenes</b><br><small>Reel • 45s</small></td>
               <td><span class="platform-tag ig">Instagram</span></td>
               <td>890K</td>
               <td><span class="bar"><span style="width:81%"></span></span> 81%</td>
             </tr>
-            <tr>
+            <tr data-search="community update post facebook groups">
+              <td><b>Community Update Post</b><br><small>Post • Image</small></td>
+              <td><span class="platform-tag fb">Facebook</span></td>
+              <td>540K</td>
+              <td><span class="bar"><span style="width:79%"></span></span> 79%</td>
+            </tr>
+            <tr data-search="product launch teaser video youtube">
               <td><b>Product Launch Teaser</b><br><small>Video • 1 min</small></td>
               <td><span class="platform-tag yt">YouTube</span></td>
               <td>620K</td>
               <td><span class="bar"><span style="width:76%"></span></span> 76%</td>
             </tr>
-            <tr>
+            <tr data-search="founder thoughts thread threads">
+              <td><b>Founder Thoughts Thread</b><br><small>Thread • 8 posts</small></td>
+              <td><span class="platform-tag th">Threads</span></td>
+              <td>320K</td>
+              <td><span class="bar"><span style="width:74%"></span></span> 74%</td>
+            </tr>
+            <tr data-search="qa live stream tiktok">
               <td><b>Q&A Live Stream</b><br><small>Stream • 42 min</small></td>
               <td><span class="platform-tag tt">TikTok</span></td>
               <td>410K</td>
               <td><span class="bar"><span style="width:72%"></span></span> 72%</td>
             </tr>
+            <tr data-search="facebook live product demo">
+              <td><b>Live Product Demo</b><br><small>Live • 25 min</small></td>
+              <td><span class="platform-tag fb">Facebook</span></td>
+              <td>280K</td>
+              <td><span class="bar"><span style="width:68%"></span></span> 68%</td>
+            </tr>
           </tbody>
         </table>
+        <div class="no-results" id="noResults">🔍 No matching content found</div>
       </div>
     </section>
 
@@ -508,16 +581,32 @@
     </footer>
   </main>
 
-  <!-- =========================================
-       JAVASCRIPT
-       ========================================= -->
+  <!-- Toast -->
+  <div class="toast" id="toast">✅ Report exported successfully!</div>
+
   <script>
     // Chart.js global defaults
     Chart.defaults.color = '#9ca3af';
     Chart.defaults.font.family = 'Inter, sans-serif';
     Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
 
-    // ---- KPI counter animation ----
+    // ============ DATA CONFIG ============
+    const PLATFORMS = {
+      youtube:   { label: 'YouTube',   color: '#3b82f6', base: 45000, variance: 8000 },
+      tiktok:    { label: 'TikTok',    color: '#ec4899', base: 62000, variance: 12000 },
+      instagram: { label: 'Instagram', color: '#8b5cf6', base: 38000, variance: 6000 },
+      facebook:  { label: 'Facebook',  color: '#1877F2', base: 32000, variance: 5000 },
+      threads:   { label: 'Threads',   color: '#F5F5F5', base: 18000, variance: 4000 }
+    };
+
+    const PLATFORM_SHARE = {
+      youtube: 26, tiktok: 24, instagram: 19, facebook: 18, threads: 8, twitter: 5
+    };
+
+    // ============ CHART INSTANCES ============
+    let trendChart, platformChart, contentChart, hourChart, demoChart;
+
+    // ============ KPI COUNTER ANIMATION ============
     function animateCounters() {
       document.querySelectorAll('.kpi-value').forEach(el => {
         const target = parseFloat(el.dataset.target);
@@ -537,150 +626,304 @@
       });
     }
 
-    // ---- Engagement Trend Chart ----
-    const trendCtx = document.getElementById('trendChart').getContext('2d');
-    const labels = Array.from({length: 30}, (_, i) => `Day ${i+1}`);
-    function genTrend(base, variance) {
-      return labels.map((_, i) => base + Math.sin(i/3)*variance + Math.random()*variance*0.5);
+    // ============ GENERATE TREND DATA ============
+    function generateLabels(days) {
+      if (days === 365) {
+        return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      }
+      return Array.from({length: days}, (_, i) => {
+        if (days <= 7) return `Day ${i+1}`;
+        if (days <= 30) return `D${i+1}`;
+        return `D${i+1}`;
+      });
     }
 
-    new Chart(trendCtx, {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: 'YouTube',
-            data: genTrend(45000, 8000),
-            borderColor: '#3b82f6',
-            backgroundColor: 'rgba(59,130,246,0.1)',
-            fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
-          },
-          {
-            label: 'TikTok',
-            data: genTrend(62000, 12000),
-            borderColor: '#ec4899',
-            backgroundColor: 'rgba(236,72,153,0.1)',
-            fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
-          },
-          {
-            label: 'Instagram',
-            data: genTrend(38000, 6000),
-            borderColor: '#8b5cf6',
-            backgroundColor: 'rgba(139,92,246,0.1)',
-            fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
+    function genTrend(base, variance, days) {
+      const scale = days === 365 ? 30 : (days === 90 ? 3 : 1);
+      return Array.from({length: days}, (_, i) => {
+        const trend = (i / days) * variance * 0.3;
+        return base * scale + Math.sin(i/3)*variance + Math.random()*variance*0.5 + trend;
+      });
+    }
+
+    // ============ BUILD TREND CHART ============
+    function buildTrendChart(days = 30) {
+      const labels = generateLabels(days);
+      const datasets = Object.values(PLATFORMS).map(p => ({
+        label: p.label,
+        data: genTrend(p.base, p.variance, days === 365 ? 12 : days),
+        borderColor: p.color,
+        backgroundColor: p.color + '1A',
+        fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
+      }));
+
+      if (trendChart) trendChart.destroy();
+      trendChart = new Chart(document.getElementById('trendChart'), {
+        type: 'line',
+        data: { labels, datasets },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+            y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => (v/1000)+'k' } }
           }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
-          y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => (v/1000)+'k' } }
         }
-      }
-    });
+      });
+    }
 
-    // ---- Platform Share (Doughnut) ----
-    new Chart(document.getElementById('platformChart'), {
-      type: 'doughnut',
-      data: {
-        labels: ['YouTube', 'TikTok', 'Instagram', 'Twitter/X', 'Others'],
-        datasets: [{
-          data: [32, 28, 22, 10, 8],
-          backgroundColor: ['#3b82f6', '#ec4899', '#8b5cf6', '#f59e0b', '#10b981'],
-          borderWidth: 0, hoverOffset: 10
-        }]
-      },
-      options: {
-        responsive: true,
-        cutout: '65%',
-        plugins: {
-          legend: { position: 'bottom', labels: { padding: 15, boxWidth: 12 } }
+    // ============ BUILD PLATFORM SHARE ============
+    function buildPlatformChart() {
+      const labels = Object.keys(PLATFORM_SHARE).map(k => {
+        const map = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', threads: 'Threads', twitter: 'Twitter/X' };
+        return map[k];
+      });
+      const colors = ['#3b82f6', '#ec4899', '#8b5cf6', '#1877F2', '#F5F5F5', '#f59e0b'];
+
+      if (platformChart) platformChart.destroy();
+      platformChart = new Chart(document.getElementById('platformChart'), {
+        type: 'doughnut',
+        data: {
+          labels,
+          datasets: [{
+            data: Object.values(PLATFORM_SHARE),
+            backgroundColor: colors,
+            borderWidth: 0, hoverOffset: 10
+          }]
+        },
+        options: {
+          responsive: true,
+          cutout: '65%',
+          plugins: {
+            legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { size: 11 } } }
+          }
         }
-      }
-    });
+      });
+    }
 
-    // ---- Content Type (Polar) ----
-    new Chart(document.getElementById('contentChart'), {
-      type: 'polarArea',
-      data: {
-        labels: ['Short Video', 'Long Video', 'Live', 'Image', 'Audio'],
-        datasets: [{
-          data: [85, 62, 48, 55, 30],
-          backgroundColor: [
-            'rgba(236,72,153,0.7)', 'rgba(59,130,246,0.7)',
-            'rgba(139,92,246,0.7)', 'rgba(245,158,11,0.7)', 'rgba(16,185,129,0.7)'
-          ],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } },
-        scales: { r: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } } }
-      }
-    });
-
-    // ---- Peak Hours (Bar) ----
-    new Chart(document.getElementById('hourChart'), {
-      type: 'bar',
-      data: {
-        labels: ['6a','9a','12p','3p','6p','9p','12a'],
-        datasets: [{
-          label: 'Activity',
-          data: [20, 45, 60, 55, 78, 95, 40],
-          backgroundColor: (ctx) => {
-            const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 200);
-            g.addColorStop(0, '#8b5cf6');
-            g.addColorStop(1, '#3b82f6');
-            return g;
-          },
-          borderRadius: 6, barThickness: 22
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid: { display: false } },
-          y: { grid: { color: 'rgba(255,255,255,0.04)' } }
+    // ============ CONTENT TYPE (Polar) ============
+    function buildContentChart() {
+      if (contentChart) contentChart.destroy();
+      contentChart = new Chart(document.getElementById('contentChart'), {
+        type: 'polarArea',
+        data: {
+          labels: ['Short Video', 'Long Video', 'Live', 'Image', 'Thread'],
+          datasets: [{
+            data: [85, 62, 48, 55, 42],
+            backgroundColor: [
+              'rgba(236,72,153,0.7)', 'rgba(59,130,246,0.7)',
+              'rgba(139,92,246,0.7)', 'rgba(245,158,11,0.7)', 'rgba(245,245,245,0.7)'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } },
+          scales: { r: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } } }
         }
-      }
-    });
+      });
+    }
 
-    // ---- Demographics (Horizontal Bar) ----
-    new Chart(document.getElementById('demoChart'), {
-      type: 'bar',
-      data: {
-        labels: ['13-17', '18-24', '25-34', '35-44', '45-54', '55+'],
-        datasets: [{
-          label: '% Users',
-          data: [8, 28, 34, 18, 10, 5],
-          backgroundColor: ['#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
-          borderRadius: 6
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'%' } },
-          y: { grid: { display: false } }
+    // ============ PEAK HOURS ============
+    function buildHourChart() {
+      if (hourChart) hourChart.destroy();
+      hourChart = new Chart(document.getElementById('hourChart'), {
+        type: 'bar',
+        data: {
+          labels: ['6a','9a','12p','3p','6p','9p','12a'],
+          datasets: [{
+            label: 'Activity',
+            data: [20, 45, 60, 55, 78, 95, 40],
+            backgroundColor: (ctx) => {
+              const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 200);
+              g.addColorStop(0, '#8b5cf6');
+              g.addColorStop(1, '#3b82f6');
+              return g;
+            },
+            borderRadius: 6, barThickness: 22
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false } },
+            y: { grid: { color: 'rgba(255,255,255,0.04)' } }
+          }
         }
-      }
+      });
+    }
+
+    // ============ DEMOGRAPHICS ============
+    function buildDemoChart() {
+      if (demoChart) demoChart.destroy();
+      demoChart = new Chart(document.getElementById('demoChart'), {
+        type: 'bar',
+        data: {
+          labels: ['13-17', '18-24', '25-34', '35-44', '45-54', '55+'],
+          datasets: [{
+            label: '% Users',
+            data: [8, 28, 34, 18, 10, 5],
+            backgroundColor: ['#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'%' } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // ============ SEARCH FUNCTIONALITY ============
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    const contentBody = document.getElementById('contentBody');
+    const noResults = document.getElementById('noResults');
+
+    function performSearch(query) {
+      const q = query.trim().toLowerCase();
+      searchClear.classList.toggle('visible', q.length > 0);
+
+      // Filter table rows
+      const rows = contentBody.querySelectorAll('tr');
+      let visibleCount = 0;
+      rows.forEach(row => {
+        const searchData = (row.dataset.search || '') + ' ' + row.textContent;
+        const match = !q || searchData.toLowerCase().includes(q);
+        row.classList.toggle('hidden', !match);
+        if (match) visibleCount++;
+      });
+      noResults.classList.toggle('visible', q.length > 0 && visibleCount === 0);
+
+      // Dim KPI cards that don't match
+      document.querySelectorAll('.kpi-card').forEach(card => {
+        const searchData = (card.dataset.search || '') + ' ' + card.textContent;
+        const match = !q || searchData.toLowerCase().includes(q);
+        card.classList.toggle('dimmed', q.length > 0 && !match);
+      });
+
+      // Dim insights that don't match
+      document.querySelectorAll('#insightList li').forEach(li => {
+        const searchData = (li.dataset.search || '') + ' ' + li.textContent;
+        const match = !q || searchData.toLowerCase().includes(q);
+        li.classList.toggle('dimmed', q.length > 0 && !match);
+      });
+    }
+
+    searchInput.addEventListener('input', (e) => performSearch(e.target.value));
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      performSearch('');
+      searchInput.focus();
     });
 
-    // ---- Period filter (demo) ----
-    document.getElementById('periodSelect').addEventListener('change', (e) => {
-      console.log('Period changed to:', e.target.value);
-      // Hook: re-fetch data from your Python/R API here
+    // ============ PERIOD DROPDOWN ============
+    const periodSelect = document.getElementById('periodSelect');
+    periodSelect.addEventListener('change', (e) => {
+      const days = parseInt(e.target.value);
+      buildTrendChart(days);
+      showToast(`📊 Updated to: ${e.target.options[e.target.selectedIndex].text}`);
     });
 
-    // ---- Init ----
-    window.addEventListener('load', animateCounters);
+    // ============ EXPORT REPORT ============
+    const exportBtn = document.getElementById('exportBtn');
+    exportBtn.addEventListener('click', () => {
+      exportBtn.classList.add('exporting');
+      exportBtn.textContent = '⏳ Exporting...';
+
+      setTimeout(() => {
+        try {
+          const period = periodSelect.options[periodSelect.selectedIndex].text;
+          const timestamp = new Date().toISOString().split('T')[0];
+          const filename = `media-analytics-report-${timestamp}.csv`;
+
+          let csv = '';
+          csv += 'PREDICTIVE MEDIA ANALYTICS REPORT\n';
+          csv += `Generated:,${new Date().toLocaleString()}\n`;
+          csv += `Period:,${period}\n\n`;
+
+          // KPI Summary
+          csv += '=== KEY PERFORMANCE INDICATORS ===\n';
+          csv += 'Metric,Value,Change\n';
+          document.querySelectorAll('.kpi-card').forEach(card => {
+            const label = card.querySelector('.kpi-label').textContent;
+            const value = card.querySelector('.kpi-value').textContent;
+            const change = card.querySelector('.kpi-change').textContent.trim();
+            csv += `"${label}","${value}","${change}"\n`;
+          });
+
+          csv += '\n=== TOP PERFORMING CONTENT ===\n';
+          csv += 'Content,Platform,Views,Engagement\n';
+          contentBody.querySelectorAll('tr:not(.hidden)').forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const content = cells[0].textContent.replace(/\s+/g, ' ').trim();
+            const platform = cells[1].textContent.trim();
+            const views = cells[2].textContent.trim();
+            const engagement = cells[3].textContent.trim();
+            csv += `"${content}","${platform}","${views}","${engagement}"\n`;
+          });
+
+          csv += '\n=== PREDICTIVE INSIGHTS ===\n';
+          csv += 'Insight,Details\n';
+          document.querySelectorAll('#insightList li').forEach(li => {
+            const title = li.querySelector('.insight-title').textContent.replace(/\s+/g, ' ').trim();
+            const desc = li.querySelector('.insight-desc').textContent.replace(/\s+/g, ' ').trim();
+            csv += `"${title}","${desc}"\n`;
+          });
+
+          csv += '\n=== PLATFORM ENGAGEMENT DATA ===\n';
+          csv += 'Platform,Share (%)\n';
+          Object.entries(PLATFORM_SHARE).forEach(([key, val]) => {
+            const names = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', threads: 'Threads', twitter: 'Twitter/X' };
+            csv += `${names[key]},${val}\n`;
+          });
+
+          // Trigger download
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+
+          showToast(`✅ Report exported: ${filename}`);
+        } catch (err) {
+          console.error(err);
+          showToast('❌ Export failed. Please try again.');
+        } finally {
+          exportBtn.classList.remove('exporting');
+          exportBtn.textContent = '📥 Export Report';
+        }
+      }, 400);
+    });
+
+    // ============ TOAST NOTIFICATION ============
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ============ INIT ============
+    window.addEventListener('load', () => {
+      animateCounters();
+      buildTrendChart(30);
+      buildPlatformChart();
+      buildContentChart();
+      buildHourChart();
+      buildDemoChart();
+    });
   </script>
 </body>
 </html>

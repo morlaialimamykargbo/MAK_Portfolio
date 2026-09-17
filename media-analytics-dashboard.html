@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Predictive Media Analytics Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -19,11 +19,12 @@
     }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; }
 
-    .sidebar { width: 250px; background: var(--bg-2); border-right: 1px solid var(--border); padding: 24px 16px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    /* Sidebar & Mobile Menu */
+    .sidebar { width: 250px; background: var(--bg-2); border-right: 1px solid var(--border); padding: 24px 16px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; z-index: 100; transition: transform 0.3s ease; }
     .logo { display: flex; align-items: center; gap: 10px; padding: 0 8px 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
     .logo-icon { width: 36px; height: 36px; background: var(--grad); border-radius: 10px; display: grid; place-items: center; font-size: 18px; }
     .logo-text { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
-    .nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; }
     .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; cursor: pointer; }
     .nav-item:hover { background: var(--card); color: var(--text); }
     .nav-item.active { background: var(--grad); color: white; box-shadow: 0 4px 20px rgba(139,92,246,0.3); }
@@ -34,19 +35,26 @@
     .user-name { font-size: 13px; font-weight: 600; }
     .user-role { font-size: 11px; color: var(--muted); }
 
-    .main { flex: 1; padding: 28px 36px; max-width: calc(100vw - 250px); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; }
+    .sidebar-overlay.open { display: block; }
+
+    /* Main Content */
+    .main { flex: 1; padding: 28px 36px; width: 100%; }
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .mobile-menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 4px; }
     .page-title { font-size: 28px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .page-subtitle { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    
     .header-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .search-box { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); padding: 8px 14px; border-radius: 10px; transition: border-color 0.2s; }
+    .search-box { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); padding: 8px 14px; border-radius: 10px; transition: border-color 0.2s; flex: 1; max-width: 280px; }
     .search-box:focus-within { border-color: var(--purple); }
-    .search-box input { background: transparent; border: none; outline: none; color: var(--text); font-size: 13px; width: 180px; }
+    .search-box input { background: transparent; border: none; outline: none; color: var(--text); font-size: 13px; width: 100%; }
     .search-clear { display: none; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 0 4px; }
     .search-clear.visible { display: inline-block; }
     .select { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 9px 14px; border-radius: 10px; font-size: 13px; cursor: pointer; outline: none; transition: border-color 0.2s; }
     .select:focus { border-color: var(--purple); }
-    .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 18px; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 18px; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap; }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.4); }
     .btn-primary.exporting { opacity: 0.7; pointer-events: none; }
 
@@ -55,9 +63,9 @@
     .live-dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; animation: livePulse 1.5s infinite; }
     @keyframes livePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); } 50% { box-shadow: 0 0 0 6px rgba(239,68,68,0); } }
     .last-updated { font-size: 12px; color: var(--muted); }
-    .data-source { font-size: 11px; color: var(--muted); background: var(--card); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; }
+    .data-source { font-size: 11px; color: var(--muted); background: var(--card); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
     .data-source.connected { border-color: var(--green); color: var(--green); }
-    .api-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+    .api-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: 600; transition: all 0.2s; white-space: nowrap; }
     .api-btn:hover { border-color: var(--purple); color: var(--text); }
 
     .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 24px; }
@@ -103,14 +111,15 @@
     .insight-title b { color: var(--blue); }
     .insight-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-    .table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .table th { text-align: left; padding: 10px 8px; color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
-    .table td { padding: 14px 8px; border-bottom: 1px solid var(--border); }
+    .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 500px; }
+    .table th { text-align: left; padding: 10px 8px; color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    .table td { padding: 14px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
     .table tr:last-child td { border-bottom: none; }
     .table tbody tr { transition: opacity 0.2s, background 0.2s; }
     .table tbody tr:hover { background: rgba(255,255,255,0.02); }
     .table tbody tr.hidden { display: none; }
-    .table small { color: var(--muted); }
+    .table small { color: var(--muted); white-space: nowrap; }
     .no-results { text-align: center; padding: 30px; color: var(--muted); font-size: 13px; display: none; }
     .no-results.visible { display: block; }
     .platform-tag { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-block; }
@@ -123,12 +132,12 @@
     .bar > span { display: block; height: 100%; background: var(--grad); border-radius: 3px; transition: width 0.6s; }
 
     .footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border); }
-    .toast { position: fixed; bottom: 30px; right: 30px; background: var(--card); border: 1px solid var(--green); color: var(--text); padding: 14px 20px; border-radius: 12px; font-size: 13px; font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 1000; }
+    .toast { position: fixed; bottom: 30px; right: 30px; background: var(--card); border: 1px solid var(--green); color: var(--text); padding: 14px 20px; border-radius: 12px; font-size: 13px; font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 1000; max-width: 90vw; }
     .toast.show { transform: translateY(0); opacity: 1; }
 
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; place-items: center; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; place-items: center; padding: 20px; }
     .modal-overlay.open { display: grid; }
-    .modal { background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 90%; max-width: 480px; }
+    .modal { background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; }
     .modal h2 { font-size: 18px; margin-bottom: 6px; }
     .modal p { font-size: 12px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
     .modal label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; margin-top: 12px; }
@@ -139,17 +148,40 @@
     .btn-save { background: var(--grad); color: white; }
     .btn-cancel { background: var(--card); color: var(--muted); border: 1px solid var(--border) !important; }
 
-    /* View Switching */
     .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
     .view-section.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    @media (max-width: 1100px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
-    @media (max-width: 768px) { .sidebar { display: none; } .main { padding: 20px; max-width: 100%; } .search-box input { width: 120px; } }
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 1100px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: block; }
+      .sidebar { position: fixed; left: 0; top: 0; height: 100vh; transform: translateX(-100%); z-index: 1000; box-shadow: 4px 0 20px rgba(0,0,0,0.5); }
+      .sidebar.open { transform: translateX(0); }
+      .main { padding: 20px 16px; }
+      .header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .header-actions { width: 100%; flex-wrap: wrap; }
+      .search-box { max-width: 100%; order: 3; }
+      .page-title { font-size: 22px; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .kpi-value { font-size: 24px; }
+      .live-bar { gap: 8px; }
+      .last-updated { display: none; } /* Save space on mobile */
+    }
+    @media (max-width: 480px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      .header-actions { flex-direction: column; align-items: stretch; }
+      .select, .btn-primary { width: 100%; text-align: center; }
+      .modal-actions { flex-direction: column; }
+      .modal-actions button { width: 100%; }
+    }
   </style>
 </head>
 <body>
-  <aside class="sidebar">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar">
     <div class="logo"><div class="logo-icon">📊</div><span class="logo-text">MediaPulse</span></div>
     <nav class="nav">
       <a href="#" class="nav-item active" data-view="overview"><span class="icon">🏠</span> Overview</a>
@@ -169,9 +201,12 @@
 
   <main class="main">
     <header class="header">
-      <div>
-        <h1 class="page-title">Predictive Media Analytics</h1>
-        <p class="page-subtitle">User engagement patterns across multimedia platforms</p>
+      <div class="header-left">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        <div>
+          <h1 class="page-title">Predictive Media Analytics</h1>
+          <p class="page-subtitle">User engagement patterns across multimedia platforms</p>
+        </div>
       </div>
       <div class="header-actions">
         <div class="search-box">
@@ -261,19 +296,21 @@
         </div>
         <div class="card">
           <div class="card-head"><div><h3 class="card-title">Top Performing Content</h3><p class="card-sub">Ranked by engagement score</p></div></div>
-          <table class="table" id="contentTable">
-            <thead><tr><th>Content</th><th>Platform</th><th>Views</th><th>Engagement</th></tr></thead>
-            <tbody id="contentBody">
-              <tr data-search="summer vlog ep12 video youtube"><td><b>Summer Vlog Ep.12</b><br><small>Video • 8 min</small></td><td><span class="platform-tag yt">YouTube</span></td><td class="views-cell">1.2M</td><td><span class="bar"><span style="width:92%"></span></span> <span class="eng-val">92%</span></td></tr>
-              <tr data-search="dance challenge remix short tiktok"><td><b>Dance Challenge Remix</b><br><small>Short • 30s</small></td><td><span class="platform-tag tt">TikTok</span></td><td class="views-cell">3.4M</td><td><span class="bar"><span style="width:88%"></span></span> <span class="eng-val">88%</span></td></tr>
-              <tr data-search="behind the scenes reel instagram"><td><b>Behind the Scenes</b><br><small>Reel • 45s</small></td><td><span class="platform-tag ig">Instagram</span></td><td class="views-cell">890K</td><td><span class="bar"><span style="width:81%"></span></span> <span class="eng-val">81%</span></td></tr>
-              <tr data-search="community update post facebook groups"><td><b>Community Update Post</b><br><small>Post • Image</small></td><td><span class="platform-tag fb">Facebook</span></td><td class="views-cell">540K</td><td><span class="bar"><span style="width:79%"></span></span> <span class="eng-val">79%</span></td></tr>
-              <tr data-search="product launch teaser video youtube"><td><b>Product Launch Teaser</b><br><small>Video • 1 min</small></td><td><span class="platform-tag yt">YouTube</span></td><td class="views-cell">620K</td><td><span class="bar"><span style="width:76%"></span></span> <span class="eng-val">76%</span></td></tr>
-              <tr data-search="founder thoughts thread threads"><td><b>Founder Thoughts Thread</b><br><small>Thread • 8 posts</small></td><td><span class="platform-tag th">Threads</span></td><td class="views-cell">320K</td><td><span class="bar"><span style="width:74%"></span></span> <span class="eng-val">74%</span></td></tr>
-              <tr data-search="qa live stream tiktok"><td><b>Q&A Live Stream</b><br><small>Stream • 42 min</small></td><td><span class="platform-tag tt">TikTok</span></td><td class="views-cell">410K</td><td><span class="bar"><span style="width:72%"></span></span> <span class="eng-val">72%</span></td></tr>
-              <tr data-search="facebook live product demo"><td><b>Live Product Demo</b><br><small>Live • 25 min</small></td><td><span class="platform-tag fb">Facebook</span></td><td class="views-cell">280K</td><td><span class="bar"><span style="width:68%"></span></span> <span class="eng-val">68%</span></td></tr>
-            </tbody>
-          </table>
+          <div class="table-wrapper">
+            <table class="table" id="contentTable">
+              <thead><tr><th>Content</th><th>Platform</th><th>Views</th><th>Engagement</th></tr></thead>
+              <tbody id="contentBody">
+                <tr data-search="summer vlog ep12 video youtube"><td><b>Summer Vlog Ep.12</b><br><small>Video • 8 min</small></td><td><span class="platform-tag yt">YouTube</span></td><td class="views-cell">1.2M</td><td><span class="bar"><span style="width:92%"></span></span> <span class="eng-val">92%</span></td></tr>
+                <tr data-search="dance challenge remix short tiktok"><td><b>Dance Challenge Remix</b><br><small>Short • 30s</small></td><td><span class="platform-tag tt">TikTok</span></td><td class="views-cell">3.4M</td><td><span class="bar"><span style="width:88%"></span></span> <span class="eng-val">88%</span></td></tr>
+                <tr data-search="behind the scenes reel instagram"><td><b>Behind the Scenes</b><br><small>Reel • 45s</small></td><td><span class="platform-tag ig">Instagram</span></td><td class="views-cell">890K</td><td><span class="bar"><span style="width:81%"></span></span> <span class="eng-val">81%</span></td></tr>
+                <tr data-search="community update post facebook groups"><td><b>Community Update Post</b><br><small>Post • Image</small></td><td><span class="platform-tag fb">Facebook</span></td><td class="views-cell">540K</td><td><span class="bar"><span style="width:79%"></span></span> <span class="eng-val">79%</span></td></tr>
+                <tr data-search="product launch teaser video youtube"><td><b>Product Launch Teaser</b><br><small>Video • 1 min</small></td><td><span class="platform-tag yt">YouTube</span></td><td class="views-cell">620K</td><td><span class="bar"><span style="width:76%"></span></span> <span class="eng-val">76%</span></td></tr>
+                <tr data-search="founder thoughts thread threads"><td><b>Founder Thoughts Thread</b><br><small>Thread • 8 posts</small></td><td><span class="platform-tag th">Threads</span></td><td class="views-cell">320K</td><td><span class="bar"><span style="width:74%"></span></span> <span class="eng-val">74%</span></td></tr>
+                <tr data-search="qa live stream tiktok"><td><b>Q&A Live Stream</b><br><small>Stream • 42 min</small></td><td><span class="platform-tag tt">TikTok</span></td><td class="views-cell">410K</td><td><span class="bar"><span style="width:72%"></span></span> <span class="eng-val">72%</span></td></tr>
+                <tr data-search="facebook live product demo"><td><b>Live Product Demo</b><br><small>Live • 25 min</small></td><td><span class="platform-tag fb">Facebook</span></td><td class="views-cell">280K</td><td><span class="bar"><span style="width:68%"></span></span> <span class="eng-val">68%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
           <div class="no-results" id="noResults">🔍 No matching content found</div>
         </div>
       </section>
@@ -322,12 +359,12 @@
       <div class="kpi-grid">
         <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">New Followers (30d)</span><span class="kpi-icon blue">👥</span></div><div class="kpi-value">142.8K</div><div class="kpi-change up">▲ 12.1%</div></div>
         <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Audience Growth Rate</span><span class="kpi-icon green">📈</span></div><div class="kpi-value">3.8%</div><div class="kpi-change up">MoM</div></div>
-        <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Top Location</span><span class="kpi-icon purple">🌍</span></div><div class="kpi-value">USA</div><div class="kpi-change up">34% of total</div></div>
+        <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Top Location</span><span class="kpi-icon purple">🌍</span></div><div class="kpi-value">USA</div><div class="kpi-change up">22% of total</div></div>
         <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Primary Device</span><span class="kpi-icon orange">📱</span></div><div class="kpi-value">Mobile</div><div class="kpi-change up">78% of traffic</div></div>
       </div>
       <div class="grid-3">
         <div class="card"><div class="card-head"><div><h3 class="card-title">Device Breakdown</h3></div></div><canvas id="deviceChart" height="140"></canvas></div>
-        <div class="card"><div class="card-head"><div><h3 class="card-title">Top 5 Locations</h3></div></div><canvas id="locationChart" height="140"></canvas></div>
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Global Audience Distribution</h3><p class="card-sub">Top 12 countries worldwide</p></div></div><canvas id="locationChart" height="140"></canvas></div>
         <div class="card"><div class="card-head"><div><h3 class="card-title">Gender by Age</h3></div></div><canvas id="genderAgeChart" height="140"></canvas></div>
       </div>
     </div>
@@ -353,10 +390,12 @@
             <option value="threads">Threads</option>
           </select>
         </div>
-        <table class="table" id="contentLibraryTable">
-          <thead><tr><th>Date</th><th>Content</th><th>Platform</th><th>Format</th><th>Views</th><th>Engagement</th></tr></thead>
-          <tbody id="contentLibraryBody"></tbody>
-        </table>
+        <div class="table-wrapper">
+          <table class="table" id="contentLibraryTable">
+            <thead><tr><th>Date</th><th>Content</th><th>Platform</th><th>Format</th><th>Views</th><th>Engagement</th></tr></thead>
+            <tbody id="contentLibraryBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -367,11 +406,11 @@
         <div class="card">
           <div class="card-head"><div><h3 class="card-title">🔌 Data Sources & API</h3><p class="card-sub">Manage your live data connections</p></div></div>
           <div style="display: flex; flex-direction: column; gap: 12px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; flex-wrap: wrap; gap: 8px;">
               <div style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 20px;">📺</span><div><div style="font-weight: 600;">YouTube Data API</div><div style="font-size: 11px; color: var(--muted);" id="settingsYtStatus">Not connected</div></div></div>
               <button class="api-btn" onclick="document.getElementById('apiConfigBtn').click()">Configure</button>
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; flex-wrap: wrap; gap: 8px;">
               <div style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 20px;">📘</span><div><div style="font-weight: 600;">Meta Graph API</div><div style="font-size: 11px; color: var(--muted);" id="settingsMetaStatus">Not connected</div></div></div>
               <button class="api-btn" onclick="document.getElementById('apiConfigBtn').click()">Configure</button>
             </div>
@@ -422,8 +461,20 @@
 
   <script>
     Chart.defaults.color = '#9ca3af';
-    Chart.defaults.font.family = 'Inter, sans-serif';
+    Chart.defaults.font.family = 'Inter', sans-serif';
     Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+
+    // ============ MOBILE MENU ============
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function toggleSidebar() {
+      sidebar.classList.toggle('open');
+      sidebarOverlay.classList.toggle('open');
+    }
+    mobileMenuBtn.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
 
     // ============ LIVE DATA ENGINE ============
     class LiveDataEngine {
@@ -575,6 +626,8 @@
           if (view === 'content' && !window.contentLibraryInitialized) { initContentLibrary(); window.contentLibraryInitialized = true; }
           if (view === 'settings') updateSettingsUI();
         }
+        // Close mobile sidebar after selection
+        if (window.innerWidth <= 768) toggleSidebar();
       });
     });
 
@@ -640,7 +693,7 @@
       if (trendChart) trendChart.destroy();
       trendChart = new Chart(document.getElementById('trendChart'), {
         type: 'line', data: { labels, datasets },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => (v/1000)+'k' } } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => (v/1000)+'k' } } } }
       });
     }
     function buildPlatformChart() {
@@ -650,7 +703,7 @@
       platformChart = new Chart(document.getElementById('platformChart'), {
         type: 'doughnut',
         data: { labels: Object.keys(liveEngine.livePlatformShare).map(k => map[k]), datasets: [{ data: Object.values(liveEngine.livePlatformShare), backgroundColor: colors, borderWidth: 0, hoverOffset: 10 }] },
-        options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { size: 11 } } } } }
+        options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { size: 11 } } } } }
       });
     }
     function buildContentChart() {
@@ -658,7 +711,7 @@
       contentChart = new Chart(document.getElementById('contentChart'), {
         type: 'polarArea',
         data: { labels: ['Short Video', 'Long Video', 'Live', 'Image', 'Thread'], datasets: [{ data: [85, 62, 48, 55, 42], backgroundColor: ['rgba(236,72,153,0.7)', 'rgba(59,130,246,0.7)', 'rgba(139,92,246,0.7)', 'rgba(245,158,11,0.7)', 'rgba(245,245,245,0.7)'], borderWidth: 0 }] },
-        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } }, scales: { r: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } }, scales: { r: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } } } }
       });
     }
     function buildHourChart() {
@@ -666,7 +719,7 @@
       hourChart = new Chart(document.getElementById('hourChart'), {
         type: 'bar',
         data: { labels: ['6a','9a','12p','3p','6p','9p','12a'], datasets: [{ label: 'Activity', data: [20, 45, 60, 55, 78, 95, 40], backgroundColor: (ctx) => { const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 200); g.addColorStop(0, '#8b5cf6'); g.addColorStop(1, '#3b82f6'); return g; }, borderRadius: 6, barThickness: 22 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255,255,255,0.04)' } } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255,255,255,0.04)' } } } }
       });
     }
     function buildDemoChart() {
@@ -674,7 +727,7 @@
       demoChart = new Chart(document.getElementById('demoChart'), {
         type: 'bar',
         data: { labels: ['13-17', '18-24', '25-34', '35-44', '45-54', '55+'], datasets: [{ label: '% Users', data: [8, 28, 34, 18, 10, 5], backgroundColor: ['#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'], borderRadius: 6 }] },
-        options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'%' } }, y: { grid: { display: false } } } }
+        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'%' } }, y: { grid: { display: false } } } }
       });
     }
 
@@ -687,12 +740,12 @@
           { label: 'Shares', data: [120, 340, 180, 90, 40], backgroundColor: '#8b5cf6' },
           { label: 'Comments', data: [80, 210, 150, 60, 85], backgroundColor: '#ec4899' }
         ]},
-        options: { responsive: true, scales: { x: { stacked: true }, y: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' } } }, plugins: { legend: { labels: { boxWidth: 12 } } } }
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' } } }, plugins: { legend: { labels: { boxWidth: 12 } } } }
       });
       new Chart(document.getElementById('engagementRateChart'), {
         type: 'line',
         data: { labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], datasets: [{ label: 'Engagement Rate (%)', data: [5.2, 5.8, 6.1, 6.4], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.4 }] },
-        options: { responsive: true, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } } } }
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } } } }
       });
     }
     function initPredictionCharts() {
@@ -702,27 +755,39 @@
           { label: 'Historical', data: [100, 115, 130, 142, 155, 168, null, null], borderColor: '#3b82f6', tension: 0.4 },
           { label: 'Forecast', data: [null, null, null, null, null, 168, 185, 204], borderColor: '#10b981', borderDash: [5, 5], tension: 0.4 }
         ]},
-        options: { responsive: true, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } } } }
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } } } }
       });
     }
     function initAudienceCharts() {
       new Chart(document.getElementById('deviceChart'), {
         type: 'doughnut',
         data: { labels: ['Mobile', 'Desktop', 'Tablet'], datasets: [{ data: [78, 18, 4], backgroundColor: ['#8b5cf6', '#3b82f6', '#f59e0b'], borderWidth: 0 }] },
-        options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } } }
+        options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } } }
       });
+      
+      // GLOBAL AUDIENCE DATA (12 Countries)
+      const globalLocations = ['USA', 'India', 'UK', 'Brazil', 'Canada', 'Germany', 'Japan', 'France', 'Australia', 'Mexico', 'Philippines', 'South Korea'];
+      const locationData = [22, 15, 12, 9, 8, 7, 6, 5, 4, 4, 4, 4]; // Sums to 100%
+      
       new Chart(document.getElementById('locationChart'), {
         type: 'bar',
-        data: { labels: ['USA', 'UK', 'Canada', 'Australia', 'Germany'], datasets: [{ label: 'Audience %', data: [34, 18, 12, 9, 7], backgroundColor: '#ec4899', borderRadius: 6 }] },
-        options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { display: false } } } }
+        data: { labels: globalLocations, datasets: [{ label: 'Audience %', data: locationData, backgroundColor: '#ec4899', borderRadius: 4 }] },
+        options: { 
+          indexAxis: 'y', 
+          responsive: true, 
+          maintainAspectRatio: false, 
+          plugins: { legend: { display: false } }, 
+          scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v+'%' } }, y: { grid: { display: false } } } 
+        }
       });
+      
       new Chart(document.getElementById('genderAgeChart'), {
         type: 'bar',
         data: { labels: ['13-17', '18-24', '25-34', '35-44', '45+'], datasets: [
           { label: 'Male', data: [4, 15, 18, 10, 6], backgroundColor: '#3b82f6' },
           { label: 'Female', data: [4, 13, 16, 8, 4], backgroundColor: '#ec4899' }
         ]},
-        options: { responsive: true, scales: { x: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { stacked: true, grid: { display: false } } }, plugins: { legend: { labels: { boxWidth: 12 } } } }
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { stacked: true, grid: { display: false } } }, plugins: { legend: { labels: { boxWidth: 12 } } } }
       });
     }
     function initContentLibrary() {

@@ -6,8 +6,6 @@
   <title>Predictive Media Analytics Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  
-  <!-- NEW: PDF Export & Interactive Map Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
@@ -34,6 +32,7 @@
       --settings-row: rgba(255,255,255,0.02);
       --compare-bg: rgba(139,92,246,0.08);
       --compare-border: rgba(139,92,246,0.3);
+      --map-low: #1a2136; --map-high: #8b5cf6; --map-text: #e5e7eb;
     }
     body.theme-light {
       --bg: #f3f4f6; --bg-2: #ffffff; --card: #ffffff; --card-hover: #f9fafb;
@@ -52,6 +51,7 @@
       --settings-row: rgba(0,0,0,0.02);
       --compare-bg: rgba(124,58,237,0.06);
       --compare-border: rgba(124,58,237,0.25);
+      --map-low: #f3f4f6; --map-high: #7c3aed; --map-text: #1f2937;
     }
     body.theme-ocean {
       --bg: #0a1929; --bg-2: #0f2744; --card: #132f4c; --card-hover: #173a5e;
@@ -70,6 +70,7 @@
       --settings-row: rgba(255,255,255,0.03);
       --compare-bg: rgba(167,139,250,0.1);
       --compare-border: rgba(167,139,250,0.35);
+      --map-low: #132f4c; --map-high: #a78bfa; --map-text: #e0f2fe;
     }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; transition: background 0.3s, color 0.3s; }
 
@@ -113,7 +114,7 @@
     .btn-primary { background: var(--grad); color: white; border: none; padding: 9px 18px; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap; }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.4); }
     .btn-primary.exporting { opacity: 0.7; pointer-events: none; }
-    .btn-pdf { background: var(--red); } /* NEW: PDF Button Style */
+    .btn-pdf { background: var(--red); }
 
     .compare-wrapper { position: relative; }
     .compare-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 9px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
@@ -310,14 +311,47 @@
     .theme-pick-name { font-size: 13px; font-weight: 700; }
     .theme-pick-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-    /* NEW: Interactive Map Styling */
-    .map-container { width: 100%; height: 300px; border-radius: 12px; overflow: hidden; }
-    .jvm-container { background: transparent !important; }
-    .jvm-region { fill: var(--card) !important; stroke: var(--border) !important; stroke-width: 1 !important; transition: fill 0.2s; }
-    .jvm-region:hover { fill: var(--purple) !important; cursor: pointer; }
+    /* Interactive Map Styling */
+    .map-container { width: 100%; height: 320px; border-radius: 12px; overflow: hidden; position: relative; background: var(--card); }
+    .jvm-container { width: 100% !important; height: 100% !important; }
+    .jvm-zoom-btn { background: var(--card) !important; color: var(--text) !important; border: 1px solid var(--border) !important; }
     .jvm-legend { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; padding: 8px !important; }
     .jvm-legend-title { fill: var(--text) !important; font-size: 12px !important; font-weight: 600 !important; font-family: 'Inter', sans-serif !important; }
     .jvm-legend-text { fill: var(--muted) !important; font-size: 11px !important; font-family: 'Inter', sans-serif !important; }
+    .jvm-tooltip { background: var(--bg-2) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; padding: 8px 12px !important; font-family: 'Inter', sans-serif !important; font-size: 12px !important; box-shadow: var(--shadow) !important; }
+
+    /* Scroll to Top Button */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--grad);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+      z-index: 998;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+    .scroll-top-btn.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .scroll-top-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
+    }
+    .scroll-top-btn svg { width: 24px; height: 24px; }
 
     @media (max-width: 1100px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
     @media (max-width: 768px) {
@@ -342,6 +376,8 @@
       .compare-grid { grid-template-columns: 1fr 1fr; }
       .toast { right: 16px; left: 16px; bottom: 20px; }
       .back-btn { width: 100%; justify-content: center; }
+      .scroll-top-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+      .scroll-top-btn svg { width: 22px; height: 22px; }
     }
     @media (max-width: 480px) {
       .kpi-grid { grid-template-columns: 1fr; }
@@ -384,10 +420,7 @@
       <div class="header-left">
         <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
         <a href="index.html" class="back-btn" title="Back to Portfolio">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
           <span>Back to Portfolio</span>
         </a>
         <div>
@@ -409,90 +442,40 @@
         </select>
 
         <div class="compare-wrapper">
-          <button class="compare-btn" id="compareBtn" title="Compare periods">
-            📊 <span id="compareBtnLabel">Compare</span>
-          </button>
+          <button class="compare-btn" id="compareBtn" title="Compare periods">📊 <span id="compareBtnLabel">Compare</span></button>
           <div class="compare-dropdown" id="compareDropdown">
             <div class="compare-dropdown-title">Compare to</div>
-            <button class="compare-option" data-compare="previous">
-              <span class="compare-option-icon">⏮️</span>
-              <div class="compare-option-info">
-                <span class="compare-option-name">Previous Period</span>
-                <span class="compare-option-desc">vs the period before</span>
-              </div>
-            </button>
-            <button class="compare-option" data-compare="month">
-              <span class="compare-option-icon">📅</span>
-              <div class="compare-option-info">
-                <span class="compare-option-name">Last Month</span>
-                <span class="compare-option-desc">vs previous month</span>
-              </div>
-            </button>
-            <button class="compare-option" data-compare="year">
-              <span class="compare-option-icon">📆</span>
-              <div class="compare-option-info">
-                <span class="compare-option-name">Same Period Last Year</span>
-                <span class="compare-option-desc">Year-over-year comparison</span>
-              </div>
-            </button>
-            <button class="compare-option" data-compare="custom">
-              <span class="compare-option-icon">🎯</span>
-              <div class="compare-option-info">
-                <span class="compare-option-name">Custom Range</span>
-                <span class="compare-option-desc">Select specific dates</span>
-              </div>
-            </button>
+            <button class="compare-option" data-compare="previous"><span class="compare-option-icon">⏮️</span><div class="compare-option-info"><span class="compare-option-name">Previous Period</span><span class="compare-option-desc">vs the period before</span></div></button>
+            <button class="compare-option" data-compare="month"><span class="compare-option-icon">📅</span><div class="compare-option-info"><span class="compare-option-name">Last Month</span><span class="compare-option-desc">vs previous month</span></div></button>
+            <button class="compare-option" data-compare="year"><span class="compare-option-icon">📆</span><div class="compare-option-info"><span class="compare-option-name">Same Period Last Year</span><span class="compare-option-desc">Year-over-year comparison</span></div></button>
+            <button class="compare-option" data-compare="custom"><span class="compare-option-icon">🎯</span><div class="compare-option-info"><span class="compare-option-name">Custom Range</span><span class="compare-option-desc">Select specific dates</span></div></button>
           </div>
         </div>
 
         <div class="notif-wrapper">
-          <button class="notif-btn" id="notifBtn" title="Notifications">
-            🔔
-            <span class="notif-badge" id="notifBadge">0</span>
-          </button>
+          <button class="notif-btn" id="notifBtn" title="Notifications">🔔<span class="notif-badge" id="notifBadge">0</span></button>
           <div class="notif-dropdown" id="notifDropdown">
-            <div class="notif-header">
-              <h3>🔔 Notifications</h3>
-              <button class="notif-clear" id="notifClearAll">Clear all</button>
-            </div>
-            <div class="notif-list" id="notifList">
-              <div class="notif-empty"><span>🔕</span>No notifications yet</div>
-            </div>
+            <div class="notif-header"><h3>🔔 Notifications</h3><button class="notif-clear" id="notifClearAll">Clear all</button></div>
+            <div class="notif-list" id="notifList"><div class="notif-empty"><span>🔕</span>No notifications yet</div></div>
           </div>
         </div>
 
         <div class="theme-switcher">
           <button class="theme-btn" id="themeBtn" title="Change theme">🎨 <span id="themeBtnLabel">Midnight</span></button>
           <div class="theme-dropdown" id="themeDropdown">
-            <button class="theme-option active" data-theme="midnight">
-              <div class="theme-preview"><span style="background:#0b0f1a"></span><span style="background:#151b2b"></span><span style="background:#8b5cf6"></span></div>
-              <div class="theme-option-info"><span class="theme-option-name">Midnight</span><span class="theme-option-desc">Dark & modern</span></div>
-              <span class="check">✓</span>
-            </button>
-            <button class="theme-option" data-theme="light">
-              <div class="theme-preview"><span style="background:#f3f4f6"></span><span style="background:#ffffff"></span><span style="background:#7c3aed"></span></div>
-              <div class="theme-option-info"><span class="theme-option-name">Light</span><span class="theme-option-desc">Clean & professional</span></div>
-              <span class="check">✓</span>
-            </button>
-            <button class="theme-option" data-theme="ocean">
-              <div class="theme-preview"><span style="background:#0a1929"></span><span style="background:#132f4c"></span><span style="background:#0ea5e9"></span></div>
-              <div class="theme-option-info"><span class="theme-option-name">Ocean</span><span class="theme-option-desc">Deep navy blue</span></div>
-              <span class="check">✓</span>
-            </button>
+            <button class="theme-option active" data-theme="midnight"><div class="theme-preview"><span style="background:#0b0f1a"></span><span style="background:#151b2b"></span><span style="background:#8b5cf6"></span></div><div class="theme-option-info"><span class="theme-option-name">Midnight</span><span class="theme-option-desc">Dark & modern</span></div><span class="check">✓</span></button>
+            <button class="theme-option" data-theme="light"><div class="theme-preview"><span style="background:#f3f4f6"></span><span style="background:#ffffff"></span><span style="background:#7c3aed"></span></div><div class="theme-option-info"><span class="theme-option-name">Light</span><span class="theme-option-desc">Clean & professional</span></div><span class="check">✓</span></button>
+            <button class="theme-option" data-theme="ocean"><div class="theme-preview"><span style="background:#0a1929"></span><span style="background:#132f4c"></span><span style="background:#0ea5e9"></span></div><div class="theme-option-info"><span class="theme-option-name">Ocean</span><span class="theme-option-desc">Deep navy blue</span></div><span class="check">✓</span></button>
           </div>
         </div>
-        <!-- NEW: PDF Export Button -->
         <button class="btn-primary btn-pdf" id="exportPdfBtn" title="Download PDF Report">📄 PDF</button>
-        <button class="btn-primary" id="exportBtn">📥 CSV</button>
+        <button class="btn-primary" id="exportBtn" title="Download CSV Report">📥 CSV</button>
       </div>
     </header>
 
     <div class="compare-panel" id="comparePanel">
       <div class="compare-panel-header">
-        <div class="compare-panel-title">
-          <span>📊</span>
-          <span id="comparePanelTitle">Period Comparison</span>
-        </div>
+        <div class="compare-panel-title"><span>📊</span><span id="comparePanelTitle">Period Comparison</span></div>
         <button class="compare-panel-close" id="comparePanelClose" title="Close comparison">✕</button>
       </div>
       <div class="compare-grid" id="compareGrid"></div>
@@ -507,30 +490,10 @@
 
     <div id="view-overview" class="view-section active">
       <section class="kpi-grid" id="kpiGrid">
-        <div class="kpi-card" id="kpi-users" data-search="total users">
-          <span class="live-tick" id="tickUsers">● updated</span>
-          <div class="kpi-head"><span class="kpi-label">Total Users</span><span class="kpi-icon blue">👥</span></div>
-          <div class="kpi-value" id="kpiUsersVal">0</div>
-          <div class="kpi-change up" id="kpiUsersChange">▲ 12.4% <span>vs last period</span></div>
-        </div>
-        <div class="kpi-card" id="kpi-engagement" data-search="engagement rate">
-          <span class="live-tick" id="tickEngagement">● updated</span>
-          <div class="kpi-head"><span class="kpi-label">Engagement Rate</span><span class="kpi-icon green">⚡</span></div>
-          <div class="kpi-value" id="kpiEngagementVal">0</div>
-          <div class="kpi-change up" id="kpiEngagementChange">▲ 3.2% <span>vs last period</span></div>
-        </div>
-        <div class="kpi-card" id="kpi-watch" data-search="avg watch time">
-          <span class="live-tick" id="tickWatch">● updated</span>
-          <div class="kpi-head"><span class="kpi-label">Avg. Watch Time</span><span class="kpi-icon purple">⏱️</span></div>
-          <div class="kpi-value" id="kpiWatchVal">0</div>
-          <div class="kpi-change up" id="kpiWatchChange">▲ 1.8 min <span>vs last period</span></div>
-        </div>
-        <div class="kpi-card" id="kpi-retention" data-search="retention rate">
-          <span class="live-tick" id="tickRetention">● updated</span>
-          <div class="kpi-head"><span class="kpi-label">Retention Rate</span><span class="kpi-icon orange">🎯</span></div>
-          <div class="kpi-value" id="kpiRetentionVal">0</div>
-          <div class="kpi-change down" id="kpiRetentionChange">▼ 0.9% <span>vs last period</span></div>
-        </div>
+        <div class="kpi-card" id="kpi-users" data-search="total users"><span class="live-tick" id="tickUsers">● updated</span><div class="kpi-head"><span class="kpi-label">Total Users</span><span class="kpi-icon blue">👥</span></div><div class="kpi-value" id="kpiUsersVal">0</div><div class="kpi-change up" id="kpiUsersChange">▲ 12.4% <span>vs last period</span></div></div>
+        <div class="kpi-card" id="kpi-engagement" data-search="engagement rate"><span class="live-tick" id="tickEngagement">● updated</span><div class="kpi-head"><span class="kpi-label">Engagement Rate</span><span class="kpi-icon green">⚡</span></div><div class="kpi-value" id="kpiEngagementVal">0</div><div class="kpi-change up" id="kpiEngagementChange">▲ 3.2% <span>vs last period</span></div></div>
+        <div class="kpi-card" id="kpi-watch" data-search="avg watch time"><span class="live-tick" id="tickWatch">● updated</span><div class="kpi-head"><span class="kpi-label">Avg. Watch Time</span><span class="kpi-icon purple">⏱️</span></div><div class="kpi-value" id="kpiWatchVal">0</div><div class="kpi-change up" id="kpiWatchChange">▲ 1.8 min <span>vs last period</span></div></div>
+        <div class="kpi-card" id="kpi-retention" data-search="retention rate"><span class="live-tick" id="tickRetention">● updated</span><div class="kpi-head"><span class="kpi-label">Retention Rate</span><span class="kpi-icon orange">🎯</span></div><div class="kpi-value" id="kpiRetentionVal">0</div><div class="kpi-change down" id="kpiRetentionChange">▼ 0.9% <span>vs last period</span></div></div>
       </section>
       <section class="grid-2">
         <div class="card">
@@ -630,9 +593,8 @@
       </div>
       <div class="grid-3">
         <div class="card"><div class="card-head"><div><h3 class="card-title">Device Breakdown</h3></div></div><div class="chart-container square"><canvas id="deviceChart"></canvas></div></div>
-        <!-- NEW: Interactive World Map replaces the bar chart -->
         <div class="card" style="grid-column: span 2;">
-          <div class="card-head"><div><h3 class="card-title">Global Audience Distribution</h3><p class="card-sub">Interactive world map of audience concentration</p></div></div>
+          <div class="card-head"><div><h3 class="card-title">🌍 Global Audience Distribution</h3><p class="card-sub">Interactive world map — hover countries to see audience %</p></div></div>
           <div class="map-container" id="worldMap"></div>
         </div>
       </div>
@@ -697,6 +659,13 @@
     </footer>
   </main>
 
+  <!-- Scroll to Top Button -->
+  <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
   <div class="toast" id="toast">✅ Report exported successfully!</div>
 
   <div class="modal-overlay" id="apiModal">
@@ -713,11 +682,20 @@
 
   <script>
     const THEME_NAMES = { midnight: 'Midnight', light: 'Light', ocean: 'Ocean' };
+    const THEME_MAP_COLORS = {
+      midnight: { low: '#1a2136', high: '#8b5cf6', text: '#e5e7eb', bg: '#151b2b', border: '#1f2937' },
+      light:    { low: '#f3f4f6', high: '#7c3aed', text: '#1f2937', bg: '#ffffff', border: '#e5e7eb' },
+      ocean:    { low: '#132f4c', high: '#a78bfa', text: '#e0f2fe', bg: '#0f2744', border: '#1e3a5f' }
+    };
     const CHART_THEMES = {
       midnight: { textColor: '#9ca3af', gridColor: 'rgba(255,255,255,0.05)' },
       light:    { textColor: '#6b7280', gridColor: 'rgba(0,0,0,0.08)' },
       ocean:    { textColor: '#94a3b8', gridColor: 'rgba(255,255,255,0.08)' }
     };
+    
+    let worldMapInstance = null;
+    let audienceMapInitialized = false;
+
     function applyTheme(theme) {
       document.body.className = `theme-${theme}`;
       localStorage.setItem('mediaPulseTheme', theme);
@@ -728,6 +706,11 @@
       Chart.defaults.color = ct.textColor;
       Chart.defaults.borderColor = ct.gridColor;
       redrawAllCharts();
+      // Rebuild map with new theme colors if it exists
+      if (audienceMapInitialized) {
+        destroyWorldMap();
+        initWorldMap();
+      }
     }
     function getCurrentTheme() { return localStorage.getItem('mediaPulseTheme') || 'midnight'; }
     (function() { document.body.className = `theme-${getCurrentTheme()}`; })();
@@ -1047,7 +1030,7 @@
     let currentPlatformFilter = null;
     let trendChart, platformChart, contentChart, hourChart, demoChart;
     let engagementTypeChart, engagementRateChart, forecastChart;
-    let deviceChart, locationChart, genderAgeChart;
+    let deviceChart, genderAgeChart;
 
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', (e) => {
@@ -1058,7 +1041,16 @@
         const targetView = document.getElementById(`view-${view}`);
         if (targetView) {
           targetView.classList.add('active');
-          setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+          setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+            // Re-init map if switching to audience tab
+            if (view === 'audience' && audienceMapInitialized) {
+              setTimeout(() => {
+                destroyWorldMap();
+                initWorldMap();
+              }, 100);
+            }
+          }, 50);
           if (view === 'engagement' && !window.engagementChartsInitialized) { initEngagementCharts(); window.engagementChartsInitialized = true; }
           if (view === 'predictions' && !window.predictionChartsInitialized) { initPredictionCharts(); window.predictionChartsInitialized = true; }
           if (view === 'audience' && !window.audienceChartsInitialized) { initAudienceCharts(); window.audienceChartsInitialized = true; }
@@ -1131,7 +1123,7 @@
       if (demoChart) buildDemoChart();
       if (window.engagementChartsInitialized) { if (engagementTypeChart) engagementTypeChart.destroy(); if (engagementRateChart) engagementRateChart.destroy(); initEngagementCharts(); }
       if (window.predictionChartsInitialized) { if (forecastChart) forecastChart.destroy(); initPredictionCharts(); }
-      if (window.audienceChartsInitialized) { if (deviceChart) deviceChart.destroy(); if (locationChart) locationChart.destroy(); if (genderAgeChart) genderAgeChart.destroy(); initAudienceCharts(); }
+      if (window.audienceChartsInitialized) { if (deviceChart) deviceChart.destroy(); if (genderAgeChart) genderAgeChart.destroy(); initAudienceCharts(); }
     }
     function initEngagementCharts() {
       if (engagementTypeChart) engagementTypeChart.destroy(); if (engagementRateChart) engagementRateChart.destroy();
@@ -1140,7 +1132,91 @@
     }
     function initPredictionCharts() { if (forecastChart) forecastChart.destroy(); forecastChart = new Chart(document.getElementById('forecastChart'), { type: 'line', data: { labels: ['M1','M2','M3','M4','M5','M6','M7 (Pred)','M8 (Pred)'], datasets: [{ label: 'Historical', data: [100,115,130,142,155,168,null,null], borderColor: '#3b82f6', tension: 0.4 }, { label: 'Forecast', data: [null,null,null,null,null,168,185,204], borderColor: '#10b981', borderDash: [5,5], tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: 'var(--chart-grid)' } } } } }); }
     
-    // NEW: Interactive World Map Initialization
+    // WORLD MAP FUNCTIONS (FIXED)
+    const audienceMapData = { "US": 22, "IN": 15, "GB": 12, "BR": 9, "CA": 8, "DE": 7, "JP": 6, "FR": 5, "AU": 4, "MX": 4, "PH": 4, "KR": 4 };
+
+    function destroyWorldMap() {
+      if (worldMapInstance) {
+        try { worldMapInstance.destroy(); } catch(e) { console.warn('Map destroy error:', e); }
+        worldMapInstance = null;
+      }
+      const container = document.getElementById('worldMap');
+      if (container) container.innerHTML = '';
+    }
+
+    function initWorldMap() {
+      const container = document.getElementById('worldMap');
+      if (!container) return;
+      
+      // Check if container has dimensions
+      const rect = container.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        setTimeout(initWorldMap, 100);
+        return;
+      }
+
+      if (typeof jvm === 'undefined') {
+        container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;">🌍 Map library loading...</div>';
+        return;
+      }
+
+      const theme = getCurrentTheme();
+      const colors = THEME_MAP_COLORS[theme];
+
+      try {
+        worldMapInstance = new jvm.Map({
+          container: container,
+          map: 'world',
+          backgroundColor: 'transparent',
+          regionsSelectable: false,
+          markersSelectable: false,
+          zoomOnScroll: true,
+          zoomMax: 8,
+          zoomMin: 1,
+          regionStyle: {
+            initial: {
+              fill: colors.low,
+              stroke: colors.border,
+              'stroke-width': 0.5,
+              'stroke-opacity': 0.6
+            },
+            hover: {
+              fill: colors.high
+            },
+            selected: {
+              fill: colors.high
+            }
+          },
+          series: {
+            regions: [{
+              values: audienceMapData,
+              scale: [colors.low, colors.high],
+              normalizeFunction: 'polynomial',
+              attribute: 'fill',
+              legend: {
+                vertical: true,
+                title: 'Audience %',
+                cssClass: 'jvm-legend',
+                titleStyle: { color: colors.text, fontSize: '12px', fontWeight: '600' },
+                labelStyle: { color: colors.text, fontSize: '11px' }
+              }
+            }]
+          },
+          onRegionTipShow: function(e, tip, code) {
+            const value = audienceMapData[code];
+            if (value !== undefined) {
+              tip.html(`<div style="font-weight:600;margin-bottom:4px;">${tip.text()}</div><div style="color:${colors.text};opacity:0.8;">Audience: <b style="color:${colors.high};">${value}%</b></div>`);
+            } else {
+              tip.html(`<div style="font-weight:600;">${tip.text()}</div><div style="color:${colors.text};opacity:0.6;">No audience data</div>`);
+            }
+          }
+        });
+      } catch (e) {
+        console.error('Map init error:', e);
+        container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;">🌍 Map unavailable</div>';
+      }
+    }
+
     function initAudienceCharts() {
       if (deviceChart) deviceChart.destroy(); 
       if (genderAgeChart) genderAgeChart.destroy();
@@ -1149,32 +1225,9 @@
       
       genderAgeChart = new Chart(document.getElementById('genderAgeChart'), { type: 'bar', data: { labels: ['13-17','18-24','25-34','35-44','45+'], datasets: [{ label: 'Male', data: [4,15,18,10,6], backgroundColor: '#3b82f6' }, { label: 'Female', data: [4,13,16,8,4], backgroundColor: '#ec4899' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { color: 'var(--chart-grid)' } }, y: { stacked: true, grid: { display: false } } }, plugins: { legend: { labels: { boxWidth: 12 } } } } });
 
-      // Initialize Vector Map
-      const mapData = { "US": 22, "IN": 15, "GB": 12, "BR": 9, "CA": 8, "DE": 7, "JP": 6, "FR": 5, "AU": 4, "MX": 4, "PH": 4, "KR": 4 };
-      if (window.jvm) {
-        new jvm.Map({
-          selector: '#worldMap',
-          map: 'world',
-          backgroundColor: 'transparent',
-          regionStyle: {
-            initial: { fill: 'var(--card)', stroke: 'var(--border)', strokeWidth: 1 },
-            hover: { fill: 'var(--purple)', cursor: 'pointer' }
-          },
-          series: {
-            regions: [{
-              attribute: 'fill',
-              scale: ['#1a2136', '#8b5cf6'],
-              values: mapData,
-              legend: { title: 'Audience %', vertical: true }
-            }]
-          },
-          onRegionTooltipShow: function(event, tooltip, code) {
-            const countryName = tooltip.text();
-            const value = mapData[code] || 0;
-            tooltip.text(`<b>${countryName}</b><br>Audience: ${value}%`, true);
-          }
-        });
-      }
+      // Initialize the world map
+      audienceMapInitialized = true;
+      setTimeout(() => initWorldMap(), 200);
     }
 
     function initContentLibrary() {
@@ -1253,41 +1306,79 @@
       showToast(`📊 Updated to: ${e.target.options[e.target.selectedIndex].text}`);
     });
 
-    // NEW: PDF Export Functionality
+    // PDF Export
     document.getElementById('exportPdfBtn').addEventListener('click', () => {
+      const btn = document.getElementById('exportPdfBtn');
+      const originalText = btn.textContent;
+      btn.classList.add('exporting'); btn.textContent = '⏳ PDF...';
+      showToast('📄 Generating PDF...');
       const element = document.getElementById('dashboardContent');
       const opt = {
-        margin: 0.5,
+        margin: 0.4,
         filename: `MediaPulse_Report_${new Date().toISOString().split('T')[0]}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg') },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: getComputedStyle(document.body).backgroundColor },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
       };
-      showToast('📄 Generating PDF...');
       html2pdf().set(opt).from(element).save().then(() => {
+        btn.classList.remove('exporting'); btn.textContent = originalText;
         showToast('✅ PDF exported successfully!');
+      }).catch((err) => {
+        console.error('PDF error:', err);
+        btn.classList.remove('exporting'); btn.textContent = originalText;
+        showToast('❌ PDF export failed.');
       });
     });
 
+    // CSV Export (FIXED)
     document.getElementById('exportBtn').addEventListener('click', () => {
       const btn = document.getElementById('exportBtn');
-      btn.classList.add('exporting'); btn.textContent = '⏳ CSV...';
-      setTimeout(() => {
-        try {
-          const period = document.getElementById('periodSelect').options[document.getElementById('periodSelect').selectedIndex].text;
-          const ts = new Date().toISOString().split('T')[0];
-          const fn = `media-analytics-report-${ts}.csv`;
-          let csv = `PREDICTIVE MEDIA ANALYTICS REPORT\nGenerated:,${new Date().toLocaleString()}\nPeriod:,${period}\nPlatform Filter:,${currentPlatformFilter || 'All'}\nData Source:,${liveEngine.useRealAPI ? 'Live API' : 'Simulated'}\nTheme:,${THEME_NAMES[getCurrentTheme()]}\nComparison Mode:,${comparisonEngine.active ? comparisonEngine.getModeLabel() : 'Off'}\n\n=== KPIs ===\nMetric,Value,Change\n`;
-          document.querySelectorAll('.kpi-card').forEach(c => { csv += `"${c.querySelector('.kpi-label').textContent}","${c.querySelector('.kpi-value').textContent}","${c.querySelector('.kpi-change').textContent.trim()}"\n`; });
-          csv += '\n=== CONTENT ===\nContent,Platform,Views,Engagement\n';
-          contentBody.querySelectorAll('tr:not(.hidden)').forEach(r => { const c = r.querySelectorAll('td'); csv += `"${c[0].textContent.replace(/\s+/g,' ').trim()}","${c[1].textContent.trim()}","${c[2].textContent.trim()}","${c[3].textContent.trim()}"\n`; });
-          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob);
-          const link = document.createElement('a'); link.href = url; link.download = fn;
-          document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
-          showToast(`✅ CSV exported: ${fn}`);
-        } catch (err) { showToast('❌ Export failed.'); }
-        finally { btn.classList.remove('exporting'); btn.textContent = '📥 CSV'; }
-      }, 400);
+      const originalText = btn.textContent;
+      try {
+        btn.classList.add('exporting'); 
+        btn.textContent = '⏳ CSV...';
+        showToast('📥 Generating CSV...');
+        
+        const period = document.getElementById('periodSelect').options[document.getElementById('periodSelect').selectedIndex].text;
+        const ts = new Date().toISOString().split('T')[0];
+        const fn = `media-analytics-report-${ts}.csv`;
+        
+        let csv = `PREDICTIVE MEDIA ANALYTICS REPORT\nGenerated:,${new Date().toLocaleString()}\nPeriod:,${period}\nPlatform Filter:,${currentPlatformFilter || 'All'}\nData Source:,${liveEngine.useRealAPI ? 'Live API' : 'Simulated'}\nTheme:,${THEME_NAMES[getCurrentTheme()]}\nComparison Mode:,${comparisonEngine.active ? comparisonEngine.getModeLabel() : 'Off'}\n\n=== KPIs ===\nMetric,Value,Change\n`;
+        
+        document.querySelectorAll('.kpi-card').forEach(c => { 
+          const label = c.querySelector('.kpi-label')?.textContent || '';
+          const value = c.querySelector('.kpi-value')?.textContent || '';
+          const change = c.querySelector('.kpi-change')?.textContent?.trim() || '';
+          csv += `"${label}","${value}","${change}"\n`; 
+        });
+        
+        csv += '\n=== CONTENT ===\nContent,Platform,Views,Engagement\n';
+        contentBody.querySelectorAll('tr:not(.hidden)').forEach(r => { 
+          const c = r.querySelectorAll('td'); 
+          if (c.length >= 4) {
+            csv += `"${c[0].textContent.replace(/\s+/g,' ').trim()}","${c[1].textContent.trim()}","${c[2].textContent.trim()}","${c[3].textContent.trim()}"\n`; 
+          }
+        });
+        
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url; 
+        link.download = fn;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+        
+        showToast(`✅ CSV exported: ${fn}`);
+      } catch (err) {
+        console.error('CSV export error:', err);
+        showToast('❌ CSV export failed: ' + err.message);
+      } finally {
+        btn.classList.remove('exporting'); 
+        btn.textContent = originalText;
+      }
     });
 
     const apiModal = document.getElementById('apiModal');
@@ -1321,6 +1412,19 @@
 
     function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
 
+    // Scroll to Top Button (NEW)
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
     window.addEventListener('load', () => {
       applyTheme(getCurrentTheme());
       ['kpiUsersVal','kpiEngagementVal','kpiWatchVal','kpiRetentionVal'].forEach(id => { document.getElementById(id).dataset.current = '0'; });
@@ -1328,6 +1432,13 @@
       liveEngine.start();
       if (liveEngine.useRealAPI) { document.getElementById('dataSource').textContent = '🟢 API Connected'; document.getElementById('dataSource').classList.add('connected'); }
       setTimeout(() => { notifManager.addNotification('info', '👋 Welcome to MediaPulse!', 'Your dashboard is live. Notifications will appear here as anomalies, milestones, and predictions are detected.'); }, 2000);
+    });
+
+    // Resize handler for map
+    window.addEventListener('resize', () => {
+      if (worldMapInstance) {
+        try { worldMapInstance.updateSize(); } catch(e) {}
+      }
     });
   </script>
 </body>

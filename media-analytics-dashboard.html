@@ -16,7 +16,7 @@
       --border: #1f2937; --text: #e5e7eb; --muted: #9ca3af;
       --blue: #3b82f6; --pink: #ec4899; --purple: #8b5cf6;
       --green: #10b981; --orange: #f59e0b; --red: #ef4444;
-      --fb: #1877F2; --threads: #F5F5F5;
+      --fb: #1877F2; --threads: #F5F5F5; --whatsapp: #25D366;
       --grad: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
       --shadow: 0 10px 30px rgba(0,0,0,0.4);
       --chart-grid: rgba(255,255,255,0.04);
@@ -34,7 +34,7 @@
       --border: #e5e7eb; --text: #1f2937; --muted: #6b7280;
       --blue: #2563eb; --pink: #db2777; --purple: #7c3aed;
       --green: #059669; --orange: #d97706; --red: #dc2626;
-      --fb: #1877F2; --threads: #1f2937;
+      --fb: #1877F2; --threads: #1f2937; --whatsapp: #128C7E;
       --grad: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
       --shadow: 0 10px 30px rgba(0,0,0,0.08);
       --chart-grid: rgba(0,0,0,0.05);
@@ -52,7 +52,7 @@
       --border: #1e3a5f; --text: #e0f2fe; --muted: #94a3b8;
       --blue: #0ea5e9; --pink: #f472b6; --purple: #a78bfa;
       --green: #34d399; --orange: #fbbf24; --red: #f87171;
-      --fb: #1877F2; --threads: #e0f2fe;
+      --fb: #1877F2; --threads: #e0f2fe; --whatsapp: #25D366;
       --grad: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #ec4899 100%);
       --shadow: 0 10px 30px rgba(0,0,0,0.5);
       --chart-grid: rgba(255,255,255,0.05);
@@ -231,7 +231,7 @@
     .legend-inline { display: flex; gap: 10px; font-size: 11px; color: var(--muted); align-items: center; flex-wrap: wrap; }
     .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
     .dot.blue { background: var(--blue); } .dot.pink { background: var(--pink); } .dot.purple { background: var(--purple); }
-    .dot.fb { background: var(--fb); } .dot.threads { background: var(--threads); }
+    .dot.fb { background: var(--fb); } .dot.threads { background: var(--threads); } .dot.whatsapp { background: var(--whatsapp); }
     .prediction-card { background: linear-gradient(135deg, var(--card-hover) 0%, var(--card) 100%); }
     .badge { background: rgba(16,185,129,0.15); color: var(--green); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); } 50% { box-shadow: 0 0 0 8px rgba(16,185,129,0); } }
@@ -261,6 +261,7 @@
     .platform-tag.ig { background: rgba(139,92,246,0.15); color: #8b5cf6; }
     .platform-tag.fb { background: rgba(24,119,242,0.15); color: #1877F2; }
     .platform-tag.th { background: rgba(100,100,100,0.15); color: var(--text); }
+    .platform-tag.wa { background: rgba(37,211,102,0.15); color: var(--whatsapp); }
     .bar { display: inline-block; width: 60px; height: 6px; background: var(--chart-grid-strong); border-radius: 3px; vertical-align: middle; margin-right: 6px; overflow: hidden; }
     .bar > span { display: block; height: 100%; background: var(--grad); border-radius: 3px; transition: width 0.6s; }
 
@@ -474,7 +475,6 @@
       <button class="api-btn" id="apiConfigBtn">🔑 Connect Real API</button>
     </div>
 
-    <!-- ================= VIEW: OVERVIEW ================= -->
     <div id="view-overview" class="view-section active">
       <section class="kpi-grid" id="kpiGrid">
         <div class="kpi-card" id="kpi-users" data-search="total users">
@@ -506,7 +506,7 @@
         <div class="card">
           <div class="card-head">
             <div><h3 class="card-title">Engagement Trends</h3><p class="card-sub">Daily active interactions across platforms</p></div>
-            <div class="legend-inline"><span class="dot blue"></span> YouTube <span class="dot pink"></span> TikTok <span class="dot purple"></span> Instagram <span class="dot fb"></span> Facebook <span class="dot threads"></span> Threads</div>
+            <div class="legend-inline"><span class="dot blue"></span> YouTube <span class="dot pink"></span> TikTok <span class="dot purple"></span> Instagram <span class="dot fb"></span> Facebook <span class="dot threads"></span> Threads <span class="dot whatsapp"></span> WhatsApp</div>
           </div>
           <div class="chart-container tall"><canvas id="trendChart"></canvas></div>
         </div>
@@ -522,8 +522,10 @@
           <div class="card-head"><div><h3 class="card-title">🔮 Predictive Insights</h3><p class="card-sub">ML-driven forecasts (Python + R models)</p></div><span class="badge">Live</span></div>
           <ul class="insight-list" id="insightList">
             <li data-search="tiktok surge creatorweek"><div class="insight-icon">📈</div><div><div class="insight-title">TikTok engagement will surge <b>+23%</b> next week</div><div class="insight-desc">Driven by trending hashtag #CreatorWeek. Confidence: 89%.</div></div></li>
+            <li data-search="whatsapp status engagement"><div class="insight-icon">💬</div><div><div class="insight-title">WhatsApp Status views up <b>+38%</b> this month</div><div class="insight-desc">Private sharing is overtaking public posts. WhatsApp drives highest conversion.</div></div></li>
             <li data-search="youtube retention friday"><div class="insight-icon">⚠️</div><div><div class="insight-title">YouTube retention dip predicted on <b>Friday</b></div><div class="insight-desc">Historical pattern suggests 6% drop. Schedule long-form content earlier.</div></div></li>
             <li data-search="facebook threads optimal posting window"><div class="insight-icon">🎯</div><div><div class="insight-title">Optimal posting window: <b>7–9 PM EST</b></div><div class="insight-desc">Cross-platform peak engagement detected across 18–34 age group.</div></div></li>
+            <li data-search="whatsapp broadcast lists conversions"><div class="insight-icon">📱</div><div><div class="insight-title">WhatsApp broadcasts drive <b>4.2×</b> more conversions</div><div class="insight-desc">Direct messaging outperforms social feeds for lead generation.</div></div></li>
             <li data-search="short-form video roi reels shorts"><div class="insight-icon">💡</div><div><div class="insight-title">Short-form video ROI outperforms long-form by <b>2.4×</b></div><div class="insight-desc">Recommend shifting 30% of content budget to Reels/Shorts.</div></div></li>
             <li data-search="threads growth text posts"><div class="insight-icon">🧵</div><div><div class="insight-title">Threads text posts see <b>+41%</b> engagement lift</div><div class="insight-desc">Conversational content outperforms media-only posts on Threads.</div></div></li>
             <li data-search="facebook live video groups"><div class="insight-icon">📘</div><div><div class="insight-title">Facebook Groups drive <b>3.1×</b> more shares</div><div class="insight-desc">Community-focused content in Groups boosts organic reach significantly.</div></div></li>
@@ -537,8 +539,10 @@
               <tbody id="contentBody">
                 <tr data-search="summer vlog ep12 video youtube"><td><b>Summer Vlog Ep.12</b><br><small>Video • 8 min</small></td><td><span class="platform-tag yt">YouTube</span></td><td class="views-cell">1.2M</td><td><span class="bar"><span style="width:92%"></span></span> <span class="eng-val">92%</span></td></tr>
                 <tr data-search="dance challenge remix short tiktok"><td><b>Dance Challenge Remix</b><br><small>Short • 30s</small></td><td><span class="platform-tag tt">TikTok</span></td><td class="views-cell">3.4M</td><td><span class="bar"><span style="width:88%"></span></span> <span class="eng-val">88%</span></td></tr>
+                <tr data-search="whatsapp status daily highlights"><td><b>Daily Highlights Status</b><br><small>Status • 24h</small></td><td><span class="platform-tag wa">WhatsApp</span></td><td class="views-cell">1.8M</td><td><span class="bar"><span style="width:95%"></span></span> <span class="eng-val">95%</span></td></tr>
                 <tr data-search="behind the scenes reel instagram"><td><b>Behind the Scenes</b><br><small>Reel • 45s</small></td><td><span class="platform-tag ig">Instagram</span></td><td class="views-cell">890K</td><td><span class="bar"><span style="width:81%"></span></span> <span class="eng-val">81%</span></td></tr>
                 <tr data-search="community update post facebook groups"><td><b>Community Update Post</b><br><small>Post • Image</small></td><td><span class="platform-tag fb">Facebook</span></td><td class="views-cell">540K</td><td><span class="bar"><span style="width:79%"></span></span> <span class="eng-val">79%</span></td></tr>
+                <tr data-search="whatsapp broadcast promo launch"><td><b>Exclusive Promo Broadcast</b><br><small>Broadcast • Link</small></td><td><span class="platform-tag wa">WhatsApp</span></td><td class="views-cell">720K</td><td><span class="bar"><span style="width:91%"></span></span> <span class="eng-val">91%</span></td></tr>
                 <tr data-search="product launch teaser video youtube"><td><b>Product Launch Teaser</b><br><small>Video • 1 min</small></td><td><span class="platform-tag yt">YouTube</span></td><td class="views-cell">620K</td><td><span class="bar"><span style="width:76%"></span></span> <span class="eng-val">76%</span></td></tr>
                 <tr data-search="founder thoughts thread threads"><td><b>Founder Thoughts Thread</b><br><small>Thread • 8 posts</small></td><td><span class="platform-tag th">Threads</span></td><td class="views-cell">320K</td><td><span class="bar"><span style="width:74%"></span></span> <span class="eng-val">74%</span></td></tr>
                 <tr data-search="qa live stream tiktok"><td><b>Q&A Live Stream</b><br><small>Stream • 42 min</small></td><td><span class="platform-tag tt">TikTok</span></td><td class="views-cell">410K</td><td><span class="bar"><span style="width:72%"></span></span> <span class="eng-val">72%</span></td></tr>
@@ -549,29 +553,8 @@
           <div class="no-results" id="noResults">🔍 No matching content found</div>
         </div>
       </section>
-      
-      <!-- WHATSAPP INTEGRATION: OVERVIEW -->
-      <div class="card" style="margin-top: 24px; background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(16, 185, 129, 0.03) 100%); border: 1px solid rgba(37, 211, 102, 0.2);">
-        <div class="card-head" style="align-items: center; flex-wrap: wrap; gap: 16px;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 48px; height: 48px; background: rgba(37, 211, 102, 0.15); border-radius: 12px; display: grid; place-items: center;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            </div>
-            <div>
-              <h3 class="card-title">Connect on WhatsApp</h3>
-              <p class="card-sub">Have questions about this data? Chat with our analytics team directly.</p>
-            </div>
-          </div>
-          <!-- ⚠️ IMPORTANT: Replace '1234567890' with your actual WhatsApp number including country code (e.g., 23276391399) -->
-          <a href="https://wa.me/1234567890?text=Hello,%20I%20have%20a%20question%20about%20the%20MediaPulse%20Dashboard." target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            Start Chat
-          </a>
-        </div>
-      </div>
     </div>
 
-    <!-- ================= VIEW: ENGAGEMENT ================= -->
     <div id="view-engagement" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Engagement Analytics</h2>
       <div class="kpi-grid">
@@ -584,28 +567,8 @@
         <div class="card"><div class="card-head"><div><h3 class="card-title">Engagement by Type</h3><p class="card-sub">Likes, Shares, and Comments breakdown</p></div></div><div class="chart-container"><canvas id="engagementTypeChart"></canvas></div></div>
         <div class="card"><div class="card-head"><div><h3 class="card-title">Engagement Rate Trend</h3><p class="card-sub">Percentage of audience interacting</p></div></div><div class="chart-container"><canvas id="engagementRateChart"></canvas></div></div>
       </div>
-
-      <!-- WHATSAPP INTEGRATION: ENGAGEMENT -->
-      <div class="card" style="margin-top: 24px; background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(16, 185, 129, 0.03) 100%); border: 1px solid rgba(37, 211, 102, 0.2);">
-        <div class="card-head" style="align-items: center; flex-wrap: wrap; gap: 16px;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 48px; height: 48px; background: rgba(37, 211, 102, 0.15); border-radius: 12px; display: grid; place-items: center;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            </div>
-            <div>
-              <h3 class="card-title">Discuss Engagement Metrics</h3>
-              <p class="card-sub">Need a deeper dive into these engagement numbers? Let's chat on WhatsApp.</p>
-            </div>
-          </div>
-          <a href="https://wa.me/1234567890?text=Hello,%20I%20have%20a%20question%20about%20the%20Engagement%20Analytics." target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            Start Chat
-          </a>
-        </div>
-      </div>
     </div>
 
-    <!-- ================= VIEW: PREDICTIONS ================= -->
     <div id="view-predictions" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Predictive Analytics & Forecasting</h2>
       <div class="kpi-grid">
@@ -627,7 +590,6 @@
       </div>
     </div>
 
-    <!-- ================= VIEW: AUDIENCE ================= -->
     <div id="view-audience" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Audience Intelligence</h2>
       <div class="kpi-grid">
@@ -643,7 +605,6 @@
       </div>
     </div>
 
-    <!-- ================= VIEW: CONTENT ================= -->
     <div id="view-content" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Content Performance Library</h2>
       <div class="kpi-grid">
@@ -654,32 +615,20 @@
       </div>
       <div class="card">
         <div class="card-head"><div><h3 class="card-title">All Content</h3><p class="card-sub">Sortable performance matrix</p></div>
-          <select class="select" id="contentPlatformFilter"><option value="all">All Platforms</option><option value="youtube">YouTube</option><option value="tiktok">TikTok</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="threads">Threads</option></select>
+          <select class="select" id="contentPlatformFilter">
+            <option value="all">All Platforms</option>
+            <option value="youtube">YouTube</option>
+            <option value="tiktok">TikTok</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+            <option value="threads">Threads</option>
+            <option value="whatsapp">WhatsApp</option>
+          </select>
         </div>
         <div class="table-wrapper"><table class="table" id="contentLibraryTable"><thead><tr><th>Date</th><th>Content</th><th>Platform</th><th>Format</th><th>Views</th><th>Engagement</th></tr></thead><tbody id="contentLibraryBody"></tbody></table></div>
       </div>
-
-      <!-- WHATSAPP INTEGRATION: CONTENT -->
-      <div class="card" style="margin-top: 24px; background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(16, 185, 129, 0.03) 100%); border: 1px solid rgba(37, 211, 102, 0.2);">
-        <div class="card-head" style="align-items: center; flex-wrap: wrap; gap: 16px;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 48px; height: 48px; background: rgba(37, 211, 102, 0.15); border-radius: 12px; display: grid; place-items: center;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            </div>
-            <div>
-              <h3 class="card-title">Content Strategy Consultation</h3>
-              <p class="card-sub">Want to optimize your content performance? Message us on WhatsApp for a custom strategy.</p>
-            </div>
-          </div>
-          <a href="https://wa.me/1234567890?text=Hello,%20I%20would%20like%20to%20discuss%20content%20strategy." target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            Start Chat
-          </a>
-        </div>
-      </div>
     </div>
 
-    <!-- ================= VIEW: SETTINGS ================= -->
     <div id="view-settings" class="view-section">
       <h2 class="page-title" style="font-size: 24px; margin-bottom: 20px;">Dashboard Settings</h2>
       <div class="grid-2">
@@ -696,6 +645,7 @@
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--settings-row); border-radius: 8px; flex-wrap: wrap; gap: 8px;"><div style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 20px;">📺</span><div><div style="font-weight: 600;">YouTube Data API</div><div style="font-size: 11px; color: var(--muted);" id="settingsYtStatus">Not connected</div></div></div><button class="api-btn" onclick="document.getElementById('apiConfigBtn').click()">Configure</button></div>
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--settings-row); border-radius: 8px; flex-wrap: wrap; gap: 8px;"><div style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 20px;">📘</span><div><div style="font-weight: 600;">Meta Graph API</div><div style="font-size: 11px; color: var(--muted);" id="settingsMetaStatus">Not connected</div></div></div><button class="api-btn" onclick="document.getElementById('apiConfigBtn').click()">Configure</button></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--settings-row); border-radius: 8px; flex-wrap: wrap; gap: 8px;"><div style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 20px; color: #25D366;">💬</span><div><div style="font-weight: 600;">WhatsApp Business API</div><div style="font-size: 11px; color: var(--muted);" id="settingsWaStatus">Not connected</div></div></div><button class="api-btn" onclick="document.getElementById('apiConfigBtn').click()">Configure</button></div>
           </div>
         </div>
       </div>
@@ -720,6 +670,7 @@
       <label>YouTube Data API v3 Key</label><input type="text" id="ytApiKey" placeholder="AIzaSy..." />
       <label>YouTube Channel ID (optional)</label><input type="text" id="ytChannelId" placeholder="UC..." />
       <label>Meta App Access Token (Facebook/Instagram/Threads)</label><input type="text" id="metaToken" placeholder="EAAD..." />
+      <label>WhatsApp Business API Token</label><input type="text" id="waToken" placeholder="EAA..." />
       <div class="modal-actions"><button class="btn-cancel" id="apiCancelBtn">Cancel</button><button class="btn-save" id="apiSaveBtn">Save & Connect</button></div>
     </div>
   </div>
@@ -771,26 +722,17 @@
 
     // ============ PERIOD COMPARISON MODE ============
     class ComparisonEngine {
-      constructor() {
-        this.mode = null;
-        this.active = false;
-        this.previousData = null;
-      }
+      constructor() { this.mode = null; this.active = false; this.previousData = null; }
       activate(mode) {
-        this.mode = mode;
-        this.active = true;
-        this.generatePreviousData();
-        this.updateUI();
+        this.mode = mode; this.active = true;
+        this.generatePreviousData(); this.updateUI();
         document.getElementById('compareBtn').classList.add('active');
         document.getElementById('comparePanel').classList.add('active');
         document.getElementById('compareBtnLabel').textContent = this.getModeLabel();
-        document.querySelectorAll('.compare-option').forEach(opt => {
-          opt.classList.toggle('active', opt.dataset.compare === mode);
-        });
+        document.querySelectorAll('.compare-option').forEach(opt => opt.classList.toggle('active', opt.dataset.compare === mode));
       }
       deactivate() {
-        this.active = false;
-        this.mode = null;
+        this.active = false; this.mode = null;
         document.getElementById('compareBtn').classList.remove('active');
         document.getElementById('comparePanel').classList.remove('active');
         document.getElementById('compareBtnLabel').textContent = 'Compare';
@@ -841,14 +783,8 @@
           return `<div class="compare-item">
             <div class="compare-item-label">${m.label}</div>
             <div class="compare-values">
-              <div class="compare-current">
-                <div class="compare-current-label">Current</div>
-                <div class="compare-current-value">${currentFormatted}${m.suffix}</div>
-              </div>
-              <div class="compare-previous">
-                <div class="compare-previous-label">Previous</div>
-                <div class="compare-previous-value">${previousFormatted}${m.suffix}</div>
-              </div>
+              <div class="compare-current"><div class="compare-current-label">Current</div><div class="compare-current-value">${currentFormatted}${m.suffix}</div></div>
+              <div class="compare-previous"><div class="compare-previous-label">Previous</div><div class="compare-previous-value">${previousFormatted}${m.suffix}</div></div>
             </div>
             <div class="compare-delta ${deltaClass}">
               <span class="compare-delta-arrow">${arrow}</span>
@@ -857,59 +793,33 @@
           </div>`;
         }).join('');
       }
-      refresh() {
-        if (this.active) {
-          this.generatePreviousData();
-          this.updateUI();
-        }
-      }
+      refresh() { if (this.active) { this.generatePreviousData(); this.updateUI(); } }
     }
     const comparisonEngine = new ComparisonEngine();
     const compareBtn = document.getElementById('compareBtn');
     const compareDropdown = document.getElementById('compareDropdown');
     const comparePanelClose = document.getElementById('comparePanelClose');
-    compareBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      compareDropdown.classList.toggle('open');
-      themeDropdown.classList.remove('open');
-      document.getElementById('notifDropdown').classList.remove('open');
-    });
+    compareBtn.addEventListener('click', (e) => { e.stopPropagation(); compareDropdown.classList.toggle('open'); themeDropdown.classList.remove('open'); document.getElementById('notifDropdown').classList.remove('open'); });
     document.querySelectorAll('.compare-option').forEach(opt => {
-      opt.addEventListener('click', () => {
-        comparisonEngine.activate(opt.dataset.compare);
-        compareDropdown.classList.remove('open');
-        showToast(`📊 Comparison mode: ${comparisonEngine.getModeLabel()}`);
-      });
+      opt.addEventListener('click', () => { comparisonEngine.activate(opt.dataset.compare); compareDropdown.classList.remove('open'); showToast(`📊 Comparison mode: ${comparisonEngine.getModeLabel()}`); });
     });
     comparePanelClose.addEventListener('click', () => { comparisonEngine.deactivate(); });
-    document.addEventListener('click', (e) => {
-      if (!compareDropdown.contains(e.target) && e.target !== compareBtn) { compareDropdown.classList.remove('open'); }
-    });
+    document.addEventListener('click', (e) => { if (!compareDropdown.contains(e.target) && e.target !== compareBtn) { compareDropdown.classList.remove('open'); } });
 
     // ============ NOTIFICATION SYSTEM ============
     class NotificationManager {
       constructor() {
-        this.notifications = [];
-        this.maxNotifications = 50;
-        this.unreadCount = 0;
+        this.notifications = []; this.maxNotifications = 50; this.unreadCount = 0;
         this.history = { users: [], engagement: [], watch: [], retention: [] };
         this.milestones = [1000000, 2000000, 3000000, 5000000, 10000000, 25000000, 50000000];
-        this.hitMilestones = new Set();
-        this.lastAnomalyTime = 0;
-        this.cooldown = 15000;
-        this.predictiveTimer = 0;
+        this.hitMilestones = new Set(); this.lastAnomalyTime = 0; this.cooldown = 15000; this.predictiveTimer = 0;
       }
       addNotification(type, title, desc) {
         const notif = { id: Date.now() + Math.random(), type, title, desc, time: new Date(), read: false };
         this.notifications.unshift(notif);
         if (this.notifications.length > this.maxNotifications) this.notifications.pop();
-        this.unreadCount++;
-        this.renderBadge();
-        this.renderList();
-        if (type === 'alert' || type === 'success') {
-          const icon = type === 'alert' ? '🚨' : '🎉';
-          showToast(`${icon} ${title}`);
-        }
+        this.unreadCount++; this.renderBadge(); this.renderList();
+        if (type === 'alert' || type === 'success') { const icon = type === 'alert' ? '🚨' : '🎉'; showToast(`${icon} ${title}`); }
       }
       renderBadge() {
         const badge = document.getElementById('notifBadge');
@@ -918,20 +828,13 @@
       }
       renderList() {
         const list = document.getElementById('notifList');
-        if (this.notifications.length === 0) {
-          list.innerHTML = '<div class="notif-empty"><span>🔕</span>No notifications yet</div>';
-          return;
-        }
+        if (this.notifications.length === 0) { list.innerHTML = '<div class="notif-empty"><span>🔕</span>No notifications yet</div>'; return; }
         const icons = { alert: '🚨', warning: '⚠️', success: '🎉', info: 'ℹ️' };
         list.innerHTML = this.notifications.slice(0, 20).map(n => {
           const ago = this.timeAgo(n.time);
           return `<div class="notif-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
             <div class="notif-icon-wrap ${n.type}">${icons[n.type]}</div>
-            <div class="notif-content">
-              <div class="notif-title">${n.title}</div>
-              <div class="notif-desc">${n.desc}</div>
-              <div class="notif-time">${ago}</div>
-            </div>
+            <div class="notif-content"><div class="notif-title">${n.title}</div><div class="notif-desc">${n.desc}</div><div class="notif-time">${ago}</div></div>
           </div>`;
         }).join('');
       }
@@ -943,56 +846,27 @@
         if (mins < 60) return `${mins}m ago`;
         return `${Math.floor(mins / 60)}h ago`;
       }
-      markAllRead() {
-        this.notifications.forEach(n => n.read = true);
-        this.unreadCount = 0;
-        this.renderBadge();
-        this.renderList();
-      }
-      clearAll() {
-        this.notifications = [];
-        this.unreadCount = 0;
-        this.renderBadge();
-        this.renderList();
-      }
-      trackHistory(kpi, value) {
-        this.history[kpi].push(value);
-        if (this.history[kpi].length > 20) this.history[kpi].shift();
-      }
-      getAverage(kpi) {
-        const h = this.history[kpi];
-        if (h.length < 3) return null;
-        return h.slice(0, -1).reduce((a, b) => a + b, 0) / (h.length - 1);
-      }
+      markAllRead() { this.notifications.forEach(n => n.read = true); this.unreadCount = 0; this.renderBadge(); this.renderList(); }
+      clearAll() { this.notifications = []; this.unreadCount = 0; this.renderBadge(); this.renderList(); }
+      trackHistory(kpi, value) { this.history[kpi].push(value); if (this.history[kpi].length > 20) this.history[kpi].shift(); }
+      getAverage(kpi) { const h = this.history[kpi]; if (h.length < 3) return null; return h.slice(0, -1).reduce((a, b) => a + b, 0) / (h.length - 1); }
       analyze(kpiData) {
         const now = Date.now();
         const { users, engagement, watch, retention } = kpiData;
-        this.trackHistory('users', users);
-        this.trackHistory('engagement', engagement);
-        this.trackHistory('watch', watch);
-        this.trackHistory('retention', retention);
+        this.trackHistory('users', users); this.trackHistory('engagement', engagement);
+        this.trackHistory('watch', watch); this.trackHistory('retention', retention);
         if (now - this.lastAnomalyTime > this.cooldown) {
           const avgUsers = this.getAverage('users');
           if (avgUsers) {
             const deviation = ((users - avgUsers) / avgUsers) * 100;
-            if (deviation > 3) {
-              this.addNotification('warning', '📈 Unusual User Spike Detected', `Total users jumped ${deviation.toFixed(1)}% above the rolling average. Current: ${users.toLocaleString()}`);
-              this.lastAnomalyTime = now;
-            } else if (deviation < -3) {
-              this.addNotification('alert', '📉 User Drop Detected', `Total users fell ${Math.abs(deviation).toFixed(1)}% below the rolling average. Investigate immediately.`);
-              this.lastAnomalyTime = now;
-            }
+            if (deviation > 3) { this.addNotification('warning', '📈 Unusual User Spike Detected', `Total users jumped ${deviation.toFixed(1)}% above the rolling average. Current: ${users.toLocaleString()}`); this.lastAnomalyTime = now; }
+            else if (deviation < -3) { this.addNotification('alert', '📉 User Drop Detected', `Total users fell ${Math.abs(deviation).toFixed(1)}% below the rolling average. Investigate immediately.`); this.lastAnomalyTime = now; }
           }
           const avgEng = this.getAverage('engagement');
           if (avgEng) {
             const engDev = ((engagement - avgEng) / avgEng) * 100;
-            if (engDev > 5) {
-              this.addNotification('success', '⚡ Engagement Surge!', `Engagement rate spiked to ${engagement}% (${engDev.toFixed(1)}% above average). Content is resonating!`);
-              this.lastAnomalyTime = now;
-            } else if (engDev < -5) {
-              this.addNotification('warning', '⚡ Engagement Drop Alert', `Engagement rate fell to ${engagement}% (${Math.abs(engDev).toFixed(1)}% below average). Consider reviewing recent content.`);
-              this.lastAnomalyTime = now;
-            }
+            if (engDev > 5) { this.addNotification('success', '⚡ Engagement Surge!', `Engagement rate spiked to ${engagement}% (${engDev.toFixed(1)}% above average). Content is resonating!`); this.lastAnomalyTime = now; }
+            else if (engDev < -5) { this.addNotification('warning', '⚡ Engagement Drop Alert', `Engagement rate fell to ${engagement}% (${Math.abs(engDev).toFixed(1)}% below average). Consider reviewing recent content.`); this.lastAnomalyTime = now; }
           }
         }
         for (const milestone of this.milestones) {
@@ -1007,24 +881,18 @@
           this.predictiveTimer = 0;
           const h = this.history.engagement;
           if (h.length >= 6) {
-            const recent = h.slice(-3);
-            const older = h.slice(-6, -3);
+            const recent = h.slice(-3); const older = h.slice(-6, -3);
             const recentAvg = recent.reduce((a, b) => a + b, 0) / 3;
             const olderAvg = older.reduce((a, b) => a + b, 0) / 3;
             const trend = ((recentAvg - olderAvg) / olderAvg) * 100;
-            if (trend < -2) {
-              this.addNotification('warning', '🔮 Predicted Engagement Decline', `Engagement trend is downward (${trend.toFixed(1)}%). Consider posting high-performing content formats within the next 2 hours.`);
-            } else if (trend > 3) {
-              this.addNotification('info', '🔮 Engagement Momentum Building', `Engagement is trending up ${trend.toFixed(1)}%. Great time to launch new content or campaigns!`);
-            }
+            if (trend < -2) { this.addNotification('warning', '🔮 Predicted Engagement Decline', `Engagement trend is downward (${trend.toFixed(1)}%). Consider posting high-performing content formats within the next 2 hours.`); }
+            else if (trend > 3) { this.addNotification('info', '🔮 Engagement Momentum Building', `Engagement is trending up ${trend.toFixed(1)}%. Great time to launch new content or campaigns!`); }
           }
           const rH = this.history.retention;
           if (rH.length >= 6) {
             const rRecent = rH.slice(-3).reduce((a, b) => a + b, 0) / 3;
             const rOlder = rH.slice(-6, -3).reduce((a, b) => a + b, 0) / 3;
-            if (rRecent < rOlder - 1) {
-              this.addNotification('alert', '🔮 Retention Risk Warning', `Retention rate is declining (${rRecent.toFixed(1)}% vs ${rOlder.toFixed(1)}%). Review onboarding flow and content quality.`);
-            }
+            if (rRecent < rOlder - 1) { this.addNotification('alert', '🔮 Retention Risk Warning', `Retention rate is declining (${rRecent.toFixed(1)}% vs ${rOlder.toFixed(1)}%). Review onboarding flow and content quality.`); }
           }
         }
       }
@@ -1034,35 +902,27 @@
     const notifDropdown = document.getElementById('notifDropdown');
     const notifClearAll = document.getElementById('notifClearAll');
     notifBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      notifDropdown.classList.toggle('open');
-      themeDropdown.classList.remove('open');
-      compareDropdown.classList.remove('open');
-      if (notifDropdown.classList.contains('open')) {
-        notifManager.markAllRead();
-        notifManager.renderList();
-      }
+      e.stopPropagation(); notifDropdown.classList.toggle('open');
+      themeDropdown.classList.remove('open'); compareDropdown.classList.remove('open');
+      if (notifDropdown.classList.contains('open')) { notifManager.markAllRead(); notifManager.renderList(); }
     });
     notifClearAll.addEventListener('click', (e) => { e.stopPropagation(); notifManager.clearAll(); });
-    document.addEventListener('click', (e) => {
-      if (!notifDropdown.contains(e.target) && e.target !== notifBtn) notifDropdown.classList.remove('open');
-    });
+    document.addEventListener('click', (e) => { if (!notifDropdown.contains(e.target) && e.target !== notifBtn) notifDropdown.classList.remove('open'); });
 
     // ============ LIVE DATA ENGINE ============
     class LiveDataEngine {
       constructor() {
-        this.interval = null;
-        this.lastUpdate = Date.now();
-        this.tickCount = 0;
+        this.interval = null; this.lastUpdate = Date.now(); this.tickCount = 0;
         this.apiKeys = this.loadApiKeys();
-        this.useRealAPI = !!(this.apiKeys.ytKey || this.apiKeys.metaToken);
+        this.useRealAPI = !!(this.apiKeys.ytKey || this.apiKeys.metaToken || this.apiKeys.waToken);
         this.liveKPI = { users: 2847563, engagement: 68.7, watch: 14.3, retention: 74.2 };
-        this.livePlatformShare = { youtube: 26, tiktok: 24, instagram: 19, facebook: 18, threads: 8, twitter: 5 };
-        this.liveContentViews = [1200000, 3400000, 890000, 540000, 620000, 320000, 410000, 280000];
-        this.liveContentEng = [92, 88, 81, 79, 76, 74, 72, 68];
+        // WHATSAPP ADDED: New platform in platform share
+        this.livePlatformShare = { youtube: 23, tiktok: 21, instagram: 17, facebook: 16, whatsapp: 15, threads: 5, twitter: 3 };
+        this.liveContentViews = [1200000, 3400000, 1800000, 890000, 540000, 720000, 620000, 320000, 410000, 280000];
+        this.liveContentEng = [92, 88, 95, 81, 79, 91, 76, 74, 72, 68];
       }
       loadApiKeys() { try { return JSON.parse(localStorage.getItem('mediaPulseAPI') || '{}'); } catch { return {}; } }
-      saveApiKeys(keys) { this.apiKeys = keys; localStorage.setItem('mediaPulseAPI', JSON.stringify(keys)); this.useRealAPI = !!(keys.ytKey || keys.metaToken); }
+      saveApiKeys(keys) { this.apiKeys = keys; localStorage.setItem('mediaPulseAPI', JSON.stringify(keys)); this.useRealAPI = !!(keys.ytKey || keys.metaToken || keys.waToken); }
       fluctuate(val, pct = 0.005, min = 0, max = Infinity) { return Math.max(min, Math.min(max, val + val * pct * (Math.random() * 2 - 1))); }
       genPoint(base, variance) { return base + Math.sin(Date.now() / 10000) * variance + (Math.random() - 0.5) * variance; }
       start() { this.updateAll(); this.interval = setInterval(() => this.updateAll(), 5000); this.tryFetchRealAPI(); }
@@ -1078,19 +938,16 @@
         this.livePlatformShare[rKey] = Math.max(2, this.livePlatformShare[rKey] + (Math.random() - 0.5) * 0.6);
         this.liveContentViews = this.liveContentViews.map(v => Math.round(this.fluctuate(v, 0.008, 10000)));
         this.liveContentEng = this.liveContentEng.map(e => Math.round(this.fluctuate(e, 0.005, 30, 99)));
-        this.pushTrendPoint();
-        this.updateDOM();
-        notifManager.analyze(this.liveKPI);
-        comparisonEngine.refresh();
+        this.pushTrendPoint(); this.updateDOM();
+        notifManager.analyze(this.liveKPI); comparisonEngine.refresh();
       }
       pushTrendPoint() {
         if (!trendChart) return;
-        const chart = trendChart;
-        const now = new Date();
+        const chart = trendChart; const now = new Date();
         const label = `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-        chart.data.labels.push(label);
-        if (chart.data.labels.length > 40) chart.data.labels.shift();
-        const bases = [45000, 62000, 38000, 32000, 18000], vars = [8000, 12000, 6000, 5000, 4000];
+        chart.data.labels.push(label); if (chart.data.labels.length > 40) chart.data.labels.shift();
+        // WHATSAPP ADDED: Now includes WhatsApp trend data (6th dataset)
+        const bases = [45000, 62000, 38000, 32000, 28000, 18000], vars = [8000, 12000, 6000, 5000, 5500, 4000];
         chart.data.datasets.forEach((ds, i) => { ds.data.push(this.genPoint(bases[i], vars[i])); if (ds.data.length > 40) ds.data.shift(); });
         chart.update('none');
       }
@@ -1136,11 +993,13 @@
     const liveEngine = new LiveDataEngine();
 
     // ============ PLATFORM & KPI CONFIG ============
+    // WHATSAPP ADDED: Full platform definition with unique color and base/variance
     const PLATFORMS = {
       youtube: { label: 'YouTube', color: '#3b82f6', base: 45000, variance: 8000 },
       tiktok: { label: 'TikTok', color: '#ec4899', base: 62000, variance: 12000 },
       instagram: { label: 'Instagram', color: '#8b5cf6', base: 38000, variance: 6000 },
       facebook: { label: 'Facebook', color: '#1877F2', base: 32000, variance: 5000 },
+      whatsapp: { label: 'WhatsApp', color: '#25D366', base: 28000, variance: 5500 },
       threads: { label: 'Threads', color: '#F5F5F5', base: 18000, variance: 4000 }
     };
     const KPI_BY_PERIOD = {
@@ -1149,11 +1008,13 @@
       90: { users: { val: 8241890, suffix: '', change: '▲ 9.7%', dir: 'up' }, engagement: { val: 66.4, suffix: '%', change: '▲ 2.1%', dir: 'up' }, watch: { val: 13.8, suffix: ' min', change: '▲ 0.9 min', dir: 'up' }, retention: { val: 73.1, suffix: '%', change: '▼ 1.4%', dir: 'down' } },
       365: { users: { val: 32418750, suffix: '', change: '▲ 18.2%', dir: 'up' }, engagement: { val: 64.9, suffix: '%', change: '▲ 5.8%', dir: 'up' }, watch: { val: 13.2, suffix: ' min', change: '▲ 2.4 min', dir: 'up' }, retention: { val: 71.5, suffix: '%', change: '▼ 2.1%', dir: 'down' } }
     };
+    // WHATSAPP ADDED: WhatsApp now has full KPI tracking like all other platforms
     const KPI_BY_PLATFORM = {
       youtube: { users: { val: 1124680, suffix: '', change: '▲ 10.2%', dir: 'up' }, engagement: { val: 72.3, suffix: '%', change: '▲ 2.8%', dir: 'up' }, watch: { val: 18.4, suffix: ' min', change: '▲ 2.1 min', dir: 'up' }, retention: { val: 78.2, suffix: '%', change: '▲ 0.6%', dir: 'up' } },
       tiktok: { users: { val: 982340, suffix: '', change: '▲ 24.6%', dir: 'up' }, engagement: { val: 82.1, suffix: '%', change: '▲ 6.4%', dir: 'up' }, watch: { val: 8.2, suffix: ' min', change: '▲ 1.2 min', dir: 'up' }, retention: { val: 68.5, suffix: '%', change: '▼ 1.8%', dir: 'down' } },
       instagram: { users: { val: 721450, suffix: '', change: '▲ 8.9%', dir: 'up' }, engagement: { val: 74.8, suffix: '%', change: '▲ 3.5%', dir: 'up' }, watch: { val: 6.5, suffix: ' min', change: '▲ 0.8 min', dir: 'up' }, retention: { val: 71.3, suffix: '%', change: '▼ 0.4%', dir: 'down' } },
       facebook: { users: { val: 543210, suffix: '', change: '▲ 3.2%', dir: 'up' }, engagement: { val: 58.4, suffix: '%', change: '▼ 1.1%', dir: 'down' }, watch: { val: 12.1, suffix: ' min', change: '▲ 0.5 min', dir: 'up' }, retention: { val: 69.8, suffix: '%', change: '▼ 2.3%', dir: 'down' } },
+      whatsapp: { users: { val: 687500, suffix: '', change: '▲ 52.3%', dir: 'up' }, engagement: { val: 91.5, suffix: '%', change: '▲ 8.7%', dir: 'up' }, watch: { val: 4.2, suffix: ' min', change: '▲ 0.6 min', dir: 'up' }, retention: { val: 88.4, suffix: '%', change: '▲ 4.2%', dir: 'up' } },
       threads: { users: { val: 214890, suffix: '', change: '▲ 41.2%', dir: 'up' }, engagement: { val: 63.2, suffix: '%', change: '▲ 9.8%', dir: 'up' }, watch: { val: 3.8, suffix: ' min', change: '▲ 0.4 min', dir: 'up' }, retention: { val: 65.4, suffix: '%', change: '▲ 3.1%', dir: 'up' } }
     };
 
@@ -1166,8 +1027,7 @@
     // ============ VIEW SWITCHING ============
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', (e) => {
-        e.preventDefault();
-        const view = item.dataset.view;
+        e.preventDefault(); const view = item.dataset.view;
         document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
         item.classList.add('active');
         document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active'));
@@ -1231,14 +1091,16 @@
     function genTrend(base, variance, days) { const scale = days === 365 ? 30 : (days === 90 ? 3 : 1); return Array.from({length: days === 365 ? 12 : days}, (_, i) => base * scale + Math.sin(i/3)*variance + Math.random()*variance*0.5 + (i/days)*variance*0.3); }
     function buildTrendChart(days = 30) {
       if (trendChart) trendChart.destroy();
+      // WHATSAPP ADDED: WhatsApp now appears as its own line in the trend chart
       trendChart = new Chart(document.getElementById('trendChart'), { type: 'line', data: { labels: generateLabels(days), datasets: Object.values(PLATFORMS).map(p => ({ label: p.label, data: genTrend(p.base, p.variance, days), borderColor: p.color, backgroundColor: p.color + '1A', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } }, y: { grid: { color: 'var(--chart-grid)' }, ticks: { callback: v => (v/1000)+'k' } } } } });
     }
     function buildPlatformChart() {
-      const map = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', threads: 'Threads', twitter: 'Twitter/X' };
+      // WHATSAPP ADDED: WhatsApp now appears in the doughnut chart with its own color
+      const map = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', whatsapp: 'WhatsApp', threads: 'Threads', twitter: 'Twitter/X' };
       if (platformChart) platformChart.destroy();
-      platformChart = new Chart(document.getElementById('platformChart'), { type: 'doughnut', data: { labels: Object.keys(liveEngine.livePlatformShare).map(k => map[k]), datasets: [{ data: Object.values(liveEngine.livePlatformShare), backgroundColor: ['#3b82f6','#ec4899','#8b5cf6','#1877F2','#F5F5F5','#f59e0b'], borderWidth: 0, hoverOffset: 10 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { size: 11 } } } } } });
+      platformChart = new Chart(document.getElementById('platformChart'), { type: 'doughnut', data: { labels: Object.keys(liveEngine.livePlatformShare).map(k => map[k]), datasets: [{ data: Object.values(liveEngine.livePlatformShare), backgroundColor: ['#3b82f6','#ec4899','#8b5cf6','#1877F2','#25D366','#F5F5F5','#f59e0b'], borderWidth: 0, hoverOffset: 10 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { size: 11 } } } } } });
     }
-    function buildContentChart() { if (contentChart) contentChart.destroy(); contentChart = new Chart(document.getElementById('contentChart'), { type: 'polarArea', data: { labels: ['Short Video','Long Video','Live','Image','Thread'], datasets: [{ data: [85,62,48,55,42], backgroundColor: ['rgba(236,72,153,0.7)','rgba(59,130,246,0.7)','rgba(139,92,246,0.7)','rgba(245,158,11,0.7)','rgba(245,245,245,0.7)'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } }, scales: { r: { grid: { color: 'var(--chart-grid)' }, ticks: { display: false } } } } }); }
+    function buildContentChart() { if (contentChart) contentChart.destroy(); contentChart = new Chart(document.getElementById('contentChart'), { type: 'polarArea', data: { labels: ['Short Video','Long Video','Live','Image','Thread','Status/Story'], datasets: [{ data: [85,62,48,55,42,78], backgroundColor: ['rgba(236,72,153,0.7)','rgba(59,130,246,0.7)','rgba(139,92,246,0.7)','rgba(245,158,11,0.7)','rgba(245,245,245,0.7)','rgba(37,211,102,0.7)'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { padding: 10, boxWidth: 10, font: { size: 11 } } } }, scales: { r: { grid: { color: 'var(--chart-grid)' }, ticks: { display: false } } } } }); }
     function buildHourChart() { if (hourChart) hourChart.destroy(); hourChart = new Chart(document.getElementById('hourChart'), { type: 'bar', data: { labels: ['6a','9a','12p','3p','6p','9p','12a'], datasets: [{ label: 'Activity', data: [20,45,60,55,78,95,40], backgroundColor: (ctx) => { const g = ctx.chart.ctx.createLinearGradient(0,0,0,200); g.addColorStop(0,'#8b5cf6'); g.addColorStop(1,'#3b82f6'); return g; }, borderRadius: 6, barThickness: 22 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'var(--chart-grid)' } } } } }); }
     function buildDemoChart() { if (demoChart) demoChart.destroy(); demoChart = new Chart(document.getElementById('demoChart'), { type: 'bar', data: { labels: ['13-17','18-24','25-34','35-44','45-54','55+'], datasets: [{ label: '% Users', data: [8,28,34,18,10,5], backgroundColor: ['#ec4899','#8b5cf6','#3b82f6','#10b981','#f59e0b','#ef4444'], borderRadius: 6 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'var(--chart-grid)' }, ticks: { callback: v => v+'%' } }, y: { grid: { display: false } } } } }); }
     function redrawAllCharts() {
@@ -1253,7 +1115,8 @@
     }
     function initEngagementCharts() {
       if (engagementTypeChart) engagementTypeChart.destroy(); if (engagementRateChart) engagementRateChart.destroy();
-      engagementTypeChart = new Chart(document.getElementById('engagementTypeChart'), { type: 'bar', data: { labels: ['YouTube','TikTok','Instagram','Facebook','Threads'], datasets: [{ label: 'Likes', data: [450,890,620,310,120], backgroundColor: '#3b82f6' }, { label: 'Shares', data: [120,340,180,90,40], backgroundColor: '#8b5cf6' }, { label: 'Comments', data: [80,210,150,60,85], backgroundColor: '#ec4899' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, grid: { color: 'var(--chart-grid)' } } }, plugins: { legend: { labels: { boxWidth: 12 } } } } });
+      // WHATSAPP ADDED: WhatsApp as its own bar in the engagement by type chart
+      engagementTypeChart = new Chart(document.getElementById('engagementTypeChart'), { type: 'bar', data: { labels: ['YouTube','TikTok','Instagram','Facebook','WhatsApp','Threads'], datasets: [{ label: 'Likes', data: [450,890,620,310,780,120], backgroundColor: '#3b82f6' }, { label: 'Shares', data: [120,340,180,90,520,40], backgroundColor: '#8b5cf6' }, { label: 'Comments', data: [80,210,150,60,340,85], backgroundColor: '#ec4899' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, grid: { color: 'var(--chart-grid)' } } }, plugins: { legend: { labels: { boxWidth: 12 } } } } });
       engagementRateChart = new Chart(document.getElementById('engagementRateChart'), { type: 'line', data: { labels: ['Week 1','Week 2','Week 3','Week 4'], datasets: [{ label: 'Engagement Rate (%)', data: [5.2,5.8,6.1,6.4], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: 'var(--chart-grid)' } } } } });
     }
     function initPredictionCharts() { if (forecastChart) forecastChart.destroy(); forecastChart = new Chart(document.getElementById('forecastChart'), { type: 'line', data: { labels: ['M1','M2','M3','M4','M5','M6','M7 (Pred)','M8 (Pred)'], datasets: [{ label: 'Historical', data: [100,115,130,142,155,168,null,null], borderColor: '#3b82f6', tension: 0.4 }, { label: 'Forecast', data: [null,null,null,null,null,168,185,204], borderColor: '#10b981', borderDash: [5,5], tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: 'var(--chart-grid)' } } } } }); }
@@ -1264,36 +1127,137 @@
       genderAgeChart = new Chart(document.getElementById('genderAgeChart'), { type: 'bar', data: { labels: ['13-17','18-24','25-34','35-44','45+'], datasets: [{ label: 'Male', data: [4,15,18,10,6], backgroundColor: '#3b82f6' }, { label: 'Female', data: [4,13,16,8,4], backgroundColor: '#ec4899' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { color: 'var(--chart-grid)' } }, y: { stacked: true, grid: { display: false } } }, plugins: { legend: { labels: { boxWidth: 12 } } } } });
     }
     function initContentLibrary() {
-      const contentData = [{ date: '2023-10-24', title: 'Summer Vlog Ep.12', platform: 'YouTube', format: 'Video', views: '1.2M', eng: '92%' }, { date: '2023-10-22', title: 'Dance Challenge Remix', platform: 'TikTok', format: 'Short', views: '3.4M', eng: '88%' }, { date: '2023-10-20', title: 'Behind the Scenes', platform: 'Instagram', format: 'Reel', views: '890K', eng: '81%' }, { date: '2023-10-18', title: 'Community Update Post', platform: 'Facebook', format: 'Image', views: '540K', eng: '79%' }, { date: '2023-10-15', title: 'Product Launch Teaser', platform: 'YouTube', format: 'Video', views: '620K', eng: '76%' }, { date: '2023-10-12', title: 'Founder Thoughts Thread', platform: 'Threads', format: 'Thread', views: '320K', eng: '74%' }, { date: '2023-10-10', title: 'Q&A Live Stream', platform: 'TikTok', format: 'Stream', views: '410K', eng: '72%' }, { date: '2023-10-08', title: 'Live Product Demo', platform: 'Facebook', format: 'Live', views: '280K', eng: '68%' }, { date: '2023-10-05', title: 'Tutorial: Getting Started', platform: 'YouTube', format: 'Video', views: '150K', eng: '65%' }, { date: '2023-10-01', title: 'Weekly Recap', platform: 'Instagram', format: 'Carousel', views: '210K', eng: '61%' }];
+      // WHATSAPP ADDED: WhatsApp content entries in the library
+      const contentData = [
+        { date: '2023-10-24', title: 'Summer Vlog Ep.12', platform: 'YouTube', format: 'Video', views: '1.2M', eng: '92%' },
+        { date: '2023-10-23', title: 'Daily Highlights Status', platform: 'WhatsApp', format: 'Status', views: '1.8M', eng: '95%' },
+        { date: '2023-10-22', title: 'Dance Challenge Remix', platform: 'TikTok', format: 'Short', views: '3.4M', eng: '88%' },
+        { date: '2023-10-21', title: 'Exclusive Promo Broadcast', platform: 'WhatsApp', format: 'Broadcast', views: '720K', eng: '91%' },
+        { date: '2023-10-20', title: 'Behind the Scenes', platform: 'Instagram', format: 'Reel', views: '890K', eng: '81%' },
+        { date: '2023-10-18', title: 'Community Update Post', platform: 'Facebook', format: 'Image', views: '540K', eng: '79%' },
+        { date: '2023-10-16', title: 'Weekly Tips Voice Note', platform: 'WhatsApp', format: 'Voice', views: '480K', eng: '87%' },
+        { date: '2023-10-15', title: 'Product Launch Teaser', platform: 'YouTube', format: 'Video', views: '620K', eng: '76%' },
+        { date: '2023-10-12', title: 'Founder Thoughts Thread', platform: 'Threads', format: 'Thread', views: '320K', eng: '74%' },
+        { date: '2023-10-10', title: 'Q&A Live Stream', platform: 'TikTok', format: 'Stream', views: '410K', eng: '72%' },
+        { date: '2023-10-08', title: 'Live Product Demo', platform: 'Facebook', format: 'Live', views: '280K', eng: '68%' },
+        { date: '2023-10-05', title: 'Tutorial: Getting Started', platform: 'YouTube', format: 'Video', views: '150K', eng: '65%' },
+        { date: '2023-10-03', title: 'VIP Customer Group Update', platform: 'WhatsApp', format: 'Group', views: '95K', eng: '93%' },
+        { date: '2023-10-01', title: 'Weekly Recap', platform: 'Instagram', format: 'Carousel', views: '210K', eng: '61%' }
+      ];
       const tbody = document.getElementById('contentLibraryBody'); tbody.innerHTML = '';
-      contentData.forEach(item => { const pClass = item.platform.toLowerCase() === 'youtube' ? 'yt' : item.platform.toLowerCase() === 'tiktok' ? 'tt' : item.platform.toLowerCase() === 'instagram' ? 'ig' : item.platform.toLowerCase() === 'facebook' ? 'fb' : 'th'; const row = document.createElement('tr'); row.dataset.platform = item.platform.toLowerCase(); row.innerHTML = `<td><small>${item.date}</small></td><td><b>${item.title}</b></td><td><span class="platform-tag ${pClass}">${item.platform}</span></td><td><small>${item.format}</small></td><td>${item.views}</td><td><span class="bar"><span style="width:${item.eng}"></span></span> ${item.eng}</td>`; tbody.appendChild(row); });
-      document.getElementById('contentPlatformFilter').addEventListener('change', (e) => { const filter = e.target.value; tbody.querySelectorAll('tr').forEach(row => { row.style.display = (filter === 'all' || row.dataset.platform === filter) ? '' : 'none'; }); });
+      contentData.forEach(item => {
+        const pClass = item.platform.toLowerCase() === 'youtube' ? 'yt' : item.platform.toLowerCase() === 'tiktok' ? 'tt' : item.platform.toLowerCase() === 'instagram' ? 'ig' : item.platform.toLowerCase() === 'facebook' ? 'fb' : item.platform.toLowerCase() === 'whatsapp' ? 'wa' : 'th';
+        const row = document.createElement('tr'); row.dataset.platform = item.platform.toLowerCase();
+        row.innerHTML = `<td><small>${item.date}</small></td><td><b>${item.title}</b></td><td><span class="platform-tag ${pClass}">${item.platform}</span></td><td><small>${item.format}</small></td><td>${item.views}</td><td><span class="bar"><span style="width:${item.eng}"></span></span> ${item.eng}</td>`;
+        tbody.appendChild(row);
+      });
+      document.getElementById('contentPlatformFilter').addEventListener('change', (e) => {
+        const filter = e.target.value;
+        tbody.querySelectorAll('tr').forEach(row => { row.style.display = (filter === 'all' || row.dataset.platform === filter) ? '' : 'none'; });
+      });
     }
-    function updateSettingsUI() { const keys = liveEngine.apiKeys; const yt = document.getElementById('settingsYtStatus'); const mt = document.getElementById('settingsMetaStatus'); yt.textContent = keys.ytKey ? '🟢 Connected' : '⚪ Not connected'; yt.style.color = keys.ytKey ? 'var(--green)' : 'var(--muted)'; mt.textContent = keys.metaToken ? '🟢 Connected' : '⚪ Not connected'; mt.style.color = keys.metaToken ? 'var(--green)' : 'var(--muted)'; }
+    function updateSettingsUI() {
+      const keys = liveEngine.apiKeys;
+      const yt = document.getElementById('settingsYtStatus');
+      const mt = document.getElementById('settingsMetaStatus');
+      const wa = document.getElementById('settingsWaStatus');
+      yt.textContent = keys.ytKey ? '🟢 Connected' : '⚪ Not connected';
+      yt.style.color = keys.ytKey ? 'var(--green)' : 'var(--muted)';
+      mt.textContent = keys.metaToken ? '🟢 Connected' : '⚪ Not connected';
+      mt.style.color = keys.metaToken ? 'var(--green)' : 'var(--muted)';
+      wa.textContent = keys.waToken ? '🟢 Connected' : '⚪ Not connected';
+      wa.style.color = keys.waToken ? 'var(--green)' : 'var(--muted)';
+    }
     function clearLocalStorage() { if (confirm('Are you sure? This will remove all saved API keys and reset the dashboard.')) { localStorage.removeItem('mediaPulseAPI'); showToast('🗑️ Settings cleared. Reloading...'); setTimeout(() => location.reload(), 1000); } }
 
     // ============ SEARCH ============
-    const searchInput = document.getElementById('searchInput'); const searchClear = document.getElementById('searchClear'); const contentBody = document.getElementById('contentBody'); const noResults = document.getElementById('noResults');
-    function detectPlatformFromQuery(q) { if (!q) return null; const ql = q.toLowerCase(); if (ql.includes('youtube')) return 'youtube'; if (ql.includes('tiktok') || ql.includes('tik tok')) return 'tiktok'; if (ql.includes('instagram') || ql.includes('reel')) return 'instagram'; if (ql.includes('facebook') || ql.includes('fb')) return 'facebook'; if (ql.includes('thread')) return 'threads'; return null; }
-    function performSearch(query) { const q = query.trim().toLowerCase(); searchClear.classList.toggle('visible', q.length > 0); currentPlatformFilter = detectPlatformFromQuery(q); updateKPIs(); const rows = contentBody.querySelectorAll('tr'); let vc = 0; rows.forEach(row => { const sd = (row.dataset.search || '') + ' ' + row.textContent; const m = !q || sd.toLowerCase().includes(q); row.classList.toggle('hidden', !m); if (m) vc++; }); noResults.classList.toggle('visible', q.length > 0 && vc === 0); document.querySelectorAll('.kpi-card').forEach(card => { card.classList.toggle('dimmed', q.length > 0 && !((card.dataset.search || '') + ' ' + card.textContent).toLowerCase().includes(q)); }); document.querySelectorAll('#insightList li').forEach(li => { li.classList.toggle('dimmed', q.length > 0 && !((li.dataset.search || '') + ' ' + li.textContent).toLowerCase().includes(q)); }); }
+    const searchInput = document.getElementById('searchInput'); const searchClear = document.getElementById('searchClear');
+    const contentBody = document.getElementById('contentBody'); const noResults = document.getElementById('noResults');
+    function detectPlatformFromQuery(q) {
+      if (!q) return null; const ql = q.toLowerCase();
+      if (ql.includes('youtube')) return 'youtube';
+      if (ql.includes('tiktok') || ql.includes('tik tok')) return 'tiktok';
+      if (ql.includes('instagram') || ql.includes('reel')) return 'instagram';
+      if (ql.includes('facebook') || ql.includes('fb')) return 'facebook';
+      // WHATSAPP ADDED: Search now detects WhatsApp content
+      if (ql.includes('whatsapp') || ql.includes('wa') || ql.includes('status') || ql.includes('broadcast')) return 'whatsapp';
+      if (ql.includes('thread')) return 'threads';
+      return null;
+    }
+    function performSearch(query) {
+      const q = query.trim().toLowerCase();
+      searchClear.classList.toggle('visible', q.length > 0);
+      currentPlatformFilter = detectPlatformFromQuery(q);
+      updateKPIs();
+      const rows = contentBody.querySelectorAll('tr'); let vc = 0;
+      rows.forEach(row => { const sd = (row.dataset.search || '') + ' ' + row.textContent; const m = !q || sd.toLowerCase().includes(q); row.classList.toggle('hidden', !m); if (m) vc++; });
+      noResults.classList.toggle('visible', q.length > 0 && vc === 0);
+      document.querySelectorAll('.kpi-card').forEach(card => { card.classList.toggle('dimmed', q.length > 0 && !((card.dataset.search || '') + ' ' + card.textContent).toLowerCase().includes(q)); });
+      document.querySelectorAll('#insightList li').forEach(li => { li.classList.toggle('dimmed', q.length > 0 && !((li.dataset.search || '') + ' ' + li.textContent).toLowerCase().includes(q)); });
+    }
     searchInput.addEventListener('input', (e) => performSearch(e.target.value));
     searchClear.addEventListener('click', () => { searchInput.value = ''; performSearch(''); searchInput.focus(); });
 
     // ============ PERIOD DROPDOWN ============
-    document.getElementById('periodSelect').addEventListener('change', (e) => { currentPeriod = parseInt(e.target.value); buildTrendChart(currentPeriod); if (!currentPlatformFilter) { const pd = KPI_BY_PERIOD[currentPeriod]; liveEngine.liveKPI.users = pd.users.val; liveEngine.liveKPI.engagement = pd.engagement.val; liveEngine.liveKPI.watch = pd.watch.val; liveEngine.liveKPI.retention = pd.retention.val; updateKPIs(); } showToast(`📊 Updated to: ${e.target.options[e.target.selectedIndex].text}`); });
+    document.getElementById('periodSelect').addEventListener('change', (e) => {
+      currentPeriod = parseInt(e.target.value);
+      buildTrendChart(currentPeriod);
+      if (!currentPlatformFilter) { const pd = KPI_BY_PERIOD[currentPeriod]; liveEngine.liveKPI.users = pd.users.val; liveEngine.liveKPI.engagement = pd.engagement.val; liveEngine.liveKPI.watch = pd.watch.val; liveEngine.liveKPI.retention = pd.retention.val; updateKPIs(); }
+      showToast(`📊 Updated to: ${e.target.options[e.target.selectedIndex].text}`);
+    });
 
     // ============ EXPORT ============
-    document.getElementById('exportBtn').addEventListener('click', () => { const btn = document.getElementById('exportBtn'); btn.classList.add('exporting'); btn.textContent = '⏳ Exporting...'; setTimeout(() => { try { const period = document.getElementById('periodSelect').options[document.getElementById('periodSelect').selectedIndex].text; const ts = new Date().toISOString().split('T')[0]; const fn = `media-analytics-report-${ts}.csv`; let csv = `PREDICTIVE MEDIA ANALYTICS REPORT\nGenerated:,${new Date().toLocaleString()}\nPeriod:,${period}\nPlatform Filter:,${currentPlatformFilter || 'All'}\nData Source:,${liveEngine.useRealAPI ? 'Live API' : 'Simulated'}\nTheme:,${THEME_NAMES[getCurrentTheme()]}\nComparison Mode:,${comparisonEngine.active ? comparisonEngine.getModeLabel() : 'Off'}\n\n=== KPIs ===\nMetric,Value,Change\n`; document.querySelectorAll('.kpi-card').forEach(c => { csv += `"${c.querySelector('.kpi-label').textContent}","${c.querySelector('.kpi-value').textContent}","${c.querySelector('.kpi-change').textContent.trim()}"\n`; }); csv += '\n=== CONTENT ===\nContent,Platform,Views,Engagement\n'; contentBody.querySelectorAll('tr:not(.hidden)').forEach(r => { const c = r.querySelectorAll('td'); csv += `"${c[0].textContent.replace(/\s+/g,' ').trim()}","${c[1].textContent.trim()}","${c[2].textContent.trim()}","${c[3].textContent.trim()}"\n`; }); const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = fn; document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url); showToast(`✅ Report exported: ${fn}`); } catch (err) { showToast('❌ Export failed.'); } finally { btn.classList.remove('exporting'); btn.textContent = '📥 Export Report'; } }, 400); });
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const btn = document.getElementById('exportBtn');
+      btn.classList.add('exporting'); btn.textContent = '⏳ Exporting...';
+      setTimeout(() => {
+        try {
+          const period = document.getElementById('periodSelect').options[document.getElementById('periodSelect').selectedIndex].text;
+          const ts = new Date().toISOString().split('T')[0];
+          const fn = `media-analytics-report-${ts}.csv`;
+          let csv = `PREDICTIVE MEDIA ANALYTICS REPORT\nGenerated:,${new Date().toLocaleString()}\nPeriod:,${period}\nPlatform Filter:,${currentPlatformFilter || 'All'}\nData Source:,${liveEngine.useRealAPI ? 'Live API' : 'Simulated'}\nTheme:,${THEME_NAMES[getCurrentTheme()]}\nComparison Mode:,${comparisonEngine.active ? comparisonEngine.getModeLabel() : 'Off'}\n\n=== KPIs ===\nMetric,Value,Change\n`;
+          document.querySelectorAll('.kpi-card').forEach(c => { csv += `"${c.querySelector('.kpi-label').textContent}","${c.querySelector('.kpi-value').textContent}","${c.querySelector('.kpi-change').textContent.trim()}"\n`; });
+          csv += '\n=== CONTENT ===\nContent,Platform,Views,Engagement\n';
+          contentBody.querySelectorAll('tr:not(.hidden)').forEach(r => { const c = r.querySelectorAll('td'); csv += `"${c[0].textContent.replace(/\s+/g,' ').trim()}","${c[1].textContent.trim()}","${c[2].textContent.trim()}","${c[3].textContent.trim()}"\n`; });
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob);
+          const link = document.createElement('a'); link.href = url; link.download = fn;
+          document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
+          showToast(`✅ Report exported: ${fn}`);
+        } catch (err) { showToast('❌ Export failed.'); }
+        finally { btn.classList.remove('exporting'); btn.textContent = '📥 Export Report'; }
+      }, 400);
+    });
 
     // ============ API CONFIG MODAL ============
     const apiModal = document.getElementById('apiModal');
-    document.getElementById('apiConfigBtn').addEventListener('click', () => { document.getElementById('ytApiKey').value = liveEngine.apiKeys.ytKey || ''; document.getElementById('ytChannelId').value = liveEngine.apiKeys.ytChannelId || ''; document.getElementById('metaToken').value = liveEngine.apiKeys.metaToken || ''; apiModal.classList.add('open'); });
+    document.getElementById('apiConfigBtn').addEventListener('click', () => {
+      document.getElementById('ytApiKey').value = liveEngine.apiKeys.ytKey || '';
+      document.getElementById('ytChannelId').value = liveEngine.apiKeys.ytChannelId || '';
+      document.getElementById('metaToken').value = liveEngine.apiKeys.metaToken || '';
+      document.getElementById('waToken').value = liveEngine.apiKeys.waToken || '';
+      apiModal.classList.add('open');
+    });
     document.getElementById('apiCancelBtn').addEventListener('click', () => apiModal.classList.remove('open'));
-    document.getElementById('apiSaveBtn').addEventListener('click', () => { liveEngine.saveApiKeys({ ytKey: document.getElementById('ytApiKey').value.trim(), ytChannelId: document.getElementById('ytChannelId').value.trim(), metaToken: document.getElementById('metaToken').value.trim() }); apiModal.classList.remove('open'); if (liveEngine.useRealAPI) { liveEngine.tryFetchRealAPI(); showToast('🔑 API keys saved!'); } else { document.getElementById('dataSource').textContent = '📡 Simulated Stream'; document.getElementById('dataSource').classList.remove('connected'); showToast('📡 Using simulated stream.'); } });
+    document.getElementById('apiSaveBtn').addEventListener('click', () => {
+      liveEngine.saveApiKeys({
+        ytKey: document.getElementById('ytApiKey').value.trim(),
+        ytChannelId: document.getElementById('ytChannelId').value.trim(),
+        metaToken: document.getElementById('metaToken').value.trim(),
+        waToken: document.getElementById('waToken').value.trim()
+      });
+      apiModal.classList.remove('open');
+      if (liveEngine.useRealAPI) { liveEngine.tryFetchRealAPI(); showToast('🔑 API keys saved!'); }
+      else { document.getElementById('dataSource').textContent = '📡 Simulated Stream'; document.getElementById('dataSource').classList.remove('connected'); showToast('📡 Using simulated stream.'); }
+    });
     apiModal.addEventListener('click', (e) => { if (e.target === apiModal) apiModal.classList.remove('open'); });
 
     // ============ SETTINGS ============
-    document.getElementById('refreshRateSelect').addEventListener('change', (e) => { const rate = parseInt(e.target.value); liveEngine.stop(); if (rate > 0) liveEngine.interval = setInterval(() => liveEngine.updateAll(), rate); showToast(`⏱️ Refresh: ${rate === 0 ? 'Manual' : rate/1000 + 's'}`); });
+    document.getElementById('refreshRateSelect').addEventListener('change', (e) => {
+      const rate = parseInt(e.target.value);
+      liveEngine.stop();
+      if (rate > 0) liveEngine.interval = setInterval(() => liveEngine.updateAll(), rate);
+      showToast(`⏱️ Refresh: ${rate === 0 ? 'Manual' : rate/1000 + 's'}`);
+    });
 
     // ============ TOAST ============
     function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }

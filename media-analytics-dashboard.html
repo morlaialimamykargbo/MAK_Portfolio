@@ -266,6 +266,7 @@
     .bar > span { display: block; height: 100%; background: var(--grad); border-radius: 3px; transition: width 0.6s; }
 
     .footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border); }
+    .footer p { margin-bottom: 4px; }
     .toast { position: fixed; bottom: 30px; right: 30px; background: var(--card); border: 1px solid var(--green); color: var(--text); padding: 14px 20px; border-radius: 12px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow); transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 1000; max-width: 90vw; }
     .toast.show { transform: translateY(0); opacity: 1; }
 
@@ -658,7 +659,10 @@
       </div>
     </div>
 
-    <footer class="footer"><p>Built with ❤️ using Python & R analytics pipelines • © 2026 MediaPulse</p></footer>
+    <footer class="footer">
+      <p>© 2026 Morlai Alimamy Kargbo. All rights reserved.</p>
+      <p>Software Engineer & Multimedia Creator | Designed & Developed with ❤️ and lots of ☕</p>
+    </footer>
   </main>
 
   <div class="toast" id="toast">✅ Report exported successfully!</div>
@@ -916,7 +920,6 @@
         this.apiKeys = this.loadApiKeys();
         this.useRealAPI = !!(this.apiKeys.ytKey || this.apiKeys.metaToken || this.apiKeys.waToken);
         this.liveKPI = { users: 2847563, engagement: 68.7, watch: 14.3, retention: 74.2 };
-        // WHATSAPP ADDED: New platform in platform share
         this.livePlatformShare = { youtube: 23, tiktok: 21, instagram: 17, facebook: 16, whatsapp: 15, threads: 5, twitter: 3 };
         this.liveContentViews = [1200000, 3400000, 1800000, 890000, 540000, 720000, 620000, 320000, 410000, 280000];
         this.liveContentEng = [92, 88, 95, 81, 79, 91, 76, 74, 72, 68];
@@ -946,7 +949,6 @@
         const chart = trendChart; const now = new Date();
         const label = `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
         chart.data.labels.push(label); if (chart.data.labels.length > 40) chart.data.labels.shift();
-        // WHATSAPP ADDED: Now includes WhatsApp trend data (6th dataset)
         const bases = [45000, 62000, 38000, 32000, 28000, 18000], vars = [8000, 12000, 6000, 5000, 5500, 4000];
         chart.data.datasets.forEach((ds, i) => { ds.data.push(this.genPoint(bases[i], vars[i])); if (ds.data.length > 40) ds.data.shift(); });
         chart.update('none');
@@ -992,8 +994,6 @@
     }
     const liveEngine = new LiveDataEngine();
 
-    // ============ PLATFORM & KPI CONFIG ============
-    // WHATSAPP ADDED: Full platform definition with unique color and base/variance
     const PLATFORMS = {
       youtube: { label: 'YouTube', color: '#3b82f6', base: 45000, variance: 8000 },
       tiktok: { label: 'TikTok', color: '#ec4899', base: 62000, variance: 12000 },
@@ -1008,7 +1008,6 @@
       90: { users: { val: 8241890, suffix: '', change: '▲ 9.7%', dir: 'up' }, engagement: { val: 66.4, suffix: '%', change: '▲ 2.1%', dir: 'up' }, watch: { val: 13.8, suffix: ' min', change: '▲ 0.9 min', dir: 'up' }, retention: { val: 73.1, suffix: '%', change: '▼ 1.4%', dir: 'down' } },
       365: { users: { val: 32418750, suffix: '', change: '▲ 18.2%', dir: 'up' }, engagement: { val: 64.9, suffix: '%', change: '▲ 5.8%', dir: 'up' }, watch: { val: 13.2, suffix: ' min', change: '▲ 2.4 min', dir: 'up' }, retention: { val: 71.5, suffix: '%', change: '▼ 2.1%', dir: 'down' } }
     };
-    // WHATSAPP ADDED: WhatsApp now has full KPI tracking like all other platforms
     const KPI_BY_PLATFORM = {
       youtube: { users: { val: 1124680, suffix: '', change: '▲ 10.2%', dir: 'up' }, engagement: { val: 72.3, suffix: '%', change: '▲ 2.8%', dir: 'up' }, watch: { val: 18.4, suffix: ' min', change: '▲ 2.1 min', dir: 'up' }, retention: { val: 78.2, suffix: '%', change: '▲ 0.6%', dir: 'up' } },
       tiktok: { users: { val: 982340, suffix: '', change: '▲ 24.6%', dir: 'up' }, engagement: { val: 82.1, suffix: '%', change: '▲ 6.4%', dir: 'up' }, watch: { val: 8.2, suffix: ' min', change: '▲ 1.2 min', dir: 'up' }, retention: { val: 68.5, suffix: '%', change: '▼ 1.8%', dir: 'down' } },
@@ -1024,7 +1023,6 @@
     let engagementTypeChart, engagementRateChart, forecastChart;
     let deviceChart, locationChart, genderAgeChart;
 
-    // ============ VIEW SWITCHING ============
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault(); const view = item.dataset.view;
@@ -1045,7 +1043,6 @@
       });
     });
 
-    // ============ KPI ANIMATION ============
     function animateValue(el, target, suffix = '', duration = 900) {
       const startVal = parseFloat(el.dataset.current || '0');
       const start = performance.now();
@@ -1086,16 +1083,13 @@
       updateChange(document.getElementById('kpiRetentionChange'), data.retention.change, data.retention.dir);
     }
 
-    // ============ CHARTS ============
     function generateLabels(days) { if (days === 365) return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return Array.from({length: days}, (_, i) => days <= 7 ? `Day ${i+1}` : `D${i+1}`); }
     function genTrend(base, variance, days) { const scale = days === 365 ? 30 : (days === 90 ? 3 : 1); return Array.from({length: days === 365 ? 12 : days}, (_, i) => base * scale + Math.sin(i/3)*variance + Math.random()*variance*0.5 + (i/days)*variance*0.3); }
     function buildTrendChart(days = 30) {
       if (trendChart) trendChart.destroy();
-      // WHATSAPP ADDED: WhatsApp now appears as its own line in the trend chart
       trendChart = new Chart(document.getElementById('trendChart'), { type: 'line', data: { labels: generateLabels(days), datasets: Object.values(PLATFORMS).map(p => ({ label: p.label, data: genTrend(p.base, p.variance, days), borderColor: p.color, backgroundColor: p.color + '1A', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0 })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } }, y: { grid: { color: 'var(--chart-grid)' }, ticks: { callback: v => (v/1000)+'k' } } } } });
     }
     function buildPlatformChart() {
-      // WHATSAPP ADDED: WhatsApp now appears in the doughnut chart with its own color
       const map = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', whatsapp: 'WhatsApp', threads: 'Threads', twitter: 'Twitter/X' };
       if (platformChart) platformChart.destroy();
       platformChart = new Chart(document.getElementById('platformChart'), { type: 'doughnut', data: { labels: Object.keys(liveEngine.livePlatformShare).map(k => map[k]), datasets: [{ data: Object.values(liveEngine.livePlatformShare), backgroundColor: ['#3b82f6','#ec4899','#8b5cf6','#1877F2','#25D366','#F5F5F5','#f59e0b'], borderWidth: 0, hoverOffset: 10 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { size: 11 } } } } } });
@@ -1115,7 +1109,6 @@
     }
     function initEngagementCharts() {
       if (engagementTypeChart) engagementTypeChart.destroy(); if (engagementRateChart) engagementRateChart.destroy();
-      // WHATSAPP ADDED: WhatsApp as its own bar in the engagement by type chart
       engagementTypeChart = new Chart(document.getElementById('engagementTypeChart'), { type: 'bar', data: { labels: ['YouTube','TikTok','Instagram','Facebook','WhatsApp','Threads'], datasets: [{ label: 'Likes', data: [450,890,620,310,780,120], backgroundColor: '#3b82f6' }, { label: 'Shares', data: [120,340,180,90,520,40], backgroundColor: '#8b5cf6' }, { label: 'Comments', data: [80,210,150,60,340,85], backgroundColor: '#ec4899' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, grid: { color: 'var(--chart-grid)' } } }, plugins: { legend: { labels: { boxWidth: 12 } } } } });
       engagementRateChart = new Chart(document.getElementById('engagementRateChart'), { type: 'line', data: { labels: ['Week 1','Week 2','Week 3','Week 4'], datasets: [{ label: 'Engagement Rate (%)', data: [5.2,5.8,6.1,6.4], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: 'var(--chart-grid)' } } } } });
     }
@@ -1127,7 +1120,6 @@
       genderAgeChart = new Chart(document.getElementById('genderAgeChart'), { type: 'bar', data: { labels: ['13-17','18-24','25-34','35-44','45+'], datasets: [{ label: 'Male', data: [4,15,18,10,6], backgroundColor: '#3b82f6' }, { label: 'Female', data: [4,13,16,8,4], backgroundColor: '#ec4899' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { color: 'var(--chart-grid)' } }, y: { stacked: true, grid: { display: false } } }, plugins: { legend: { labels: { boxWidth: 12 } } } } });
     }
     function initContentLibrary() {
-      // WHATSAPP ADDED: WhatsApp content entries in the library
       const contentData = [
         { date: '2023-10-24', title: 'Summer Vlog Ep.12', platform: 'YouTube', format: 'Video', views: '1.2M', eng: '92%' },
         { date: '2023-10-23', title: 'Daily Highlights Status', platform: 'WhatsApp', format: 'Status', views: '1.8M', eng: '95%' },
@@ -1170,7 +1162,6 @@
     }
     function clearLocalStorage() { if (confirm('Are you sure? This will remove all saved API keys and reset the dashboard.')) { localStorage.removeItem('mediaPulseAPI'); showToast('🗑️ Settings cleared. Reloading...'); setTimeout(() => location.reload(), 1000); } }
 
-    // ============ SEARCH ============
     const searchInput = document.getElementById('searchInput'); const searchClear = document.getElementById('searchClear');
     const contentBody = document.getElementById('contentBody'); const noResults = document.getElementById('noResults');
     function detectPlatformFromQuery(q) {
@@ -1179,7 +1170,6 @@
       if (ql.includes('tiktok') || ql.includes('tik tok')) return 'tiktok';
       if (ql.includes('instagram') || ql.includes('reel')) return 'instagram';
       if (ql.includes('facebook') || ql.includes('fb')) return 'facebook';
-      // WHATSAPP ADDED: Search now detects WhatsApp content
       if (ql.includes('whatsapp') || ql.includes('wa') || ql.includes('status') || ql.includes('broadcast')) return 'whatsapp';
       if (ql.includes('thread')) return 'threads';
       return null;
@@ -1198,7 +1188,6 @@
     searchInput.addEventListener('input', (e) => performSearch(e.target.value));
     searchClear.addEventListener('click', () => { searchInput.value = ''; performSearch(''); searchInput.focus(); });
 
-    // ============ PERIOD DROPDOWN ============
     document.getElementById('periodSelect').addEventListener('change', (e) => {
       currentPeriod = parseInt(e.target.value);
       buildTrendChart(currentPeriod);
@@ -1206,7 +1195,6 @@
       showToast(`📊 Updated to: ${e.target.options[e.target.selectedIndex].text}`);
     });
 
-    // ============ EXPORT ============
     document.getElementById('exportBtn').addEventListener('click', () => {
       const btn = document.getElementById('exportBtn');
       btn.classList.add('exporting'); btn.textContent = '⏳ Exporting...';
@@ -1228,7 +1216,6 @@
       }, 400);
     });
 
-    // ============ API CONFIG MODAL ============
     const apiModal = document.getElementById('apiModal');
     document.getElementById('apiConfigBtn').addEventListener('click', () => {
       document.getElementById('ytApiKey').value = liveEngine.apiKeys.ytKey || '';
@@ -1251,7 +1238,6 @@
     });
     apiModal.addEventListener('click', (e) => { if (e.target === apiModal) apiModal.classList.remove('open'); });
 
-    // ============ SETTINGS ============
     document.getElementById('refreshRateSelect').addEventListener('change', (e) => {
       const rate = parseInt(e.target.value);
       liveEngine.stop();
@@ -1259,10 +1245,8 @@
       showToast(`⏱️ Refresh: ${rate === 0 ? 'Manual' : rate/1000 + 's'}`);
     });
 
-    // ============ TOAST ============
     function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
 
-    // ============ INIT ============
     window.addEventListener('load', () => {
       applyTheme(getCurrentTheme());
       ['kpiUsersVal','kpiEngagementVal','kpiWatchVal','kpiRetentionVal'].forEach(id => { document.getElementById(id).dataset.current = '0'; });

@@ -7,9 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,7 +29,7 @@
       --settings-row: rgba(255,255,255,0.02);
       --compare-bg: rgba(139,92,246,0.08);
       --compare-border: rgba(139,92,246,0.3);
-      --map-low: #1a2136; --map-high: #8b5cf6; --map-text: #e5e7eb;
+      --map-low: #1a2136; --map-high: #8b5cf6; --map-hover: #a78bfa;
     }
     body.theme-light {
       --bg: #f3f4f6; --bg-2: #ffffff; --card: #ffffff; --card-hover: #f9fafb;
@@ -51,7 +48,7 @@
       --settings-row: rgba(0,0,0,0.02);
       --compare-bg: rgba(124,58,237,0.06);
       --compare-border: rgba(124,58,237,0.25);
-      --map-low: #f3f4f6; --map-high: #7c3aed; --map-text: #1f2937;
+      --map-low: #e5e7eb; --map-high: #7c3aed; --map-hover: #8b5cf6;
     }
     body.theme-ocean {
       --bg: #0a1929; --bg-2: #0f2744; --card: #132f4c; --card-hover: #173a5e;
@@ -70,7 +67,7 @@
       --settings-row: rgba(255,255,255,0.03);
       --compare-bg: rgba(167,139,250,0.1);
       --compare-border: rgba(167,139,250,0.35);
-      --map-low: #132f4c; --map-high: #a78bfa; --map-text: #e0f2fe;
+      --map-low: #132f4c; --map-high: #a78bfa; --map-hover: #c4b5fd;
     }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; transition: background 0.3s, color 0.3s; }
 
@@ -311,16 +308,96 @@
     .theme-pick-name { font-size: 13px; font-weight: 700; }
     .theme-pick-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-    /* Interactive Map Styling */
-    .map-container { width: 100%; height: 320px; border-radius: 12px; overflow: hidden; position: relative; background: var(--card); }
-    .jvm-container { width: 100% !important; height: 100% !important; }
-    .jvm-zoom-btn { background: var(--card) !important; color: var(--text) !important; border: 1px solid var(--border) !important; }
-    .jvm-legend { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; padding: 8px !important; }
-    .jvm-legend-title { fill: var(--text) !important; font-size: 12px !important; font-weight: 600 !important; font-family: 'Inter', sans-serif !important; }
-    .jvm-legend-text { fill: var(--muted) !important; font-size: 11px !important; font-family: 'Inter', sans-serif !important; }
-    .jvm-tooltip { background: var(--bg-2) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; padding: 8px 12px !important; font-family: 'Inter', sans-serif !important; font-size: 12px !important; box-shadow: var(--shadow) !important; }
+    /* ===== INTERACTIVE SVG WORLD MAP ===== */
+    .world-map-container {
+      width: 100%;
+      height: 320px;
+      position: relative;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .world-map-svg {
+      width: 100%;
+      height: 100%;
+    }
+    .world-map-svg path {
+      fill: var(--map-low);
+      stroke: var(--border);
+      stroke-width: 0.5;
+      transition: fill 0.2s ease;
+      cursor: pointer;
+    }
+    .world-map-svg path:hover {
+      fill: var(--map-hover);
+    }
+    .world-map-svg path.has-data {
+      fill: var(--map-high);
+    }
+    .world-map-svg path.has-data:hover {
+      fill: var(--map-hover);
+      filter: brightness(1.2);
+    }
+    .map-tooltip {
+      position: absolute;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--text);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+      white-space: nowrap;
+    }
+    .map-tooltip.visible {
+      opacity: 1;
+    }
+    .map-tooltip .country-name {
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .map-tooltip .audience-pct {
+      color: var(--purple);
+      font-weight: 600;
+    }
+    .map-legend {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .map-legend-title {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .map-legend-scale {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .map-legend-bar {
+      width: 100px;
+      height: 10px;
+      border-radius: 5px;
+      background: linear-gradient(to right, var(--map-low), var(--map-high));
+    }
 
-    /* Scroll to Top Button */
+    /* ===== SCROLL TO TOP BUTTON ===== */
     .scroll-top-btn {
       position: fixed;
       bottom: 30px;
@@ -378,6 +455,7 @@
       .back-btn { width: 100%; justify-content: center; }
       .scroll-top-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; }
       .scroll-top-btn svg { width: 22px; height: 22px; }
+      .world-map-container { height: 260px; }
     }
     @media (max-width: 480px) {
       .kpi-grid { grid-template-columns: 1fr; }
@@ -389,6 +467,7 @@
       .chart-container.tall { height: 240px; }
       .chart-container.square { height: 240px; }
       .compare-grid { grid-template-columns: 1fr; }
+      .world-map-container { height: 220px; }
     }
   </style>
 </head>
@@ -591,12 +670,61 @@
         <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Top Location</span><span class="kpi-icon purple">🌍</span></div><div class="kpi-value">USA</div><div class="kpi-change up">22% of total</div></div>
         <div class="kpi-card"><div class="kpi-head"><span class="kpi-label">Primary Device</span><span class="kpi-icon orange">📱</span></div><div class="kpi-value">Mobile</div><div class="kpi-change up">78% of traffic</div></div>
       </div>
-      <div class="grid-3">
+      <div class="grid-2">
         <div class="card"><div class="card-head"><div><h3 class="card-title">Device Breakdown</h3></div></div><div class="chart-container square"><canvas id="deviceChart"></canvas></div></div>
-        <div class="card" style="grid-column: span 2;">
+        <div class="card">
           <div class="card-head"><div><h3 class="card-title">🌍 Global Audience Distribution</h3><p class="card-sub">Interactive world map — hover countries to see audience %</p></div></div>
-          <div class="map-container" id="worldMap"></div>
+          <div class="world-map-container" id="worldMapContainer">
+            <div class="map-tooltip" id="mapTooltip"></div>
+            <div class="map-legend">
+              <div class="map-legend-title">Audience %</div>
+              <div class="map-legend-scale">
+                <span>0%</span>
+                <div class="map-legend-bar"></div>
+                <span>22%</span>
+              </div>
+            </div>
+            <!-- Simplified SVG World Map -->
+            <svg class="world-map-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
+              <!-- North America -->
+              <path data-country="US" data-name="United States" d="M 150 150 L 250 140 L 280 160 L 290 200 L 270 230 L 220 240 L 170 230 L 140 200 Z"></path>
+              <path data-country="CA" data-name="Canada" d="M 140 100 L 260 90 L 290 120 L 280 150 L 250 140 L 150 150 L 130 130 Z"></path>
+              <path data-country="MX" data-name="Mexico" d="M 170 230 L 220 240 L 230 270 L 210 290 L 180 280 L 160 260 Z"></path>
+              
+              <!-- South America -->
+              <path data-country="BR" data-name="Brazil" d="M 280 280 L 330 270 L 350 300 L 340 350 L 310 370 L 280 350 L 270 310 Z"></path>
+              <path data-country="AR" data-name="Argentina" d="M 280 350 L 310 370 L 300 420 L 280 440 L 260 420 L 270 380 Z"></path>
+              
+              <!-- Europe -->
+              <path data-country="GB" data-name="United Kingdom" d="M 450 130 L 470 125 L 475 145 L 460 150 Z"></path>
+              <path data-country="FR" data-name="France" d="M 470 160 L 500 155 L 510 180 L 490 190 L 470 180 Z"></path>
+              <path data-country="DE" data-name="Germany" d="M 500 140 L 530 135 L 535 165 L 510 170 L 500 155 Z"></path>
+              <path data-country="ES" data-name="Spain" d="M 450 190 L 490 185 L 495 210 L 460 215 Z"></path>
+              <path data-country="IT" data-name="Italy" d="M 510 180 L 530 175 L 540 210 L 520 220 L 510 200 Z"></path>
+              
+              <!-- Africa -->
+              <path data-country="NG" data-name="Nigeria" d="M 490 260 L 520 255 L 525 285 L 500 290 Z"></path>
+              <path data-country="ZA" data-name="South Africa" d="M 520 380 L 560 375 L 565 410 L 530 415 Z"></path>
+              <path data-country="EG" data-name="Egypt" d="M 540 220 L 580 215 L 585 245 L 550 250 Z"></path>
+              
+              <!-- Asia -->
+              <path data-country="RU" data-name="Russia" d="M 550 80 L 800 70 L 820 130 L 750 140 L 650 135 L 580 120 Z"></path>
+              <path data-country="IN" data-name="India" d="M 650 220 L 700 210 L 710 260 L 680 280 L 650 260 Z"></path>
+              <path data-country="CN" data-name="China" d="M 720 160 L 820 150 L 830 210 L 780 220 L 730 200 Z"></path>
+              <path data-country="JP" data-name="Japan" d="M 850 180 L 870 175 L 875 210 L 855 215 Z"></path>
+              <path data-country="KR" data-name="South Korea" d="M 830 190 L 850 185 L 852 210 L 835 212 Z"></path>
+              <path data-country="ID" data-name="Indonesia" d="M 750 300 L 830 295 L 835 320 L 760 325 Z"></path>
+              <path data-country="PH" data-name="Philippines" d="M 820 260 L 840 255 L 845 285 L 825 290 Z"></path>
+              
+              <!-- Oceania -->
+              <path data-country="AU" data-name="Australia" d="M 800 360 L 900 350 L 910 410 L 850 420 L 800 400 Z"></path>
+              <path data-country="NZ" data-name="New Zealand" d="M 920 420 L 940 415 L 945 445 L 925 450 Z"></path>
+            </svg>
+          </div>
         </div>
+      </div>
+      <div class="grid-3" style="margin-top: 24px;">
+        <div class="card"><div class="card-head"><div><h3 class="card-title">Gender by Age</h3></div></div><div class="chart-container"><canvas id="genderAgeChart"></canvas></div></div>
       </div>
     </div>
 
@@ -682,19 +810,27 @@
 
   <script>
     const THEME_NAMES = { midnight: 'Midnight', light: 'Light', ocean: 'Ocean' };
-    const THEME_MAP_COLORS = {
-      midnight: { low: '#1a2136', high: '#8b5cf6', text: '#e5e7eb', bg: '#151b2b', border: '#1f2937' },
-      light:    { low: '#f3f4f6', high: '#7c3aed', text: '#1f2937', bg: '#ffffff', border: '#e5e7eb' },
-      ocean:    { low: '#132f4c', high: '#a78bfa', text: '#e0f2fe', bg: '#0f2744', border: '#1e3a5f' }
-    };
     const CHART_THEMES = {
       midnight: { textColor: '#9ca3af', gridColor: 'rgba(255,255,255,0.05)' },
       light:    { textColor: '#6b7280', gridColor: 'rgba(0,0,0,0.08)' },
       ocean:    { textColor: '#94a3b8', gridColor: 'rgba(255,255,255,0.08)' }
     };
     
-    let worldMapInstance = null;
-    let audienceMapInitialized = false;
+    // Audience data for the map
+    const audienceData = {
+      "US": { name: "United States", pct: 22 },
+      "IN": { name: "India", pct: 15 },
+      "GB": { name: "United Kingdom", pct: 12 },
+      "BR": { name: "Brazil", pct: 9 },
+      "CA": { name: "Canada", pct: 8 },
+      "DE": { name: "Germany", pct: 7 },
+      "JP": { name: "Japan", pct: 6 },
+      "FR": { name: "France", pct: 5 },
+      "AU": { name: "Australia", pct: 4 },
+      "MX": { name: "Mexico", pct: 4 },
+      "PH": { name: "Philippines", pct: 4 },
+      "KR": { name: "South Korea", pct: 4 }
+    };
 
     function applyTheme(theme) {
       document.body.className = `theme-${theme}`;
@@ -706,11 +842,6 @@
       Chart.defaults.color = ct.textColor;
       Chart.defaults.borderColor = ct.gridColor;
       redrawAllCharts();
-      // Rebuild map with new theme colors if it exists
-      if (audienceMapInitialized) {
-        destroyWorldMap();
-        initWorldMap();
-      }
     }
     function getCurrentTheme() { return localStorage.getItem('mediaPulseTheme') || 'midnight'; }
     (function() { document.body.className = `theme-${getCurrentTheme()}`; })();
@@ -1041,16 +1172,7 @@
         const targetView = document.getElementById(`view-${view}`);
         if (targetView) {
           targetView.classList.add('active');
-          setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-            // Re-init map if switching to audience tab
-            if (view === 'audience' && audienceMapInitialized) {
-              setTimeout(() => {
-                destroyWorldMap();
-                initWorldMap();
-              }, 100);
-            }
-          }, 50);
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
           if (view === 'engagement' && !window.engagementChartsInitialized) { initEngagementCharts(); window.engagementChartsInitialized = true; }
           if (view === 'predictions' && !window.predictionChartsInitialized) { initPredictionCharts(); window.predictionChartsInitialized = true; }
           if (view === 'audience' && !window.audienceChartsInitialized) { initAudienceCharts(); window.audienceChartsInitialized = true; }
@@ -1132,91 +1254,6 @@
     }
     function initPredictionCharts() { if (forecastChart) forecastChart.destroy(); forecastChart = new Chart(document.getElementById('forecastChart'), { type: 'line', data: { labels: ['M1','M2','M3','M4','M5','M6','M7 (Pred)','M8 (Pred)'], datasets: [{ label: 'Historical', data: [100,115,130,142,155,168,null,null], borderColor: '#3b82f6', tension: 0.4 }, { label: 'Forecast', data: [null,null,null,null,null,168,185,204], borderColor: '#10b981', borderDash: [5,5], tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: 'var(--chart-grid)' } } } } }); }
     
-    // WORLD MAP FUNCTIONS (FIXED)
-    const audienceMapData = { "US": 22, "IN": 15, "GB": 12, "BR": 9, "CA": 8, "DE": 7, "JP": 6, "FR": 5, "AU": 4, "MX": 4, "PH": 4, "KR": 4 };
-
-    function destroyWorldMap() {
-      if (worldMapInstance) {
-        try { worldMapInstance.destroy(); } catch(e) { console.warn('Map destroy error:', e); }
-        worldMapInstance = null;
-      }
-      const container = document.getElementById('worldMap');
-      if (container) container.innerHTML = '';
-    }
-
-    function initWorldMap() {
-      const container = document.getElementById('worldMap');
-      if (!container) return;
-      
-      // Check if container has dimensions
-      const rect = container.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) {
-        setTimeout(initWorldMap, 100);
-        return;
-      }
-
-      if (typeof jvm === 'undefined') {
-        container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;">🌍 Map library loading...</div>';
-        return;
-      }
-
-      const theme = getCurrentTheme();
-      const colors = THEME_MAP_COLORS[theme];
-
-      try {
-        worldMapInstance = new jvm.Map({
-          container: container,
-          map: 'world',
-          backgroundColor: 'transparent',
-          regionsSelectable: false,
-          markersSelectable: false,
-          zoomOnScroll: true,
-          zoomMax: 8,
-          zoomMin: 1,
-          regionStyle: {
-            initial: {
-              fill: colors.low,
-              stroke: colors.border,
-              'stroke-width': 0.5,
-              'stroke-opacity': 0.6
-            },
-            hover: {
-              fill: colors.high
-            },
-            selected: {
-              fill: colors.high
-            }
-          },
-          series: {
-            regions: [{
-              values: audienceMapData,
-              scale: [colors.low, colors.high],
-              normalizeFunction: 'polynomial',
-              attribute: 'fill',
-              legend: {
-                vertical: true,
-                title: 'Audience %',
-                cssClass: 'jvm-legend',
-                titleStyle: { color: colors.text, fontSize: '12px', fontWeight: '600' },
-                labelStyle: { color: colors.text, fontSize: '11px' }
-              }
-            }]
-          },
-          onRegionTipShow: function(e, tip, code) {
-            const value = audienceMapData[code];
-            if (value !== undefined) {
-              tip.html(`<div style="font-weight:600;margin-bottom:4px;">${tip.text()}</div><div style="color:${colors.text};opacity:0.8;">Audience: <b style="color:${colors.high};">${value}%</b></div>`);
-            } else {
-              tip.html(`<div style="font-weight:600;">${tip.text()}</div><div style="color:${colors.text};opacity:0.6;">No audience data</div>`);
-            }
-          }
-        });
-      } catch (e) {
-        console.error('Map init error:', e);
-        container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;">🌍 Map unavailable</div>';
-      }
-    }
-
     function initAudienceCharts() {
       if (deviceChart) deviceChart.destroy(); 
       if (genderAgeChart) genderAgeChart.destroy();
@@ -1224,10 +1261,6 @@
       deviceChart = new Chart(document.getElementById('deviceChart'), { type: 'doughnut', data: { labels: ['Mobile','Desktop','Tablet'], datasets: [{ data: [78,18,4], backgroundColor: ['#8b5cf6','#3b82f6','#f59e0b'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } } } });
       
       genderAgeChart = new Chart(document.getElementById('genderAgeChart'), { type: 'bar', data: { labels: ['13-17','18-24','25-34','35-44','45+'], datasets: [{ label: 'Male', data: [4,15,18,10,6], backgroundColor: '#3b82f6' }, { label: 'Female', data: [4,13,16,8,4], backgroundColor: '#ec4899' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { color: 'var(--chart-grid)' } }, y: { stacked: true, grid: { display: false } } }, plugins: { legend: { labels: { boxWidth: 12 } } } } });
-
-      // Initialize the world map
-      audienceMapInitialized = true;
-      setTimeout(() => initWorldMap(), 200);
     }
 
     function initContentLibrary() {
@@ -1330,7 +1363,7 @@
       });
     });
 
-    // CSV Export (FIXED)
+    // CSV Export
     document.getElementById('exportBtn').addEventListener('click', () => {
       const btn = document.getElementById('exportBtn');
       const originalText = btn.textContent;
@@ -1412,7 +1445,7 @@
 
     function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
 
-    // Scroll to Top Button (NEW)
+    // ===== SCROLL TO TOP BUTTON =====
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 400) {
@@ -1425,6 +1458,56 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    // ===== WORLD MAP INTERACTIVITY =====
+    function initWorldMap() {
+      const mapContainer = document.getElementById('worldMapContainer');
+      const tooltip = document.getElementById('mapTooltip');
+      const paths = mapContainer.querySelectorAll('path[data-country]');
+
+      // Color countries based on audience data
+      paths.forEach(path => {
+        const countryCode = path.getAttribute('data-country');
+        if (audienceData[countryCode]) {
+          path.classList.add('has-data');
+          // Adjust opacity based on percentage
+          const pct = audienceData[countryCode].pct;
+          const opacity = 0.3 + (pct / 22) * 0.7; // Normalize to max 22%
+          path.style.opacity = opacity;
+        }
+      });
+
+      // Tooltip functionality
+      paths.forEach(path => {
+        path.addEventListener('mouseenter', (e) => {
+          const countryCode = path.getAttribute('data-country');
+          const countryName = path.getAttribute('data-name');
+          const data = audienceData[countryCode];
+          
+          let tooltipContent = `<div class="country-name">${countryName}</div>`;
+          if (data) {
+            tooltipContent += `<div class="audience-pct">Audience: ${data.pct}%</div>`;
+          } else {
+            tooltipContent += `<div style="color: var(--muted);">No data</div>`;
+          }
+          
+          tooltip.innerHTML = tooltipContent;
+          tooltip.classList.add('visible');
+        });
+
+        path.addEventListener('mousemove', (e) => {
+          const rect = mapContainer.getBoundingClientRect();
+          const x = e.clientX - rect.left + 10;
+          const y = e.clientY - rect.top - 40;
+          tooltip.style.left = x + 'px';
+          tooltip.style.top = y + 'px';
+        });
+
+        path.addEventListener('mouseleave', () => {
+          tooltip.classList.remove('visible');
+        });
+      });
+    }
+
     window.addEventListener('load', () => {
       applyTheme(getCurrentTheme());
       ['kpiUsersVal','kpiEngagementVal','kpiWatchVal','kpiRetentionVal'].forEach(id => { document.getElementById(id).dataset.current = '0'; });
@@ -1432,13 +1515,9 @@
       liveEngine.start();
       if (liveEngine.useRealAPI) { document.getElementById('dataSource').textContent = '🟢 API Connected'; document.getElementById('dataSource').classList.add('connected'); }
       setTimeout(() => { notifManager.addNotification('info', '👋 Welcome to MediaPulse!', 'Your dashboard is live. Notifications will appear here as anomalies, milestones, and predictions are detected.'); }, 2000);
-    });
-
-    // Resize handler for map
-    window.addEventListener('resize', () => {
-      if (worldMapInstance) {
-        try { worldMapInstance.updateSize(); } catch(e) {}
-      }
+      
+      // Initialize the world map
+      initWorldMap();
     });
   </script>
 </body>

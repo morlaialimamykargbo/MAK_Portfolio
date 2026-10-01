@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NutriTrack AI</title>
+  <title>NutriTracker</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
@@ -72,7 +72,7 @@
     .brand-icon svg { width: 24px; height: 24px; color: white; }
     .brand-text h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 3px; }
     .brand-text p { font-size: 14px; color: var(--muted); font-weight: 500; }
-    .header-right { display: flex; align-items: center; gap: 10px; }
+    .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .date-pill {
       background: var(--white);
       border: 1px solid var(--border);
@@ -83,7 +83,7 @@
       color: var(--text);
       box-shadow: var(--shadow);
     }
-    .theme-toggle {
+    .theme-toggle, .back-btn {
       width: 42px; height: 42px;
       background: var(--white);
       border: 1px solid var(--border);
@@ -91,8 +91,11 @@
       display: grid; place-items: center;
       font-size: 18px;
       transition: all 0.2s;
+      color: var(--text);
+      text-decoration: none;
     }
-    .theme-toggle:hover { transform: scale(1.05); }
+    .theme-toggle:hover, .back-btn:hover { transform: scale(1.05); background: var(--green-bg); border-color: var(--green); color: var(--green-dark); }
+    .back-btn svg { width: 20px; height: 20px; }
 
     /* ---------- Top Navigation ---------- */
     .top-nav {
@@ -183,45 +186,21 @@
     .btn-analyze:hover { background: var(--green-dark); }
 
     /* Recent Foods */
-    .recent-section {
-      margin-bottom: 20px;
-    }
+    .recent-section { margin-bottom: 20px; }
     .recent-header {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
     }
-    .recent-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .recent-chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .recent-chip {
-      background: var(--white);
-      border: 1px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 99px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text);
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      background: var(--white); border: 1px solid var(--border);
+      padding: 6px 12px; border-radius: 99px;
+      font-size: 12px; font-weight: 500; color: var(--text);
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; gap: 6px;
     }
-    .recent-chip:hover {
-      background: var(--green-bg);
-      border-color: var(--green);
-    }
-    .recent-chip .kcal {
-      color: var(--muted);
-      font-size: 11px;
-    }
+    .recent-chip:hover { background: var(--green-bg); border-color: var(--green); }
+    .recent-chip .kcal { color: var(--muted); font-size: 11px; }
 
     /* Food Cards */
     .food-card {
@@ -244,42 +223,21 @@
     .food-card-kcal { font-size: 18px; font-weight: 800; white-space: nowrap; text-align: right; padding-top: 2px; }
     .food-card-kcal span { font-size: 14px; font-weight: 600; color: var(--muted); margin-left: 2px; }
     .region-tag {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 99px;
-      background: var(--green-bg);
-      color: var(--green-dark);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .meal-time-tag {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 99px;
-      background: #eff6ff;
-      color: #1d4ed8;
+      font-size: 10px; font-weight: 600;
+      padding: 3px 8px; border-radius: 99px;
+      background: var(--green-bg); color: var(--green-dark);
+      text-transform: uppercase; letter-spacing: 0.05em;
     }
     .food-card-actions {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      display: flex;
-      gap: 4px;
-      opacity: 0;
-      transition: opacity 0.2s;
+      position: absolute; top: 12px; right: 12px;
+      display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s;
     }
     .food-card:hover .food-card-actions { opacity: 1; }
     .food-card-action {
-      width: 28px; height: 28px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--white);
+      width: 28px; height: 28px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--white);
       display: grid; place-items: center;
-      font-size: 14px;
-      color: var(--muted);
-      transition: all 0.2s;
+      font-size: 14px; color: var(--muted); transition: all 0.2s;
     }
     .food-card-action:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
 
@@ -314,11 +272,7 @@
     .view-progress:hover { text-decoration: underline; }
 
     /* Streak Card */
-    .streak-card {
-      background: linear-gradient(135deg, #fef3c7, #fde68a);
-      border: none;
-      color: #78350f;
-    }
+    .streak-card { background: linear-gradient(135deg, #fef3c7, #fde68a); border: none; color: #78350f; }
     .streak-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .streak-title { font-size: 14px; font-weight: 600; opacity: 0.8; }
     .streak-icon { font-size: 22px; }
@@ -350,17 +304,9 @@
     }
 
     .macro-summary {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 16px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px;
     }
-    .macro-summary-item {
-      text-align: center;
-      padding: 12px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 12px;
-    }
+    .macro-summary-item { text-align: center; padding: 12px; background: rgba(255,255,255,0.08); border-radius: 12px; }
     .macro-summary-label { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
     .macro-summary-value { font-size: 20px; font-weight: 800; margin-top: 4px; }
     .macro-summary-pct { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 600; }
@@ -428,11 +374,8 @@
 
     .bmi-card {
       background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-      border: none;
-      color: #4c1d95;
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: var(--radius-sm);
+      border: none; color: #4c1d95;
+      margin-top: 20px; padding: 20px; border-radius: var(--radius-sm);
     }
     .bmi-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
     .bmi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
@@ -440,68 +383,30 @@
       padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(76, 29, 149, 0.2);
       background: rgba(255,255,255,0.6); font-size: 14px; color: #4c1d95; outline: none;
     }
-    .bmi-result {
-      background: rgba(255,255,255,0.6);
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      margin-top: 12px;
-    }
+    .bmi-result { background: rgba(255,255,255,0.6); padding: 12px; border-radius: 12px; text-align: center; margin-top: 12px; }
     .bmi-value { font-size: 28px; font-weight: 800; }
     .bmi-category { font-size: 13px; font-weight: 600; margin-top: 4px; }
 
-    .data-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
+    .data-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
     .btn-secondary {
-      background: var(--white);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 12px 20px;
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      background: var(--white); color: var(--text); border: 1px solid var(--border);
+      padding: 12px 20px; border-radius: var(--radius-sm);
+      font-size: 14px; font-weight: 600; transition: all 0.2s;
+      display: flex; align-items: center; gap: 6px;
     }
     .btn-secondary:hover { background: var(--bg); border-color: var(--green); }
-    .btn-danger {
-      background: #fee2e2;
-      color: #dc2626;
-      border: 1px solid #fecaca;
-    }
+    .btn-danger { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
     .btn-danger:hover { background: #fecaca; }
 
     /* ---------- Toast ---------- */
-    .toast-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      pointer-events: none;
-    }
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
     .toast {
-      background: var(--navy);
-      color: white;
-      padding: 14px 20px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 500;
+      background: var(--navy); color: white;
+      padding: 14px 20px; border-radius: 12px;
+      font-size: 14px; font-weight: 500;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      animation: toastIn 0.3s ease;
-      pointer-events: auto;
-      max-width: 320px;
+      display: flex; align-items: center; gap: 10px;
+      animation: toastIn 0.3s ease; pointer-events: auto; max-width: 320px;
     }
     .toast.success { background: var(--green-dark); }
     .toast.error { background: #dc2626; }
@@ -556,8 +461,14 @@
       </div>
     </div>
     <div class="header-right">
+      <a href="index.html" class="back-btn" title="Back to Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+      </a>
       <div class="date-pill" id="datePill">Today · 30 Sept</div>
-      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme"></button>
     </div>
   </header>
 
@@ -579,7 +490,7 @@
             <div class="section-label">TODAY</div>
             <h1 class="page-title">Your food, decoded.</h1>
           </div>
-          <div class="sparkle-icon"></div>
+          <div class="sparkle-icon">✦</div>
         </div>
 
         <!-- Smart Banner -->
@@ -598,7 +509,7 @@
 
         <!-- Recent Foods -->
         <div id="recentSection" class="recent-section" style="display:none;">
-          <div class="recent-header"> Recently logged</div>
+          <div class="recent-header">🕒 Recently logged</div>
           <div class="recent-chips" id="recentChips"></div>
         </div>
 
@@ -651,7 +562,7 @@
         <div class="card streak-card">
           <div class="streak-header">
             <div class="streak-title">Logging streak</div>
-            <div class="streak-icon">🔥</div>
+            <div class="streak-icon"></div>
           </div>
           <div class="streak-value" id="streakValue">0<small>days</small></div>
           <div class="streak-sub" id="streakSub">Log a meal today to start your streak</div>
@@ -775,7 +686,7 @@
 
       <div>
         <div class="page-header-row">
-          <div class="page-header-icon green"></div>
+          <div class="page-header-icon green">🧺</div>
           <div>
             <h1 class="page-title">Pantry</h1>
             <p class="page-subtitle">Track ingredients and turn them into ideas.</p>
@@ -881,7 +792,7 @@
   // Apply theme on load
   if (state.theme === 'dark') {
     document.body.classList.add('dark');
-    document.getElementById('themeToggle').textContent = '️';
+    document.getElementById('themeToggle').textContent = '☀️';
   }
 
   /* =========================================
@@ -892,8 +803,8 @@
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    const icons = { success: '✓', error: '✕', warning: '', info: 'ℹ' };
-    toast.innerHTML = `<span>${icons[type] || ''}</span><span>${message}</span>`;
+    const icons = { success: '✓', error: '✕', warning: '⚠', info: '' };
+    toast.innerHTML = `<span>${icons[type] || 'ℹ'}</span><span>${message}</span>`;
     container.appendChild(toast);
     setTimeout(() => {
       toast.classList.add('removing');
@@ -1125,7 +1036,7 @@
 
   function detectMealTime() {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 11) return { label: 'Breakfast', icon: '' };
+    if (hour >= 5 && hour < 11) return { label: 'Breakfast', icon: '🌅' };
     if (hour >= 11 && hour < 15) return { label: 'Lunch', icon: '☀️' };
     if (hour >= 15 && hour < 18) return { label: 'Snack', icon: '🍎' };
     return { label: 'Dinner', icon: '🌙' };
@@ -1733,7 +1644,7 @@
   document.getElementById('themeToggle').addEventListener('click', () => {
     state.theme = state.theme === 'dark' ? 'light' : 'dark';
     document.body.classList.toggle('dark');
-    document.getElementById('themeToggle').textContent = state.theme === 'dark' ? '️' : '🌙';
+    document.getElementById('themeToggle').textContent = state.theme === 'dark' ? '☀️' : '🌙';
     saveState();
     showToast(`Switched to ${state.theme} mode`, 'info');
   });
